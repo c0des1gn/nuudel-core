@@ -1,14 +1,14 @@
 import React from 'react';
 import { IFieldConfiguration } from '../controls/IFieldConfiguration';
 import { IFieldSchema } from '../services/datatypes/RenderListData';
-import { ControlMode, DisplayType } from './ControlMode';
+import { ControlMode, DisplayType } from 'nuudel-utils';
 import { IBaseProps } from './ICoreProps';
 import { Store } from 'redux';
 import { createStore, IRootState } from '../redux/store';
 import { IRNFormFieldProps } from '../controls/formFields/RNFormField';
 import { setFields, changeProp } from '../redux/actions/fields';
-import { t } from '@Translate';
-import { zeroPad } from '@Utils';
+import { t } from 'nuudel-utils';
+import { zeroPad } from 'nuudel-utils';
 
 export interface IBaseState {
   title: string;
@@ -67,7 +67,7 @@ export abstract class coreComponent<
 
   protected customInit(fieldName: string, fldProps: IRNFormFieldProps) {
     let it: IDisplayType[] = this.defaultFields.filter(
-      fld => fld.field === fieldName,
+      (fld) => fld.field === fieldName
     );
     if (it.length > 0) {
       if (
@@ -87,7 +87,7 @@ export abstract class coreComponent<
   protected abstract readData(
     listname: string,
     formType: ControlMode,
-    id?: number,
+    id?: number
   ): Promise<void>;
   protected abstract getFields(): IFieldConfiguration[];
   protected abstract onUpdateFields(newFields: IFieldConfiguration[]): void;
@@ -106,7 +106,7 @@ export abstract class coreComponent<
     const newFields = this.getFields();
     let fieldKey = fieldName;
     let indexer = 0;
-    while (newFields.some(fld => fld.key === fieldKey)) {
+    while (newFields.some((fld) => fld.key === fieldKey)) {
       indexer++;
       fieldKey = fieldName + '_' + indexer;
     }
@@ -116,7 +116,7 @@ export abstract class coreComponent<
 
   protected moveField(fieldKey, toIndex) {
     const fields = this.getFields();
-    const dragField = fields.filter(fld => fld.key === fieldKey)[0];
+    const dragField = fields.filter((fld) => fld.key === fieldKey)[0];
     const dragIndex = fields.indexOf(dragField);
     const newFields = fields.splice(0); // clone
     newFields.splice(dragIndex, 1);
@@ -137,11 +137,11 @@ export abstract class coreComponent<
     defaultFields: IDisplayType[],
     fields: IFieldConfiguration[],
     data: any,
-    props: IBaseProps,
+    props: IBaseProps
   ): any {
     let fld: any = {};
-    fields.forEach(field => {
-      const dt = defaultFields.filter(f => f.field === field.fieldName);
+    fields.forEach((field) => {
+      const dt = defaultFields.filter((f) => f.field === field.fieldName);
       fld[field.fieldName] =
         dt.length > 0
           ? {
@@ -174,12 +174,7 @@ export abstract class coreComponent<
 
   protected GenerateNumber(id: number): string {
     return (
-      new Date()
-        .getFullYear()
-        .toString()
-        .substring(2) +
-      '-' +
-      zeroPad(id, 4)
+      new Date().getFullYear().toString().substring(2) + '-' + zeroPad(id, 4)
     );
   }
 
@@ -187,7 +182,7 @@ export abstract class coreComponent<
     if (Required && !val) {
       return t('RequiredValueMessage');
     }
-    const dt: any[] = this.defaultFields.filter(f => f.field === fieldName);
+    const dt: any[] = this.defaultFields.filter((f) => f.field === fieldName);
     if (dt.length > 0) {
       if (dt[0].type === DisplayType.Requared && !val) {
         return t('RequiredValueMessage');
@@ -209,11 +204,11 @@ export abstract class coreComponent<
   protected async PreSaveAction(
     data: any,
     fieldsSchema: IFieldSchema[],
-    id: number | string,
+    id: number | string
   ): Promise<any> {
     let r: any[] = [];
 
-    fieldsSchema.forEach(field => {
+    fieldsSchema.forEach((field) => {
       if (!!field.Required && data.hasOwnProperty(field.InternalName)) {
         const val: any = data[field.InternalName];
         if ((val instanceof Array && val.length === 0) || !val) {
@@ -228,7 +223,7 @@ export abstract class coreComponent<
       }
     });
 
-    this.defaultFields.forEach(fld => {
+    this.defaultFields.forEach((fld) => {
       if (
         data.hasOwnProperty(fld.field) &&
         (fld.type === DisplayType.Requared || fld.type === DisplayType.Optional)
@@ -294,7 +289,7 @@ export abstract class coreComponent<
   protected async saveBefore(
     id: string | number,
     updatedValues: any[],
-    originalData: any,
+    originalData: any
   ): Promise<void> {
     return;
   }
