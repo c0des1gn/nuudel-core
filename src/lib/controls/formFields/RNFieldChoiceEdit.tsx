@@ -1,16 +1,18 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { ControlMode } from '../../common/ControlMode';
+import { ControlMode } from 'nuudel-utils';
 import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
-import { TagsInput } from '@Components';
+import { TagsInput } from 'nuudel-components';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import { connect } from 'react-redux';
 import MultiSelectField from './MultiSelectField';
 import styles from './styles.module.scss';
-import { t } from '@Translate';
+import { t } from 'nuudel-utils';
 
-const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = (
+  props
+) => {
   const { disabled } = storeProps(props);
   const label = props.label || props.fieldSchema.Title;
   if (props.fieldSchema.FieldType !== 'MultiChoice') {
@@ -36,7 +38,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
                 ? props.fieldSchema.DefaultValue
                 : props.value
             }
-            renderValue={selected =>
+            renderValue={(selected) =>
               !selected ? '' : t(selected, { defaultValue: selected })
             }
             inputProps={{
@@ -45,7 +47,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
             onChange={(e: any) => props.valueChanged(e.target.value)}
             label={label}
           >
-            {options.map(value => (
+            {options.map((value) => (
               <MenuItem key={value.id} value={value.id}>
                 {t(value.name, { defaultValue: value.name })}
               </MenuItem>
@@ -60,7 +62,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
     if (options instanceof Array && options.length > 0) {
       if (props.value) {
         if (typeof props.value === 'string') {
-          values = props.value.split(',').filter(s => s);
+          values = props.value.split(',').filter((s) => s);
         } else if (props.value instanceof Array) {
           values = props.value;
         }
@@ -124,7 +126,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
 
 function getUpdatedValue(
   oldValues: string[],
-  changedItem: any, //IDropdownOption,
+  changedItem: any //IDropdownOption,
 ): string {
   const changedKey = changedItem.key.toString();
   const newValues = [...oldValues];

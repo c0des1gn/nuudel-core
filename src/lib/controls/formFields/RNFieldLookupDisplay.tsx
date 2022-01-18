@@ -1,9 +1,11 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Text, Link } from '@Components';
+import { Text, Link } from 'nuudel-components';
 import styles from './styles.module.scss';
 
-const RNFieldLookupDisplay: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldLookupDisplay: React.FunctionComponent<IRNFormFieldProps> = (
+  props
+) => {
   if (props.value && props.value.length > 0) {
     let value = props.value;
     if (typeof props.value === 'string') {

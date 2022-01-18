@@ -1,9 +1,9 @@
-import { DisplayType } from '../../common/ControlMode';
-import { t } from '@Translate';
+import { DisplayType } from 'nuudel-utils';
+import { t } from 'nuudel-utils';
 
 const unionBy = (a, b) => {
-  b.forEach(item => {
-    let index = a.findIndex(itm => itm.field === item.field);
+  b.forEach((item) => {
+    let index = a.findIndex((itm) => itm.field === item.field);
     if (index >= 0) {
       a[index] = item;
     } else {
@@ -22,10 +22,11 @@ export const getRegex = (listname: string) => {
         {
           field: 'register',
           type: DisplayType.Requared,
-          regex: /^(([a-zA-Z]{2,3}|[а-яА-ЯөӨүҮёЁ]{2})\d{8}\s{0,1})$|^\d{7}\s{0,4}$/u,
+          regex:
+            /^(([a-zA-Z]{2,3}|[а-яА-ЯөӨүҮёЁ]{2})\d{8}\s{0,1})$|^\d{7}\s{0,4}$/u,
           MaxLength: 11,
         },
-      ],
+      ]
     );
   } else if (listname === 'User') {
     fields = [

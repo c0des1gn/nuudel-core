@@ -1,14 +1,16 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
 import { Switch } from '@material-ui/core';
-import { t } from '@Translate';
-import { ControlMode } from '../../common/ControlMode';
+import { t } from 'nuudel-utils';
+import { ControlMode } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 
-const RNFieldBooleanEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldBooleanEdit: React.FunctionComponent<IRNFormFieldProps> = (
+  props
+) => {
   let value = props.value;
   const { disabled } = storeProps(props);
   if (

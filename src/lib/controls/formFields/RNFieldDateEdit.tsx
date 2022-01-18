@@ -2,9 +2,9 @@ import React from 'react';
 import moment from 'moment';
 import { IRNFormFieldProps } from './RNFormField';
 import DateFormField, { TextFieldType } from './DateFormField';
-import { ControlMode } from '../../common/ControlMode';
-import { dateToString } from '@Utils';
-import { t } from '@Translate';
+import { ControlMode } from 'nuudel-utils';
+import { dateToString } from 'nuudel-utils';
+import { t } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import { connect } from 'react-redux';
@@ -13,7 +13,7 @@ export const getLocale = (attr: string = 'languageTag'): string => {
   return 'en-US';
 };
 
-const RNFieldDateEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldDateEdit: React.FunctionComponent<IRNFormFieldProps> = (props) => {
   const locale = getLocale();
   const { disabled } = storeProps(props);
   let value = props.value ? props.value : null;
@@ -28,7 +28,7 @@ const RNFieldDateEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
       defaultValue={dateToString(
         value,
         type === 'date' ? 'YYYY-MM-DD' : undefined,
-        undefined,
+        undefined
       )}
       type={type}
       placeholder={!value ? t('DateFormFieldPlaceholder') : undefined}
@@ -42,8 +42,8 @@ const RNFieldDateEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
           dateToString(
             date,
             type === 'date' ? 'YYYY-MM-DD' : undefined,
-            undefined,
-          ),
+            undefined
+          )
         )
       }
     />

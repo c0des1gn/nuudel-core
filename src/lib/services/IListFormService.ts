@@ -1,41 +1,41 @@
-import { ControlMode, QueryType } from '../common/ControlMode';
+import { ControlMode, QueryType } from 'nuudel-utils';
 import { IFieldSchema } from './datatypes/RenderListData';
 import { ApolloClient } from '@apollo/client';
 
 export interface IListFormService {
   getFieldSchemasForForm: (
     listname: string,
-    formType?: ControlMode,
+    formType?: ControlMode
   ) => Promise<IFieldSchema[]>;
   itemById: (
     listname: string,
     itemId: number | string,
-    fieldsSchema?: IFieldSchema[],
+    fieldsSchema?: IFieldSchema[]
   ) => Promise<any>;
   createItem: (
     listname: string,
     data: any,
-    fieldsSchema?: IFieldSchema[],
+    fieldsSchema?: IFieldSchema[]
   ) => Promise<any>;
   updateItem: (
     listname: string,
     itemId: number | string,
     data: any,
     originalData?: any,
-    fieldsSchema?: IFieldSchema[],
+    fieldsSchema?: IFieldSchema[]
   ) => Promise<any>;
   deleteItem: (listname: string, itemId: number | string) => Promise<any>;
   viewItems: (
     listname: string,
     variables?: any,
-    fieldsSchema?: IFieldSchema[],
+    fieldsSchema?: IFieldSchema[]
   ) => Promise<any>;
   listQuery: (listname: string, fieldsSchema: IFieldSchema[]) => string;
   executeQuery: (
     query: string,
     listname: string,
     type: QueryType | string,
-    variables?: any,
+    variables?: any
   ) => Promise<any>;
   client: ApolloClient<any>;
   manyResources: (
@@ -43,13 +43,13 @@ export interface IListFormService {
     filter: string,
     sort: string,
     limit: number,
-    userId: string | null,
+    userId: string | null
   ) => Promise<any>;
   getDataAll: (
     listname: string,
     columns: string[],
     client: any,
-    variables?: any,
+    variables?: any
   ) => Promise<any>;
   generateData: (listname: string) => Promise<any>;
 }

@@ -3,12 +3,12 @@ import { coreComponent, ICoreState } from '../../common/coreComponent';
 import { IFormProps } from './IFormProps';
 import { IListFormService } from '../../services/IListFormService';
 import { IFieldConfiguration } from '../../controls/IFieldConfiguration';
-import { ControlMode, DisplayType, Permission } from '../../common/ControlMode';
+import { ControlMode, DisplayType, Permission } from 'nuudel-utils';
 import styles from '../../theme/styles/styles.module.scss';
 import RNFormField, {
   IRNFormFieldProps,
 } from '../../controls/formFields/RNFormField';
-import I8, { t } from '@Translate';
+import { I8, t } from 'nuudel-utils';
 import { getRegex } from './regex';
 import {
   setFields,
@@ -26,12 +26,11 @@ import {
   Container,
   MessageBox,
   MessageBar,
-} from '@Components';
-import {
   MessageBarType,
   INotificationMessages,
-} from '../../components/MessageBar';
-import { onError, closeDialog } from '@Utils';
+} from 'nuudel-components';
+import { closeDialog } from 'nuudel-utils';
+import { onError } from '../../common/helper';
 import { width, height } from '../../common/UI';
 import Router from 'next/router';
 

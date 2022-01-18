@@ -2,9 +2,9 @@ import React from 'react';
 //import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
 import MultiSelectField from './MultiSelectField';
-import { ControlMode } from '../../common/ControlMode';
+import { ControlMode } from 'nuudel-utils';
 import styles from './styles.module.scss';
-import { t } from '@Translate';
+import { t } from 'nuudel-utils';
 import { IRNFormFieldProps } from './RNFormField';
 import { ListFormService } from '../../services/ListFormService';
 
@@ -37,10 +37,10 @@ export default class LookupField extends React.Component<
         {
           filter: filter,
           sort: props.fieldSchema.JsonOption?.sort || '{}',
-        },
-      ).then(r => {
+        }
+      ).then((r) => {
         if (r && r instanceof Array) {
-          let choices: any[] = r.map(option => ({
+          let choices: any[] = r.map((option) => ({
             id: option._id,
             name: option[this.props.fieldSchema.JsonOption.column],
           }));
@@ -48,7 +48,7 @@ export default class LookupField extends React.Component<
           if (this.props.fieldSchema.FieldType !== 'LookupMulti') {
             if (!(this.props.required || this.props.fieldSchema.Required)) {
               choices = [{ id: 0, name: t('LookupEmptyOptionText') }].concat(
-                choices,
+                choices
               );
             }
           }
@@ -88,7 +88,7 @@ export default class LookupField extends React.Component<
                     ? selected.split('::', 2)
                     : [selected, selected];
                 let index: number = this.state.options
-                  ? this.state.options.findIndex(s => s.id === id)
+                  ? this.state.options.findIndex((s) => s.id === id)
                   : -1;
                 return index >= 0 ? this.state.options[index].name : val || '';
               }}
@@ -98,7 +98,7 @@ export default class LookupField extends React.Component<
               onChange={(e: any) => this.props.valueChanged(e.target.value)}
               label={this.props.label}
             >
-              {this.state.options.map(value => (
+              {this.state.options.map((value) => (
                 <MenuItem key={value.id} value={value.id + '::' + value.name}>
                   {value.name}
                 </MenuItem>
@@ -114,7 +114,7 @@ export default class LookupField extends React.Component<
           typeof this.props.value === 'string' ||
           this.props.value instanceof String
         ) {
-          values = this.props.value.split(',').filter(s => s);
+          values = this.props.value.split(',').filter((s) => s);
         } else if (this.props.value instanceof Array) {
           values = this.props.value;
         }

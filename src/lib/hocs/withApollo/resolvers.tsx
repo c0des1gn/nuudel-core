@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import { Resolvers, ApolloCache } from '@apollo/client';
-import { SNACKBAR_STATE_QUERY } from '../../components/Material/SuccessMessage';
+import { SNACKBAR_STATE_QUERY } from '../../forms/Material/SuccessMessage';
 
 export const typeDefs = gql`
   extend type Query {

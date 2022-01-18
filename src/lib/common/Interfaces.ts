@@ -1,4 +1,4 @@
-import { Permission } from '../common/ControlMode';
+import { Permission } from 'nuudel-utils';
 
 export interface IWarehouse {
   _id: string;

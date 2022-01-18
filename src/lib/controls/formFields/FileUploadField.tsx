@@ -1,11 +1,11 @@
 import React from 'react';
-import { Button, Image } from '@Components';
-import { t } from '@Translate';
-import { ControlMode } from '../../common/ControlMode';
+import { Button, Image } from 'nuudel-components';
+import { t } from 'nuudel-utils';
+import { ControlMode } from 'nuudel-utils';
 import UI, { DeviceId } from '../../common/UI';
 import styles from './styles.module.scss';
-import { HttpClient } from '../../request';
-import { resizeImage } from '../../components/Upload/resizeImage';
+import { HttpClient } from 'nuudel-utils';
+import { resizeImage } from '../../forms/Upload/resizeImage';
 
 export interface IUploadFieldProps {
   value: any;

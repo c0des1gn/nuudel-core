@@ -4,7 +4,7 @@ import {
   GraphQLSchema,
 } from 'graphql';
 import UI from '../common/UI';
-import { HttpClient } from '../request';
+import { HttpClient } from 'nuudel-utils';
 
 export const GetSchema = async (url: string): Promise<GraphQLSchema | null> => {
   let clientSchema: GraphQLSchema | null = null;

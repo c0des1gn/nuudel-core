@@ -1,4 +1,4 @@
-import { ControlMode, QueryType } from '../common/ControlMode';
+import { ControlMode, QueryType } from 'nuudel-utils';
 import { IFieldSchema } from './datatypes/RenderListData';
 import { IListFormService } from './IListFormService';
 import { ApolloClient, ApolloError } from '@apollo/client';
@@ -13,14 +13,8 @@ import {
 import { fromIntrospectionQuery } from 'graphql-2-json-schema';
 import { createClient, URL } from '../hocs/withApollo';
 import { GetSchema } from '../services/graphqlSchema';
-import {
-  onError,
-  onErrors,
-  traverse,
-  clientError,
-  getPlural,
-  capitalizeFirstLetter,
-} from '@Utils';
+import { traverse, getPlural, capitalizeFirstLetter } from 'nuudel-utils';
+import { onError, onErrors, clientError } from '../common/helper';
 
 export interface MutationVariables {
   data: any;
@@ -48,12 +42,12 @@ let schema: GraphQLSchema = null;
  */
 const getFieldSchemasForForm = (
   listname: string,
-  formType: ControlMode = ControlMode.Display,
+  formType: ControlMode = ControlMode.Display
 ): Promise<IFieldSchema[]> => {
   return new Promise<IFieldSchema[]>(async (resolve, reject) => {
     let schemas: IFieldSchema[] = [];
     let columns: any[] = await get_columns(formType, listname);
-    columns.forEach(obj => {
+    columns.forEach((obj) => {
       let Hidden = false,
         DefaultValue: any = null,
         max: number = 0,
@@ -137,7 +131,7 @@ const getFieldSchemasForForm = (
 const get_enum = (obj: any) => {
   let choices: any[] = [];
   if (obj.anyOf) {
-    obj.anyOf.forEach(item => {
+    obj.anyOf.forEach((item) => {
       choices.push({
         id: item.title, //item.title.enum[0]
         name: item.title,
@@ -150,7 +144,7 @@ const get_enum = (obj: any) => {
 const get_columns = async (
   formType: ControlMode,
   listname: string,
-  ParentObject = '',
+  ParentObject = ''
 ) => {
   let columns: any[] = [];
 
@@ -163,7 +157,7 @@ const get_columns = async (
   }
   const introspection = graphqlSync(
     schema,
-    getIntrospectionQuery(), // introspectionQuery
+    getIntrospectionQuery() // introspectionQuery
   ).data as IntrospectionQuery;
 
   const types: any = fromIntrospectionQuery(introspection, {
@@ -298,9 +292,10 @@ const get_columns = async (
           } else if (fields[key].items.$ref.startsWith('#/definitions/Image')) {
             FieldType = 'Image';
           } else if (fields[key].items.$ref.startsWith('#/definitions/')) {
-            let enumName: string = types.definitions[listname].properties[
-              key
-            ].items.$ref.substring(14);
+            let enumName: string =
+              types.definitions[listname].properties[key].items.$ref.substring(
+                14
+              );
             if ('ObjectId' === enumName) {
               FieldType = !!json && !!json.list ? 'LookupMulti' : 'Text';
             } else if (types.definitions[enumName].type === 'object') {
@@ -308,9 +303,9 @@ const get_columns = async (
               FieldType = 'Object';
               Children = await getFieldSchemasForForm(
                 enumName,
-                ControlMode.Display,
+                ControlMode.Display
               );
-              Children = Children.filter(c => !c.Title.startsWith('_'));
+              Children = Children.filter((c) => !c.Title.startsWith('_'));
             } else {
               Choices = get_enum(types.definitions[enumName]);
               FieldType = 'MultiChoice';
@@ -324,9 +319,9 @@ const get_columns = async (
             let objs: any[] = await get_columns(
               ControlMode.Display,
               enumName,
-              !!ParentObject ? ParentObject + '.' + key : key,
+              !!ParentObject ? ParentObject + '.' + key : key
             );
-            objs = objs.filter(c => !c.Title.startsWith('_'));
+            objs = objs.filter((c) => !c.Title.startsWith('_'));
             columns.push(...objs);
           } else {
             Choices = get_enum(types.definitions[enumName]);
@@ -367,7 +362,7 @@ const getDataAll = (
   listname: string,
   columns: string[] | string,
   client,
-  variables: any = {},
+  variables: any = {}
 ): Promise<any> => {
   if (!listname || columns.length === 0) {
     return Promise.resolve({}); // no data, so returns empty
@@ -406,7 +401,7 @@ const getDataAll = (
 const addQuery = (
   listname: string,
   data: any,
-  fieldsSchema: IFieldSchema[],
+  fieldsSchema: IFieldSchema[]
 ): Options => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     return { query: '', inputs: {} };
@@ -415,10 +410,10 @@ const addQuery = (
   let keys = getSeletorsKey(
     GetJsonValues(
       listname === 'User'
-        ? values.filter(v => v.InternalName !== 'password')
+        ? values.filter((v) => v.InternalName !== 'password')
         : values,
-      true,
-    ),
+      true
+    )
   );
 
   let inputs: any = ArrayToObj(GetJsonValues(values));
@@ -438,7 +433,7 @@ const editQuery = (
   itemId: number | string,
   data: any,
   originalData: any,
-  fieldsSchema: IFieldSchema[],
+  fieldsSchema: IFieldSchema[]
 ) => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     return '';
@@ -470,7 +465,7 @@ const byIdQuery = (
   listname: string,
   itemId: string | number,
   fieldsSchema: IFieldSchema[],
-  withQuery: boolean = true,
+  withQuery: boolean = true
 ) => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     return '';
@@ -500,7 +495,7 @@ const plural = (listname: string) => {
     listname =
       listname.substring(
         0,
-        listname.length - (listname.endsWith('fe') ? 2 : 1),
+        listname.length - (listname.endsWith('fe') ? 2 : 1)
       ) + 've';
   }
   return listname;
@@ -522,10 +517,10 @@ const listQuery = (listname: string, fieldsSchema: IFieldSchema[]): string => {
   let keys = getSeletorsKey(GetJsonValues(fieldsSchema, true));
 
   let query = `query Get${plural(
-    listname,
+    listname
   )}s($filter: String!, $sort: String!, $total: Int!, $skip: Int!, $take: Int!) {
         get${plural(
-          listname,
+          listname
         )}s(filter: $filter, sort: $sort, total: $total, skip: $skip, take: $take) {
           itemSummaries {
             ${keys}
@@ -548,7 +543,7 @@ const listQuery = (listname: string, fieldsSchema: IFieldSchema[]): string => {
 const viewItems = async (
   listname: string,
   variables: any = {},
-  fieldsSchema: IFieldSchema[] = [],
+  fieldsSchema: IFieldSchema[] = []
 ): Promise<any> => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     fieldsSchema = await getFieldSchemasForForm(listname, ControlMode.New);
@@ -562,7 +557,7 @@ const viewItems = async (
 const viewQuery = (
   listname: string,
   fieldsSchema: IFieldSchema[],
-  withQuery: boolean = true,
+  withQuery: boolean = true
 ): string => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     return '';
@@ -571,7 +566,7 @@ const viewQuery = (
 
   if (listname === 'User') {
     fieldsSchema = fieldsSchema.filter(
-      item => item.InternalName !== 'password',
+      (item) => item.InternalName !== 'password'
     );
   }
 
@@ -602,7 +597,7 @@ const viewQuery = (
 const itemById = async (
   listname: string,
   itemId: number | string,
-  fieldsSchema: IFieldSchema[] = [],
+  fieldsSchema: IFieldSchema[] = []
 ): Promise<any> => {
   if (!listname || !itemId || itemId === '') {
     return Promise.resolve({}); // no data, so returns empty
@@ -624,7 +619,7 @@ const itemById = async (
  */
 const deleteItem = (
   listname: string,
-  itemId: string | number,
+  itemId: string | number
 ): Promise<any> => {
   let mutate = `mutation {
       delete${listname}( 
@@ -651,7 +646,7 @@ const updateItem = async (
   itemId: number | string,
   data: any,
   originalData: any = {},
-  fieldsSchema: IFieldSchema[] = [],
+  fieldsSchema: IFieldSchema[] = []
 ): Promise<any> => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     fieldsSchema = await getFieldSchemasForForm(listname, ControlMode.Edit);
@@ -671,7 +666,7 @@ const updateItem = async (
 const createItem = async (
   listname: string,
   data: any,
-  fieldsSchema: IFieldSchema[] = [],
+  fieldsSchema: IFieldSchema[] = []
 ): Promise<any> => {
   if (!fieldsSchema || fieldsSchema.length === 0) {
     fieldsSchema = await getFieldSchemasForForm(listname, ControlMode.New);
@@ -685,14 +680,14 @@ const manyResources = async (
   filter: string = '{}',
   sort: string = '{}',
   limit: number = 200,
-  userId: string | null = null,
+  userId: string | null = null
 ) => {
   let query: string = '';
   let fieldsSchema;
   for (let i = 0; i < listnames.length; i++) {
     fieldsSchema = await getFieldSchemasForForm(
       listnames[i],
-      ControlMode.Display,
+      ControlMode.Display
     );
     query += viewQuery(listnames[i], fieldsSchema, false);
   }
@@ -770,7 +765,7 @@ const GetJsonValues = (list: any[], keys: boolean = false): Array<any> => {
           _Children: [],
           ParentObject: node.ParentObject.substring(
             0,
-            node.ParentObject.lastIndexOf('.'),
+            node.ParentObject.lastIndexOf('.')
           ),
           children: [],
         });
@@ -788,15 +783,15 @@ const GetArrayValues = (
   fieldsSchema: IFieldSchema[],
   data: any,
   originalData: any,
-  IsUpdate = false,
+  IsUpdate = false
 ): Array<any> => {
   return fieldsSchema
     .filter(
-      field =>
+      (field) =>
         !field.ReadOnlyField &&
         field.InternalName in data &&
         (data[field.InternalName] !== null ||
-          originalData[field.InternalName] !== null),
+          originalData[field.InternalName] !== null)
     )
     .map((field, index, arr) => {
       let val =
@@ -815,7 +810,7 @@ const GetArrayValues = (
           val instanceof Array &&
           val.length > 0
         ) {
-          val = val.map(item => {
+          val = val.map((item) => {
             for (let i = 0; i < field._Children.length; i++) {
               if (
                 field._Children[i].FieldType === 'MultiChoice' &&
@@ -832,7 +827,7 @@ const GetArrayValues = (
                 ) {
                   const fldname = field._Children[i].InternalName.replace(
                     field._Children[i].ParentObject + '.',
-                    '',
+                    ''
                   );
                   item[field._Children[i].ParentObject][fldname] =
                     '{[' +
@@ -849,7 +844,7 @@ const GetArrayValues = (
                 ) {
                   const fldname = field._Children[i].InternalName.replace(
                     field._Children[i].ParentObject + '.',
-                    '',
+                    ''
                   );
                   item[field._Children[i].ParentObject][fldname] =
                     '{' + item[field._Children[i].ParentObject][fldname] + '}';
@@ -931,12 +926,12 @@ const generateData = async (listname: string) => {
   const chars = [...'abcdef0123456789'];
   const fieldsSchema = await getFieldSchemasForForm(listname, ControlMode.New);
 
-  fieldsSchema.forEach(field => {
+  fieldsSchema.forEach((field) => {
     let val: any = null;
     switch (field.Type) {
       case 'string':
         val = [...Array(Math.floor(Math.random() * 10 + 4))]
-          .map(_ => ((Math.random() * 36) | 0).toString(36))
+          .map((_) => ((Math.random() * 36) | 0).toString(36))
           .join('');
         if (field.FieldType === 'Choice') {
           if (field.Choices.length > 0)
@@ -980,7 +975,7 @@ const generateData = async (listname: string) => {
       case 'objectId':
         //case 'ObjectId':
         val = [...Array(24)]
-          .map(i => chars[(Math.random() * chars.length) | 0])
+          .map((i) => chars[(Math.random() * chars.length) | 0])
           .join('');
         break;
       default:
@@ -1004,7 +999,7 @@ const executeQuery = (
   query: string,
   listname: string,
   type: QueryType | string,
-  variables: any = {},
+  variables: any = {}
 ): Promise<any> => {
   if ((!listname && type !== QueryType.Many) || !query) {
     return Promise.resolve(type === QueryType.View ? [] : {}); // no data, so returns empty
@@ -1074,7 +1069,7 @@ const executeQuery = (
         return resolve(
           !listname
             ? r.data
-            : r.data[`${pre}${getPlural(listname, post)}${post}`],
+            : r.data[`${pre}${getPlural(listname, post)}${post}`]
         );
       else return resolve(type === QueryType.View ? [] : {});
     } else {

@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import moment from 'moment';
-import { ControlMode, DisplayType } from '../../common/ControlMode';
+import { ControlMode, DisplayType } from 'nuudel-utils';
 import { IFieldSchema } from '../../services/datatypes/RenderListData';
-import { t } from '@Translate';
+import { t } from 'nuudel-utils';
 import FormField, { IFormFieldProps } from './FormField';
 import CloseIcon from '@material-ui/icons/Close';
-import { Label, Text, TextField } from '@Components';
+import { Label, Text, TextField } from 'nuudel-components';
 import RNFieldTextEdit from './RNFieldTextEdit';
 import RNFieldChoiceEdit from './RNFieldChoiceEdit';
 import RNFieldNumberEdit from './RNFieldNumberEdit';
@@ -52,26 +52,26 @@ const DisplayFieldTypeMappings: {
   LookupMulti: { component: RNFieldLookupDisplay },
   Choice: {
     component: RNFieldTextDisplay,
-    valuePreProcess: val =>
+    valuePreProcess: (val) =>
       typeof val !== 'undefined' && val !== null
         ? t(val, { defaultValue: val })
         : val,
   },
   MultiChoice: {
     component: RNFieldTextDisplay,
-    valuePreProcess: val =>
+    valuePreProcess: (val) =>
       val && val instanceof Array ? val.join(', ') : val,
   },
   Number: { component: RNFieldTextDisplay },
   Currency: { component: RNFieldTextDisplay },
   DateTime: {
     component: RNFieldTextDisplay,
-    valuePreProcess: val =>
+    valuePreProcess: (val) =>
       moment(val).isValid() ? moment(val).format('YYYY/MM/DD HH:mm') : val,
   },
   Boolean: {
     component: RNFieldTextDisplay,
-    valuePreProcess: val =>
+    valuePreProcess: (val) =>
       typeof val !== 'undefined' && val !== null ? t(String(val)) : val,
   },
   Link: { component: RNFieldUrlDisplay },
@@ -89,7 +89,7 @@ export interface IRNFormFieldProps extends IFormFieldProps {
   key: number | string | undefined;
 }
 
-const RNFormField: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFormField: React.FunctionComponent<IRNFormFieldProps> = (props) => {
   let fieldControl: any = null;
   if (props.displaytype === DisplayType.Disabled) {
     props.disabled = true;
@@ -123,7 +123,7 @@ const RNFormField: React.FunctionComponent<IRNFormFieldProps> = props => {
     if (EditFieldTypeMappings.hasOwnProperty(fieldType)) {
       fieldControl = React.createElement(
         EditFieldTypeMappings[fieldType],
-        props,
+        props
       );
     } else if (!props.hideIfFieldUnsupported) {
       let isObjValue: boolean = props.value && typeof props.value !== 'string';

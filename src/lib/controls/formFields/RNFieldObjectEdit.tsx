@@ -1,14 +1,16 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { t } from '@Translate';
-import { ControlMode } from '../../common/ControlMode';
+import { t } from 'nuudel-utils';
+import { ControlMode } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
-import { TextField } from '@Components';
+import { TextField } from 'nuudel-components';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 
-const RNFieldObjectEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldObjectEdit: React.FunctionComponent<IRNFormFieldProps> = (
+  props
+) => {
   // We need to set value to empty string when null or undefined to force TextField still be used like a controlled component
   const value = props.value ? props.value : '';
   const { disabled } = storeProps(props);

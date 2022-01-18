@@ -1,5 +1,5 @@
 import { useWindowDimensions } from './useWindowDimension';
-import { USER_TOKEN } from '../config';
+import { USER_TOKEN } from 'nuudel-utils';
 import {
   isIOS,
   isAndroid,

@@ -3,10 +3,9 @@ import { Provider } from 'react-redux';
 import { createStore } from '../../redux/store/';
 import { sign_in, updateProp } from '../../redux/actions/user';
 import { initialState } from '../../redux/reducers/User';
-import I8, { changeLanguage } from '@Translate';
+import { I8, changeLanguage, USER_TOKEN, USER_ID } from 'nuudel-utils';
 import UI from '../../common/UI';
-import { USER_TOKEN, USER_ID } from '../../config';
-import { Language } from '../../common/ControlMode';
+import { Language } from 'nuudel-utils';
 
 export const store = createStore();
 
@@ -41,14 +40,14 @@ export const initStore = async (lfs, user: any = undefined) => {
           token: token,
           type: usr.type,
           status: usr.status,
-        }),
+        })
       );
     } else if (typeof state.user === 'undefined') {
       store.dispatch(
         sign_in({
           userId: userId,
           token: token,
-        }),
+        })
       );
     } else if (!state.user.token) {
       store.dispatch(updateProp('token', token));
@@ -56,10 +55,11 @@ export const initStore = async (lfs, user: any = undefined) => {
   }
 };
 
-export const withRedux = (WrappedComponent: ComponentType) => (props: any) => (
-  <Provider store={store}>
-    <WrappedComponent {...props} />
-  </Provider>
-);
+export const withRedux = (WrappedComponent: ComponentType) => (props: any) =>
+  (
+    <Provider store={store}>
+      <WrappedComponent {...props} />
+    </Provider>
+  );
 
 export default withRedux;

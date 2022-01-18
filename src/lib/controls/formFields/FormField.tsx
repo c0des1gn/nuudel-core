@@ -1,10 +1,10 @@
 import React from 'react';
-import { Text, Label } from '@Components';
-import { ControlMode } from '../../common/ControlMode';
+import { Text, Label } from 'nuudel-components';
+import { ControlMode } from 'nuudel-utils';
 import { IFieldSchema } from '../../services/datatypes/RenderListData';
 import { DelayedRender } from '../../common/DelayedRender';
 import styles from './styles.module.scss';
-import { t } from '@Translate';
+import { t } from 'nuudel-utils';
 
 export interface IFormFieldProps {
   className?: string;
@@ -21,7 +21,7 @@ export interface IFormFieldProps {
   valueChanged(newValue: any): void;
 }
 
-const FormField: React.FunctionComponent<IFormFieldProps> = props => {
+const FormField: React.FunctionComponent<IFormFieldProps> = (props) => {
   const {
     children,
     disabled,

@@ -46,10 +46,7 @@
     "types": [],
     "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
-      "@Components": ["src/lib/components"],
-      "@Translate": ["src/lib/loc/i18n"],
       "@Interfaces": ["src/lib/common/Interfaces"],
-      "@Variables": ["src/lib/theme/variables/palette"],
       "@Utils": ["src/lib/common/Utils"],
     }
   },

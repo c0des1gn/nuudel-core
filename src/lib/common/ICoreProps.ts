@@ -1,4 +1,4 @@
-import { ControlMode } from './ControlMode';
+import { ControlMode } from 'nuudel-utils';
 import { IFieldConfiguration } from '../controls/IFieldConfiguration';
 import { IListFormService } from '../services/IListFormService';
 

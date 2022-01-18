@@ -1,5 +1,5 @@
 import { ICoreProps } from '../../common/ICoreProps';
-import { Permission } from '../../common/ControlMode';
+import { Permission } from 'nuudel-utils';
 
 export interface IFormProps extends ICoreProps {
   permission: Permission;

@@ -1,14 +1,14 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { ControlMode } from '../../common/ControlMode';
-import { TextField } from '@Components';
-import { t } from '@Translate';
+import { ControlMode } from 'nuudel-utils';
+import { TextField } from 'nuudel-components';
+import { t } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
 
-const RNFieldUrlEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldUrlEdit: React.FunctionComponent<IRNFormFieldProps> = (props) => {
   const { disabled } = storeProps(props);
   return (
     <TextField

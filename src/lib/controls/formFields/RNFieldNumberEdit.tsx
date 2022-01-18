@@ -1,15 +1,17 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { TextField } from '@Components';
-import { ControlMode } from '../../common/ControlMode';
-import { t } from '@Translate';
+import { TextField } from 'nuudel-components';
+import { ControlMode } from 'nuudel-utils';
+import { t } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import { connect } from 'react-redux';
 import styles from './styles.module.scss';
 import { getLocale } from './RNFieldDateEdit';
 
-const RNFieldNumberEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldNumberEdit: React.FunctionComponent<IRNFormFieldProps> = (
+  props
+) => {
   // We need to set value to empty string when null or undefined to force TextField
   // not to be used like an uncontrolled component and keep current value
   const value = props.value ? props.value : '';
@@ -42,13 +44,11 @@ const RNFieldNumberEdit: React.FunctionComponent<IRNFormFieldProps> = props => {
 };
 
 const parseNumber = (value, locale = getLocale()): number => {
-  const decimalSperator = Intl.NumberFormat(locale)
-    .format(1.1)
-    .charAt(1);
+  const decimalSperator = Intl.NumberFormat(locale).format(1.1).charAt(1);
   // const cleanPattern = new RegExp(`[^-+0-9${ example.charAt( 1 ) }]`, 'g');
   const cleanPattern = new RegExp(
     `[${"' ,.".replace(decimalSperator, '')}]`,
-    'g',
+    'g'
   );
   const cleaned = value.replace(cleanPattern, '');
   const normalized = cleaned.replace(decimalSperator, '.');

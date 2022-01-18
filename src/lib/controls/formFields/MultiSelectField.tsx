@@ -9,7 +9,7 @@ import {
   FormControl,
 } from '@material-ui/core';
 import styles from './styles.module.scss';
-import { t } from '@Translate';
+import { t } from 'nuudel-utils';
 
 //extends MultiSelectProps
 export interface IMultiSelectProps {
@@ -64,7 +64,7 @@ export default class MultiSelectField extends React.Component<
     }
 
     this.setState({ selectedItems: values }, () =>
-      this.props.valueChanged(values),
+      this.props.valueChanged(values)
     );
   };
 
@@ -92,16 +92,16 @@ export default class MultiSelectField extends React.Component<
               />
             }
             startAdornment={this.props.startAdornment}
-            renderValue={selected =>
+            renderValue={(selected) =>
               !selected
                 ? selected
                 : (selected as string[])
-                    .map(s => t(s, { defaultValue: s }))
+                    .map((s) => t(s, { defaultValue: s }))
                     .join(', ')
             }
             MenuProps={MenuProps}
           >
-            {this.props.items.map(value => (
+            {this.props.items.map((value) => (
               <MenuItem key={value.id} value={value.name}>
                 <Checkbox
                   //disabled={false}

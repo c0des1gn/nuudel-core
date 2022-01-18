@@ -1,8 +1,8 @@
-import {IRootState} from '../../redux/store';
-import {IRNFormFieldProps} from './RNFormField';
-import {getValue, addField, changeProp} from '../../redux/actions/fields';
-import {getFieldByName} from '../../redux/selector';
-import {ControlMode, DisplayType} from '../../common/ControlMode';
+import { IRootState } from '../../redux/store';
+import { IRNFormFieldProps } from './RNFormField';
+import { getValue, addField, changeProp } from '../../redux/actions/fields';
+import { getFieldByName } from '../../redux/selector';
+import { ControlMode, DisplayType } from 'nuudel-utils';
 
 export const storeProps = (props: IRNFormFieldProps | any) => {
   return {
@@ -14,10 +14,10 @@ export const storeProps = (props: IRNFormFieldProps | any) => {
 
 export const mapStateToProps = (state: IRootState) => {
   const fields = state.fields;
-  return {store: {fields}};
+  return { store: { fields } };
 };
 
-export const mapDispatchToProps: any = dispatch => ({
+export const mapDispatchToProps: any = (dispatch) => ({
   getValue,
   addField,
 });

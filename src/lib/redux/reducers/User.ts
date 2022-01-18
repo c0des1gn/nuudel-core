@@ -1,6 +1,6 @@
 import * as CONST from '../constants';
 import { IRootState, IRootAction } from './index';
-import { MarketType, Theme } from '../../common/ControlMode';
+import { MarketType, Theme } from 'nuudel-utils';
 
 export const initialState: IUserProps = {
   userId: '',

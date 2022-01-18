@@ -1,11 +1,13 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Text, Slideshow, Image } from '@Components';
+import { Text, Slideshow, Image } from 'nuudel-components';
 import { width } from '../../common/UI';
 import styles from './styles.module.scss';
-import { t } from '@Translate';
+import { t } from 'nuudel-utils';
 
-const RNFieldImageDisplay: React.FunctionComponent<IRNFormFieldProps> = props => {
+const RNFieldImageDisplay: React.FunctionComponent<IRNFormFieldProps> = (
+  props
+) => {
   if (props.value instanceof Array) {
     if (props.value.length > 0) {
       return <Slideshow images={props.value} />;

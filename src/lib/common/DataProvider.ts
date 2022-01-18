@@ -6,8 +6,9 @@ import {
 import IDataProvider from './IDataProvider';
 import gql from 'graphql-tag';
 import { IListFormService } from '../services/IListFormService';
-import { clientError, getPlural, decodeHTML, dateToString } from '@Utils';
-import { t } from '@Translate';
+import { getPlural, decodeHTML, dateToString } from 'nuudel-utils';
+import { clientError } from './helper';
+import { t } from 'nuudel-utils';
 import { FetchPolicy } from '@apollo/client';
 
 export default class DataProvider implements IDataProvider {
