@@ -1,6 +1,6 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Link } from 'nuudel-components';
+import { Link } from '@Components';
 import styles from './styles.module.scss';
 
 const RNFieldUrlDisplay: React.FunctionComponent<IRNFormFieldProps> = (

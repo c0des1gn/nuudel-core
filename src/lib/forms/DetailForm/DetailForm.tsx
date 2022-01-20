@@ -26,9 +26,11 @@ import {
   Container,
   MessageBox,
   MessageBar,
+} from '@Components';
+import {
   MessageBarType,
   INotificationMessages,
-} from 'nuudel-components';
+} from '../../components/MessageBar';
 import { closeDialog } from 'nuudel-utils';
 import { onError } from '../../common/helper';
 import { width, height } from '../../common/UI';

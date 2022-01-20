@@ -37,6 +37,13 @@ export {
   DataProvider,
 };
 
+//@Components
+export * from './lib/components/index';
+import {
+  MessageBarType,
+  INotificationMessages,
+} from './lib/components/MessageBar';
+
 /**
  * Types exported by 'components/base'
  */
@@ -48,4 +55,6 @@ export type {
   IPartner,
   ICurrentUser,
   IAppProps,
+  MessageBarType,
+  INotificationMessages,
 };

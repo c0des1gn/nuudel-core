@@ -3,7 +3,7 @@ import { IRNFormFieldProps } from './RNFormField';
 import { t } from 'nuudel-utils';
 import { ControlMode } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
-import { TextField } from 'nuudel-components';
+import { TextField } from '@Components';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';

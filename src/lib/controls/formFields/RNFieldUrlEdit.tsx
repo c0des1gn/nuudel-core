@@ -1,7 +1,7 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
 import { ControlMode } from 'nuudel-utils';
-import { TextField } from 'nuudel-components';
+import { TextField } from '@Components';
 import { t } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';

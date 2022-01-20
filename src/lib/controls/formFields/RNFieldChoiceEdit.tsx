@@ -2,7 +2,7 @@ import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
 import { ControlMode } from 'nuudel-utils';
 import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
-import { TagsInput } from 'nuudel-components';
+import { TagsInput } from '@Components';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import { connect } from 'react-redux';

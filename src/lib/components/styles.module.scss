@@ -1,0 +1,9 @@
+@use 'sass:map';
+
+.colorbox {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  margin-right: 5px;
+  border: 1px solid '#999';
+}

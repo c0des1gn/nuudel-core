@@ -5,7 +5,7 @@ import { IFieldSchema } from '../../services/datatypes/RenderListData';
 import { t } from 'nuudel-utils';
 import FormField, { IFormFieldProps } from './FormField';
 import CloseIcon from '@material-ui/icons/Close';
-import { Label, Text, TextField } from 'nuudel-components';
+import { Label, Text, TextField } from '@Components';
 import RNFieldTextEdit from './RNFieldTextEdit';
 import RNFieldChoiceEdit from './RNFieldChoiceEdit';
 import RNFieldNumberEdit from './RNFieldNumberEdit';

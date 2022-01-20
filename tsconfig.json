@@ -12,7 +12,7 @@
     "inlineSourceMap": true,
     "esModuleInterop": true /* Enables emit interoperability between CommonJS and ES Modules via creation of namespace objects for all imports. Implies 'allowSyntheticDefaultImports'. */,
     "resolveJsonModule": true /* Include modules imported with .json extension. */,
-    
+    "removeComments": true, 
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
@@ -47,7 +47,7 @@
     "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
       "@Interfaces": ["src/lib/common/Interfaces"],
-      "@Utils": ["src/lib/common/Utils"],
+      "@Components": ["src/lib/components"],
     }
   },
   "include": ["src/**/*.ts", "src/**/*.tsx"],

@@ -6,7 +6,7 @@ import {
   ImageListItemBar,
   IconButton,
 } from '@material-ui/core';
-import { Image } from 'nuudel-components';
+import { Image } from '@Components';
 import { useDropzone, DropzoneOptions } from 'react-dropzone';
 import { useStyles } from './Style';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
