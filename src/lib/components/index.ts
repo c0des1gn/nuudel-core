@@ -26,7 +26,6 @@ import Box from './Box';
 import { TagsInput } from './TagsInput';
 import Dialog from './Dialog';
 import ColorBox from './ColorBox';
-import { Slideshow } from './Slideshow';
 import Stepper from './Stepper';
 import Image from './Image';
 import NumberFormatInput from './NumberFormatInput';
@@ -68,7 +67,6 @@ export {
   TagsInput,
   Dialog,
   ColorBox,
-  Slideshow,
   Stepper,
   Image,
   NumberFormatInput,

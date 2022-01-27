@@ -1,6 +1,6 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Text, Slideshow, Image } from '../../components';
+import { Text, Image } from '../../components';
 import { width } from '../../common/UI';
 import styles from './styles.module.scss';
 import { t } from 'nuudel-utils';
@@ -10,7 +10,7 @@ const RNFieldImageDisplay: React.FunctionComponent<IRNFormFieldProps> = (
 ) => {
   if (props.value instanceof Array) {
     if (props.value.length > 0) {
-      return <Slideshow images={props.value} />;
+      return <></>; //<Slideshow images={props.value} />;
     } else return <></>;
   } else {
     if (props.value && props.value.uri) {

@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es2017",
-    "jsx": "react",
+    "jsx": "react-jsx",
     "outDir": "build/main",
     "rootDir": "src",
     "baseUrl": ".",
@@ -51,7 +51,7 @@
       //"@Components": ["src/lib/components"],
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.scss"],
-  "exclude": ["node_modules/**", "build", "dist", "src/**/*.scss.d.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/types/declaration.d.ts", "src/**/*.scss"],
+  "exclude": ["node_modules/**", "build", "dist"],
   "compileOnSave": false
 }

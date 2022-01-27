@@ -64,7 +64,7 @@ $input-border-width: $base * 0.05;
 $input-height: $base * 2.75;
 $input-horizontal: $base;
 $input-vertical-text: 14;
-$input-vertical-label: $base / 2;
+$input-vertical-label: calc($base / 2);
 $input-text: $base * 0.875;
 $input-rounded: $base * 1.5;
 // checkbox

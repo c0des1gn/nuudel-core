@@ -14,7 +14,7 @@ export const NumberFormatInput: React.FC<INumberFormatProps> = ({
   <NumberFormat
     {...props}
     getInputRef={inputRef}
-    onValueChange={values => {
+    onValueChange={(values) => {
       onChange({
         target: {
           name: props.name,

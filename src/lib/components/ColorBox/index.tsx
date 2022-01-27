@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styles.module.scss';
+import styles from '../../theme/styles/styles.module.scss';
 
 interface IColorBox {
   //style?: any;
