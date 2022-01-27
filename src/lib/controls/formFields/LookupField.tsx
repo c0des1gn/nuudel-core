@@ -1,7 +1,7 @@
 import React from 'react';
 //import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
-import MultiSelectField from './MultiSelectField';
+import { MultiSelect } from '../../components';
 import { ControlMode } from 'nuudel-utils';
 import styles from './styles.module.scss';
 import { t } from 'nuudel-utils';
@@ -120,7 +120,7 @@ export default class LookupField extends React.Component<
         }
       }
       return (
-        <MultiSelectField
+        <MultiSelect
           id={String(this.props.id)}
           disabled={this.props.disabled}
           items={this.state.options}

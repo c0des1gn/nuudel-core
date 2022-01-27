@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Image } from '@Components';
+import { Button, Image } from '../../components';
 import { t } from 'nuudel-utils';
 import { ControlMode } from 'nuudel-utils';
 import UI, { DeviceId } from '../../common/UI';

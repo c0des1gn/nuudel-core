@@ -1,6 +1,6 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Text, Link } from '@Components';
+import { Text, Link } from '../../components';
 import styles from './styles.module.scss';
 
 const RNFieldLookupDisplay: React.FunctionComponent<IRNFormFieldProps> = (

@@ -8,7 +8,7 @@ import {
   Checkbox,
   FormControl,
 } from '@material-ui/core';
-import styles from './styles.module.scss';
+import styles from '../styles.module.scss';
 import { t } from 'nuudel-utils';
 
 //extends MultiSelectProps

@@ -5,7 +5,10 @@ import Spinner from './Spinner';
 import Container from './Container';
 import MessageBox from './MessageBox';
 import NoSsr from './NoSsr';
-import MessageBar from './MessageBar';
+import MessageBar, {
+  MessageBarType,
+  INotificationMessages,
+} from './MessageBar';
 import Checkbox from './Checkbox';
 import Choices from './Choices';
 import Drawer from './Drawer';
@@ -28,8 +31,16 @@ import Stepper from './Stepper';
 import Image from './Image';
 import NumberFormatInput from './NumberFormatInput';
 import Upload from './Upload';
+import MultiSelect from './MultiSelect';
+import Message, {
+  SNACKBAR_STATE_QUERY,
+  TOGGLE_SNACKBAR_MUTATION,
+} from './Material/SuccessMessage';
 
 export {
+  Message,
+  SNACKBAR_STATE_QUERY,
+  TOGGLE_SNACKBAR_MUTATION,
   Text,
   H1,
   Label,
@@ -62,4 +73,7 @@ export {
   Image,
   NumberFormatInput,
   Upload,
+  MultiSelect,
 };
+
+export type { MessageBarType, INotificationMessages };

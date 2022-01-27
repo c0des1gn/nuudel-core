@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es2017",
-    "jsx": "preserve",
+    "jsx": "react",
     "outDir": "build/main",
     "rootDir": "src",
     "baseUrl": ".",
@@ -46,11 +46,12 @@
     "types": [],
     "typeRoots": ["node_modules/@types", "src/types"],
     "paths": {
+      "nuudel-core": ["src/index"],
       "@Interfaces": ["src/lib/common/Interfaces"],
-      "@Components": ["src/lib/components"],
+      //"@Components": ["src/lib/components"],
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/**/*.scss"],
   "exclude": ["node_modules/**", "build", "dist", "src/**/*.scss.d.ts"],
   "compileOnSave": false
 }

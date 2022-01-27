@@ -1,5 +1,5 @@
 import React from 'react';
-import { Text, Label } from '@Components';
+import { Text, Label } from '../../components';
 import { ControlMode } from 'nuudel-utils';
 import { IFieldSchema } from '../../services/datatypes/RenderListData';
 import { DelayedRender } from '../../common/DelayedRender';

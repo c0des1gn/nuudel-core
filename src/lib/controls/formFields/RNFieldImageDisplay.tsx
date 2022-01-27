@@ -1,6 +1,6 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Text, Slideshow, Image } from '@Components';
+import { Text, Slideshow, Image } from '../../components';
 import { width } from '../../common/UI';
 import styles from './styles.module.scss';
 import { t } from 'nuudel-utils';

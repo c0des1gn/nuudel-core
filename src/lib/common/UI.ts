@@ -19,6 +19,8 @@ export const DeviceId = {
   os: osName,
   osVersion: osVersion,
   isTablet: isTablet,
+  isIOS: isIOS,
+  isAndroid: isAndroid,
   //version: DeviceInfo.getVersion(),
   device: DeviceInfo,
 };

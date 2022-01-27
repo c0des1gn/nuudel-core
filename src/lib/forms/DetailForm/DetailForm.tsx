@@ -26,7 +26,7 @@ import {
   Container,
   MessageBox,
   MessageBar,
-} from '@Components';
+} from '../../components';
 import {
   MessageBarType,
   INotificationMessages,

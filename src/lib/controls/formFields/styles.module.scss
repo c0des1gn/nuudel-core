@@ -1,4 +1,4 @@
-@use "sass:map";
+@use 'sass:map';
 @import '../../theme/variables/colors';
 @import '../../theme/variables/sizes';
 
@@ -29,9 +29,6 @@
   font-style: 'italic';
   color: $placeholder;
   font-size: $font;
-}
-.multiSelect-container {
-  z-index: 999;
 }
 .display {
   color: $text;
@@ -77,9 +74,6 @@
 }
 .choice {
   color: $text;
-}
-.multichoice {
-  font-size: $h6;
 }
 .select {
   font-size: $h6;

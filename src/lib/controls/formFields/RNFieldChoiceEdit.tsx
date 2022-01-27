@@ -2,11 +2,11 @@ import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
 import { ControlMode } from 'nuudel-utils';
 import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
-import { TagsInput } from '@Components';
+import { TagsInput } from '../../components';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
 import { connect } from 'react-redux';
-import MultiSelectField from './MultiSelectField';
+import { MultiSelect } from '../../components';
 import styles from './styles.module.scss';
 import { t } from 'nuudel-utils';
 
@@ -68,7 +68,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = (
         }
       }
       return (
-        <MultiSelectField
+        <MultiSelect
           disabled={props.disabled || disabled}
           id={String(props.id)}
           //title={JSON.stringify(props.fieldSchema) + props.value}
