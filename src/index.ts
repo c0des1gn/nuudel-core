@@ -2,8 +2,6 @@
 import { ListFormService } from './lib/services/ListFormService';
 import { IListFormService } from './lib/services/IListFormService';
 import { GetSchema } from './lib/services/graphqlSchema';
-import DetailForm from './lib/forms/DetailForm/DetailForm';
-import Forms from './lib/forms/Forms';
 import { UI } from './lib/common/UI';
 import {
   coreComponent,
@@ -57,13 +55,14 @@ export {
   resolvers,
   ListFormService,
   GetSchema,
-  DetailForm,
-  Forms,
   UI,
   coreComponent,
   DataProvider,
   createClient,
 };
+
+//forms
+export * from './lib/forms/';
 
 //@Components
 export * from './lib/components/index';

@@ -38,7 +38,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = (
                 ? props.fieldSchema.DefaultValue
                 : props.value
             }
-            renderValue={(selected) =>
+            renderValue={(selected: string) =>
               !selected ? '' : t(selected, { defaultValue: selected })
             }
             inputProps={{
