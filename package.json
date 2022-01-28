@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.1.26",
+  "version": "0.1.29",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -56,6 +56,8 @@
     "node": ">=10"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-build-classic": "^28.0.0",
+    "@ckeditor/ckeditor5-react": "^3.0.2",
     "graphql": "^15.7.2",
     "graphql-2-json-schema": "0.2.0",
     "material-ui-chip-input": "^1.1.0",
@@ -74,8 +76,6 @@
   "devDependencies": {
     "@apollo/react-hooks": "^4.0.0",
     "@ava/typescript": "^1.1.1",
-    "@ckeditor/ckeditor5-build-classic": "^28.0.0",
-    "@ckeditor/ckeditor5-react": "^3.0.2",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",

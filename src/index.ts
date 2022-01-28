@@ -64,6 +64,12 @@ export {
 //forms
 export * from './lib/forms/';
 
+//library
+export * from './lib/library/';
+
+//widgets
+export * from './lib/widgets/';
+
 //@Components
 export * from './lib/components/index';
 
