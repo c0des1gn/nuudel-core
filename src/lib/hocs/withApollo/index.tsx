@@ -34,16 +34,17 @@ cache.writeQuery({
   },
 });
 
-const { WEB = '', NEXT_PUBLIC_WS_SUBSCRIPTION = 'fasle' } = process?.env;
+const { WEB = '', NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
 const pathname: string = 'api/graphql';
 
-export const URL: string = `${WEB}/${pathname}`;
+export let URL: string = `${WEB}/${pathname}`;
 
 const wsLink =
+  //!isServer && process?.env?.NODE_ENV === 'development'
   !isServer && NEXT_PUBLIC_WS_SUBSCRIPTION === 'true'
     ? new WebSocketLink({
         // if you instantiate in the server, the error will be thrown
-        uri: `ws://${process.env.DOMAIN}:${process.env.PORT}/${pathname}`,
+        uri: `ws://${process?.env?.DOMAIN}:${process?.env?.PORT}/${pathname}`,
         options: {
           reconnect: true,
           connectionParams: {
@@ -54,7 +55,7 @@ const wsLink =
     : null;
 
 const httpLink = new HttpLink({
-  uri: URL,
+  uri: `${process?.env?.WEB || WEB}/${pathname}`,
 });
 
 const authLink = setContext(async (_, { headers }) => {
