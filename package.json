@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.1.29",
+  "version": "0.1.30",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -87,7 +87,6 @@
     "@types/react-native": "^0.66.12",
     "@types/react-redux": "^7.1.22",
     "@types/react-test-renderer": "^17.0.1",
-    "@types/swiper": "^5.4.3",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
     "apollo-client": "^2.6.10",

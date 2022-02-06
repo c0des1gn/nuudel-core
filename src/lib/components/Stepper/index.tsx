@@ -4,73 +4,40 @@ import { t } from 'nuudel-utils';
 
 interface IStepperProps extends StepperProps {
   status: string;
-  step?: string;
+  step?: number;
+  steps: string[];
+  failedSteps: string[];
 }
 
-const getSteps = (status: string, step = 'Facility') => {
-  let activeStep: number = 0;
-  let values: string[] = [];
-  switch (status) {
-    case 'Pending':
-    case 'Created':
-    case 'Pickedup':
-    case 'Canceled':
-    case 'Deleted':
-      activeStep = 0;
-      values = [status, step, 'InTransit', 'Delivered'];
-      break;
-    case 'Facility':
-    case 'Failed':
-      activeStep = 1;
-      values = ['Created', status, 'InTransit', 'Delivered'];
-      break;
-    case 'InTransit':
-      activeStep = 2;
-      values = ['Created', step, status, 'Delivered'];
-      break;
-    case 'Returned':
-    case 'Delivered':
-    case 'Declined':
-      activeStep = 3;
-      values = ['Created', step, 'InTransit', status];
-      break;
-    default:
-      break;
-  }
-  return { values, activeStep };
-};
-
-const isStepFailed = (status: string) => {
+const isStepFailed = (status: string, failedSteps: string[]) => {
   let failedStatus: boolean = false;
-  switch (status) {
-    case 'Canceled':
-    case 'Failed':
-    case 'Declined':
-    case 'Returned':
-    case 'Deleted':
-      failedStatus = true;
-      break;
-    default:
-      break;
+  if (failedSteps.includes(status)) {
+    failedStatus = true;
   }
   return failedStatus;
 };
 
-const Steppers: React.FC<IStepperProps> = ({ children, step, ...props }) => (
+const Steppers: React.FC<IStepperProps> = ({
+  children,
+  failedSteps = [],
+  steps = [],
+  step = 0,
+  ...props
+}) => (
   <>
     {children}
     <Stepper
       {...props}
-      activeStep={getSteps(props.status, step).activeStep}
+      activeStep={step}
       alternativeLabel
       style={{ width: '100%' }}
     >
-      {getSteps(props.status, step).values.map((label, index) => {
+      {steps.map((label, index) => {
         const stepProps: { completed?: boolean } = {};
         const labelProps: {
           error?: boolean;
         } = {};
-        if (isStepFailed(label)) {
+        if (isStepFailed(label, failedSteps)) {
           labelProps.error = true;
         }
         return (
