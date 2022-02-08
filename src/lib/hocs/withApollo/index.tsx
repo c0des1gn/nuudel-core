@@ -19,7 +19,7 @@ import withApollo from 'next-with-apollo';
 import { resolvers, typeDefs, QUERY } from './resolvers';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { URL } from 'nuudel-utils';
+import { URL as uri } from 'nuudel-utils';
 
 export const cache = new InMemoryCache({ addTypename: false }).restore({});
 
@@ -37,6 +37,11 @@ cache.writeQuery({
 
 const { WEB = '', NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
 const pathname: string = 'api/graphql';
+
+export let URL: string =
+  process?.env?.ENV === 'development'
+    ? `http://localhost:8083/${pathname}`
+    : `${WEB}/${pathname}`;
 
 const wsLink =
   //!isServer && process?.env?.NODE_ENV === 'development'
