@@ -35,12 +35,16 @@ cache.writeQuery({
   },
 });
 
-const { WEB = '', NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
+const {
+  WEB = '',
+  NEXT_PUBLIC_WS_SUBSCRIPTION = 'false',
+  PORT = '8080',
+} = process?.env;
 const pathname: string = 'api/graphql';
 
 export let URL: string =
   process?.env?.ENV === 'development'
-    ? `http://localhost:8083/${pathname}`
+    ? `http://localhost:${PORT}/${pathname}`
     : `${WEB}/${pathname}`;
 
 const wsLink =
