@@ -11,7 +11,8 @@ import {
   GraphQLError,
 } from 'graphql';
 import { fromIntrospectionQuery } from 'graphql-2-json-schema';
-import { createClient, URL } from '../hocs/withApollo';
+import { createClient } from '../hocs/withApollo';
+import { URL } from 'nuudel-utils';
 import { GetSchema } from '../services/graphqlSchema';
 import { traverse, getPlural, capitalizeFirstLetter } from 'nuudel-utils';
 import { onError, onErrors, clientError } from '../common/helper';
