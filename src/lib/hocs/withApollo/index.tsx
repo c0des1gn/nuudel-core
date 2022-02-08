@@ -35,17 +35,16 @@ cache.writeQuery({
   },
 });
 
-const {
-  WEB = '',
-  NEXT_PUBLIC_WS_SUBSCRIPTION = 'false',
-  PORT = '8080',
-} = process?.env;
+const { WEB = '', NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
 const pathname: string = 'api/graphql';
 
-export let URL: string =
-  process?.env?.ENV === 'development'
-    ? `http://localhost:${PORT}/${pathname}`
+const getURL = (): string => {
+  return process?.env?.ENV === 'development'
+    ? `http://localhost:${process?.env?.PORT || '8080'}/${pathname}`
     : `${WEB}/${pathname}`;
+};
+
+export const URL: string = getURL();
 
 const wsLink =
   //!isServer && process?.env?.NODE_ENV === 'development'
@@ -63,7 +62,7 @@ const wsLink =
     : null;
 
 const httpLink = new HttpLink({
-  uri: URL, //`${process?.env?.WEB || WEB}/${pathname}`,
+  uri: getURL(),
 });
 
 const authLink = setContext(async (_, { headers }) => {
