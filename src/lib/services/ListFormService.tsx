@@ -11,7 +11,7 @@ import {
   GraphQLError,
 } from 'graphql';
 import { fromIntrospectionQuery } from 'graphql-2-json-schema';
-import { createClient, URL } from '../hocs/withApollo';
+import { createClient, getURL } from '../hocs/withApollo';
 import { GetSchema } from '../services/graphqlSchema';
 import { traverse, getPlural, capitalizeFirstLetter } from 'nuudel-utils';
 import { onError, onErrors, clientError } from '../common/helper';
@@ -149,6 +149,7 @@ const get_columns = async (
   let columns: any[] = [];
 
   if (!schema) {
+    const URL = getURL();
     try {
       schema = await GetSchema(URL);
     } catch (e) {

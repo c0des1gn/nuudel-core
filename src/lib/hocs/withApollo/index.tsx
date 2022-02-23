@@ -19,7 +19,7 @@ import withApollo from 'next-with-apollo';
 import { resolvers, typeDefs, QUERY } from './resolvers';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
-import { URL as uri } from 'nuudel-utils';
+import { pathname } from 'nuudel-utils';
 
 export const cache = new InMemoryCache({ addTypename: false }).restore({});
 
@@ -35,16 +35,13 @@ cache.writeQuery({
   },
 });
 
-const { WEB = '', NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
-const pathname: string = 'api/graphql';
+const { NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
 
-const getURL = (): string => {
+export const getURL = (): string => {
   return process?.env?.ENV === 'development'
     ? `http://localhost:${process?.env?.PORT || '8080'}/${pathname}`
-    : `${WEB}/${pathname}`;
+    : `${process?.env?.WEB || ''}/${pathname}`;
 };
-
-export const URL: string = getURL();
 
 const wsLink =
   //!isServer && process?.env?.NODE_ENV === 'development'
