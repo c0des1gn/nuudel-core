@@ -1,5 +1,5 @@
-@import '../../theme/variables/colors.scss';
-@import '../../theme/variables/sizes.scss';
+@import '../variables/colors';
+@import '../variables/sizes';
 
 .searchBar {
   font-family: $fontfamily;
