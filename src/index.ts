@@ -61,15 +61,6 @@ export {
   createClient,
 };
 
-// translate
-export {
-  //I8,
-  //t,
-  //changeLanguage,
-  //defaultLocale,
-  setTranslate,
-} from './lib/loc/i18n';
-
 //forms
 export * from './lib/forms/';
 
