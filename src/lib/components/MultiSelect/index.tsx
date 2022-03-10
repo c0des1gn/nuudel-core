@@ -9,7 +9,7 @@ import {
   FormControl,
 } from '@material-ui/core';
 import styles from '../../theme/styles/styles.module.scss';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 //extends MultiSelectProps
 export interface IMultiSelectProps {

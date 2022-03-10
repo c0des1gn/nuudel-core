@@ -5819,19 +5819,15 @@ null-check@^1.0.0:
   resolved "https://registry.yarnpkg.com/null-check/-/null-check-1.0.0.tgz#977dffd7176012b9ec30d2a39db5cf72a0439edd"
   integrity sha1-l33/1xdgErnsMNKjnbXPcqBDnt0=
 
-nuudel-utils@latest:
-  version "0.1.21"
-  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.21.tgz#74423b393615b867c53dd53d2b6b29134889d4c6"
-  integrity sha512-FxU1oOKdwpke2jHmct/jsqWsv2nkDuti9wn6R1yy07EoqGMHSUZCFomU7H6TjvZB0lnjhBBhCw2GltB7Gu9NaA==
+nuudel-utils@^0.1.32:
+  version "0.1.32"
+  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.32.tgz#d17587023c5ca933d6ab6deb5c0d119a2abfd0d7"
+  integrity sha512-1FzJqqkzHUUDdcPGVIZ2qPOAzhMWdH9ArboWOxfkIVHXxKCK/0weeividz5fO2Bj/ZmrJf0vsZE8ZHvsavxCLA==
   dependencies:
     axios "^0.25.0"
     crypto-js "^4.1.1"
     graphql-tag "^2.12.6"
-    i18next "^21.6.6"
-    lodash.memoize "^4.1.2"
     moment "^2.29.1"
-    react-device-detect "^2.1.2"
-    react-i18next "^11.15.3"
 
 nyc@^15.1.0:
   version "15.1.0"

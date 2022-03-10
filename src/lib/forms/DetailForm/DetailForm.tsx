@@ -8,7 +8,7 @@ import styles from '../../theme/styles/styles.module.scss';
 import RNFormField, {
   IRNFormFieldProps,
 } from '../../controls/formFields/RNFormField';
-import { I8, t } from 'nuudel-utils';
+import { I8, t } from '../../loc/i18n';
 import { getRegex } from './regex';
 import {
   setFields,

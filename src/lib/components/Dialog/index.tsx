@@ -10,7 +10,7 @@ import {
   Theme,
 } from '@material-ui/core';
 import { Button } from '../';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 

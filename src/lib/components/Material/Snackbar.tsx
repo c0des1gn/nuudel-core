@@ -3,7 +3,7 @@ import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 export default function ShowSnackbar() {
   const [open, setOpen] = React.useState(true);

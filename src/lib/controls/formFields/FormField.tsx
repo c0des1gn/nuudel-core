@@ -4,7 +4,7 @@ import { ControlMode } from 'nuudel-utils';
 import { IFieldSchema } from '../../services/datatypes/RenderListData';
 import { DelayedRender } from '../../common/DelayedRender';
 import styles from './styles.module.scss';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 export interface IFormFieldProps {
   className?: string;

@@ -7,7 +7,7 @@ import { Store } from 'redux';
 import { createStore, IRootState } from '../redux/store';
 import { IRNFormFieldProps } from '../controls/formFields/RNFormField';
 import { setFields, changeProp } from '../redux/actions/fields';
-import { t } from 'nuudel-utils';
+import { t } from '../loc/i18n';
 import { zeroPad } from 'nuudel-utils';
 
 export interface IBaseState {

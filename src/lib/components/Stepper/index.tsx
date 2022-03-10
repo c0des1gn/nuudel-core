@@ -1,6 +1,6 @@
 import React from 'react';
 import { Stepper, StepperProps, Step, StepLabel } from '@material-ui/core';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 interface IStepperProps extends StepperProps {
   status: string;

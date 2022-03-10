@@ -8,7 +8,7 @@ import gql from 'graphql-tag';
 import { IListFormService } from '../services/IListFormService';
 import { getPlural, decodeHTML, dateToString } from 'nuudel-utils';
 import { clientError } from './helper';
-import { t } from 'nuudel-utils';
+import { t } from '../loc/i18n';
 import { FetchPolicy } from '@apollo/client';
 
 export default class DataProvider implements IDataProvider {

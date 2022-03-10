@@ -3,7 +3,8 @@ import { Provider } from 'react-redux';
 import { createStore } from '../../redux/store/';
 import { sign_in, updateProp } from '../../redux/actions/user';
 import { initialState } from '../../redux/reducers/User';
-import { I8, changeLanguage, USER_TOKEN, USER_ID } from 'nuudel-utils';
+import { USER_TOKEN, USER_ID } from 'nuudel-utils';
+import { I8, changeLanguage } from '../../loc/i18n';
 import UI from '../../common/UI';
 import { Language } from 'nuudel-utils';
 

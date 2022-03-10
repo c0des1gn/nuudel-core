@@ -7,7 +7,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@material-ui/core';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 export interface IDialogProps {
   title: string;

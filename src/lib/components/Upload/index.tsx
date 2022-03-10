@@ -10,7 +10,7 @@ import Image from '../../components/Image';
 import { useDropzone, DropzoneOptions } from 'react-dropzone';
 import { useStyles } from './Style';
 import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 import axios from 'axios';
 import UI from '../../common/UI';
 import { resizeImage } from './resizeImage';

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Image } from '../../components';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 import { ControlMode } from 'nuudel-utils';
 import UI, { DeviceId } from '../../common/UI';
 import styles from './styles.module.scss';

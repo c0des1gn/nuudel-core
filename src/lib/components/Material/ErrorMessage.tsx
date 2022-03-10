@@ -4,7 +4,7 @@ import Snackbar from '@material-ui/core/Snackbar';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import styles from './styles.module.scss';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 const ErrorStyles = (props: any) => (
   <div className={styles.errormsg}>{props.children}</div>

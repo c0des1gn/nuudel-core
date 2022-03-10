@@ -48,6 +48,7 @@
     "paths": {
       "nuudel-core": ["src/index"],
       "@Interfaces": ["src/lib/common/Interfaces"],
+      "@Translate": ["src/loc/i18n"],
       //"@Components": ["src/lib/components"],
     }
   },

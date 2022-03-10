@@ -3,7 +3,7 @@ import { IRNFormFieldProps } from './RNFormField';
 import { Text, Image } from '../../components';
 import { width } from '../../common/UI';
 import styles from './styles.module.scss';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 const RNFieldImageDisplay: React.FunctionComponent<IRNFormFieldProps> = (
   props

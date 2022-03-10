@@ -8,7 +8,7 @@ import { getValue, changeProp } from '../../redux/actions/fields';
 import { connect } from 'react-redux';
 import { MultiSelect } from '../../components';
 import styles from './styles.module.scss';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 
 const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = (
   props

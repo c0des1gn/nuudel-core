@@ -4,7 +4,7 @@ import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
 import { MultiSelect } from '../../components';
 import { ControlMode } from 'nuudel-utils';
 import styles from './styles.module.scss';
-import { t } from 'nuudel-utils';
+import { t } from '../../loc/i18n';
 import { IRNFormFieldProps } from './RNFormField';
 import { ListFormService } from '../../services/ListFormService';
 
