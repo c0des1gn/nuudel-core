@@ -65,10 +65,10 @@ export {
 export {
   //I8,
   //t,
+  //changeLanguage,
+  //defaultLocale,
   setTranslate,
-} from //changeLanguage,
-//defaultLocale,
-'./lib/loc/i18n';
+} from './lib/loc/i18n';
 
 //forms
 export * from './lib/forms/';
