@@ -2,7 +2,8 @@
 @import '../variables/sizes';
 
 .searchBar {
-  font-family: $fontfamily;
+  z-index: 0;
+  //font-family: $fontfamily;
 }
 
 .button {
@@ -37,7 +38,7 @@
   width: 100%;
 }
 .input {
-  font-family: $fontfamily;
+  //font-family: $fontfamily;
   &:invalid {
     border: $danger solid 1px;
   }
