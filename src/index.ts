@@ -30,7 +30,7 @@ import {
 import { createClient } from './lib/hocs/withApollo';
 
 // Core
-import {
+export {
   withRedux,
   withApollo,
   withContext,
@@ -43,16 +43,6 @@ import {
   resolvers,
 } from './lib/hocs';
 export {
-  withRedux,
-  withApollo,
-  withContext,
-  withReducer,
-  Context,
-  initStore,
-  store,
-  QUERY,
-  typeDefs,
-  resolvers,
   ListFormService,
   GetSchema,
   UI,
