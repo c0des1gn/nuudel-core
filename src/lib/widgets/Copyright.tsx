@@ -1,7 +1,8 @@
+import React, { FC } from 'react';
 import styles from './styles.module.scss';
 import { Text, Link } from 'nuudel-core';
 
-export default function Copyright() {
+export const Copyright: FC<any> = ({ ...props }) => {
   return (
     <Text variant="body2" color="textSecondary" align="center">
       {
@@ -9,12 +10,15 @@ export default function Copyright() {
       }
       <Link
         color="inherit"
-        className={styles.widgetColor}
-        href={'http://codesign.mn'}
+        style={{ color: '#9b9b9b' }}
+        //className={styles.widgetColor}
+        href={'https://codesign.mn'}
       >
         Codesign
       </Link>{' '}
       {new Date().getFullYear()}
     </Text>
   );
-}
+};
+
+export default Copyright;
