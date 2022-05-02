@@ -25,6 +25,7 @@ interface IUploadProps {
   maxSize?: number;
   maxFiles?: number;
   onChange?(val: any);
+  toWidth?: number;
 }
 
 const Upload: React.FC<IUploadProps> = ({ ...props }) => {
@@ -91,7 +92,7 @@ const Upload: React.FC<IUploadProps> = ({ ...props }) => {
           data.append('name', filename);
         }
         try {
-          data.append('file', await resizeImage(file), filename);
+          data.append('file', await resizeImage(file, props.toWidth), filename);
         } catch {
           data.append('file', file, filename);
         }
