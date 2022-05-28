@@ -125,7 +125,7 @@ const defaultOptions: DefaultOptions = {
   },
 };
 
-let client: ApolloClient<NormalizedCacheObject>;
+var client: ApolloClient<NormalizedCacheObject>;
 export const createClient = (headers?: any): any => {
   return (
     client ||

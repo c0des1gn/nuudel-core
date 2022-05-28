@@ -31,8 +31,8 @@ interface Options {
   inputs: object;
 }
 
-let client: ApolloClient<any> = createClient();
-let schema: GraphQLSchema = null;
+var client: ApolloClient<any> = createClient();
+var schema: GraphQLSchema = null;
 
 /**
  * Gets the schema for all relevant fields for a specified graphQl list form.
