@@ -141,59 +141,70 @@ export default class DataProvider implements IDataProvider {
           field.InternalName.indexOf('.updatedAt') < 0
       )
       .map((field) => {
-        let trans: any = t(
-          field.InternalName.indexOf('.') >= 0
-            ? field.InternalName
-            : listname.toLowerCase() + '.' + field.InternalName,
-          {
-            defaultValue: field.Title,
-          }
-        );
         let f = {
-          title: typeof trans === 'object' ? field.Title : trans,
+          title: field.Title,
           name: field.InternalName,
         };
-
-        if (field.InternalName.indexOf('.') >= 0) {
-          let c = field.InternalName.split('.');
-          if (c.length === 2)
-            f['getCellValue'] = (row) => (row[c[0]] ? row[c[0]][c[1]] : '--');
-          else if (c.length === 3)
-            f['getCellValue'] = (row) =>
-              row[c[0]] && row[c[0]][c[1]] ? row[c[0]][c[1]][c[2]] : '--';
-          else
-            f['getCellValue'] = (row) =>
-              row[c[0]] && row[c[0]][c[1]] && row[c[0]][c[1]][c[2]]
-                ? row[c[0]][c[1]][c[2]][c[3]]
-                : '--';
-        } else if (field.FieldType === 'Image') {
-          f['getCellValue'] = (row) =>
-            row[field.InternalName] && row[field.InternalName].uri
-              ? row[field.InternalName].uri
-              : '--';
+        if (field.FieldType === 'Image') {
+          f['getCellValue'] = (row) => {
+            const dat = field.InternalName.includes('.')
+              ? field.InternalName.split('.').reduce(
+                  (d, f) => (!d[f] ? d : d[f]),
+                  row
+                )
+              : row[field.InternalName];
+            return !dat?.uri ? '--' : dat.uri;
+          };
         } else if (field.FieldType === 'Boolean') {
-          f['getCellValue'] = (row) =>
-            row[field.InternalName]
-              ? t('Yes')
-              : row[field.InternalName] === false
-              ? t('No')
-              : '--';
+          f['getCellValue'] = (row) => {
+            const dat = field.InternalName.includes('.')
+              ? field.InternalName.split('.').reduce(
+                  (d, f) => (!d[f] ? d : d[f]),
+                  row
+                )
+              : row[field.InternalName];
+            return dat ? t('Yes') : dat === false ? t('No') : '--';
+          };
         } else if (field.FieldType === 'DateTime') {
-          f['getCellValue'] = (row) =>
-            row[field.InternalName]
-              ? dateToString(row[field.InternalName], 'YYYY/MM/DD HH:mm')
-              : '--';
+          f['getCellValue'] = (row) => {
+            const dat = field.InternalName.includes('.')
+              ? field.InternalName.split('.').reduce(
+                  (d, f) => (!d[f] ? d : d[f]),
+                  row
+                )
+              : row[field.InternalName];
+            return !dat ? '--' : dateToString(dat, 'YYYY/MM/DD HH:mm');
+          };
         } else if (field.FieldType === 'MultiChoice') {
-          f['getCellValue'] = (row) =>
-            row[field.InternalName] instanceof Array
-              ? row[field.InternalName].join(', ')
-              : '--';
+          f['getCellValue'] = (row) => {
+            const dat = field.InternalName.includes('.')
+              ? field.InternalName.split('.').reduce(
+                  (d, f) => (!d[f] ? d : d[f]),
+                  row
+                )
+              : row[field.InternalName];
+            return dat instanceof Array ? dat.join(', ') : '--';
+          };
         } else if (field.FieldType === 'Note') {
-          f['getCellValue'] = (row) =>
-            row[field.InternalName]
-              ? decodeHTML(row[field.InternalName])
-              : '--';
+          f['getCellValue'] = (row) => {
+            const dat = field.InternalName.includes('.')
+              ? field.InternalName.split('.').reduce(
+                  (d, f) => (!d[f] ? d : d[f]),
+                  row
+                )
+              : row[field.InternalName];
+            return !dat ? '--' : decodeHTML(dat);
+          };
+        } else if (field.InternalName.includes('.')) {
+          f['getCellValue'] = (row) => {
+            const dat = field.InternalName.split('.').reduce(
+              (d, f) => (!d[f] ? d : d[f]),
+              row
+            );
+            return !dat || typeof dat === 'object' ? '--' : dat;
+          };
         }
+
         return f;
       });
 
