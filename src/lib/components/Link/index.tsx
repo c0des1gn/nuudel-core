@@ -7,6 +7,7 @@ import { Link as MuiLink, LinkProps } from '@material-ui/core';
 interface INextLinkProps extends LinkProps {
   href?: any;
   linkAs?: object | string;
+  title?: string;
   locale?: string;
   passHref?: boolean;
   prefetch?: boolean;
@@ -35,7 +36,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
       locale,
       ...props
     },
-    ref,
+    ref
   ) => {
     return (
       <NextLink
@@ -53,7 +54,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
         </a>
       </NextLink>
     );
-  },
+  }
 );
 
 interface ILinkProps {
@@ -90,7 +91,7 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
       role, // Link don't have roles.
       ...props
     },
-    ref,
+    ref
   ) => {
     const router = useRouter();
     const pathname =
@@ -144,7 +145,7 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
         {children}
       </MuiLink>
     );
-  },
+  }
 );
 
 export default Link;
