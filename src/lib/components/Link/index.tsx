@@ -7,7 +7,6 @@ import { Link as MuiLink, LinkProps } from '@material-ui/core';
 interface INextLinkProps extends LinkProps {
   href?: any;
   linkAs?: object | string;
-  title?: string;
   locale?: string;
   passHref?: boolean;
   prefetch?: boolean;
@@ -59,6 +58,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
 
 interface ILinkProps {
   activeClassName?: string;
+  title?: string;
   as?: any | string;
   className?: string;
   href?: any;
