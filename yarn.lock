@@ -5133,10 +5133,10 @@ null-check@^1.0.0:
   resolved "https://registry.yarnpkg.com/null-check/-/null-check-1.0.0.tgz#977dffd7176012b9ec30d2a39db5cf72a0439edd"
   integrity sha1-l33/1xdgErnsMNKjnbXPcqBDnt0=
 
-nuudel-utils@^0.1.39:
-  version "0.1.39"
-  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.39.tgz#ee40f204475c8e83902d179e9e56d0633210b957"
-  integrity sha512-HoKbfgA8oxH24wQw56IcmgNcLzkquRJQl1MmjAjkbWywdfyc7KM+/4y4OR9xLIDWbAJrwLv7ABET/auHsltQsA==
+nuudel-utils@^0.1.41:
+  version "0.1.41"
+  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.41.tgz#c4ddb2003a4902c78ed6455d61440eb8c284504e"
+  integrity sha512-5U/yhVYhtQC8BomGVtjxOVZad3COkdffmYycIhKDVFRIgLenw8XGidAp12WKHqy/SMg9DAx2euaUERmMGm5slA==
   dependencies:
     axios "0.24.0"
     crypto-js "3.1.9-1"

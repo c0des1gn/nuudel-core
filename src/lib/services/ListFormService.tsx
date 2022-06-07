@@ -745,7 +745,7 @@ const GetJsonValues = (list: any[], keys: boolean = false): Array<any> => {
   }
   for (let i = 0; i < list.length; i++) {
     let node: any = list[i];
-    const field = {
+    let field = {
       [node.Title]:
         node.children.length > 0
           ? node.children
@@ -811,7 +811,7 @@ const GetArrayValues = (
           val instanceof Array &&
           val.length > 0
         ) {
-          val = val.map((item) => {
+          val = val.map((item: any) => {
             for (let i = 0; i < field._Children.length; i++) {
               if (
                 field._Children[i].FieldType === 'MultiChoice' &&
@@ -826,13 +826,13 @@ const GetArrayValues = (
                   field._Children[i].ParentObject &&
                   item.hasOwnProperty(field._Children[i].ParentObject)
                 ) {
-                  const fldname = field._Children[i].InternalName.replace(
+                  const namefld = field._Children[i].InternalName.replace(
                     field._Children[i].ParentObject + '.',
                     ''
                   );
-                  item[field._Children[i].ParentObject][fldname] =
+                  item[field._Children[i].ParentObject][namefld] =
                     '{[' +
-                    item[field._Children[i].ParentObject][fldname].toString() +
+                    item[field._Children[i].ParentObject][namefld].toString() +
                     ']}';
                 }
               } else if (field._Children[i].FieldType === 'Choice') {
