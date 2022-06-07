@@ -832,7 +832,7 @@ const GetArrayValues = (
                   );
                   item[field._Children[i].ParentObject][namefld] =
                     '{[' +
-                    item[field._Children[i].ParentObject][namefld].toString() +
+                    item[field._Children[i].ParentObject][namefld]?.toString() +
                     ']}';
                 }
               } else if (field._Children[i].FieldType === 'Choice') {
