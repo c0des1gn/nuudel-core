@@ -38,7 +38,7 @@ const Editor = () => {
           }}
         />
       ) : (
-        <p>Carregando...</p>
+        <p>Loading...</p>
       )}
     </>
   );
