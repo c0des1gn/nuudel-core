@@ -69,5 +69,16 @@
   "ChangeEmail": "Имэйл өөрчлөх",
   "TakePhoto": "Зураг дарах",
   "ChooseFromLibrary": "Зургийн сангаас сонго",
+  "Loading": "Ачааллаж...",
+  "Title": "Гарчиг",
+  "visibility": "Харуулах",
+  "Date": "Огноо",
+  "Author": "Нийтлэгч",
+  "slug": "Слаг",
+  "Tags": "Шошго",
+  "image": "Зураг",
+  "allowcomment": "Сэтгэгдэл зөвшөөрөх",
+  "excerpt": "Товчлол",
+  "categories": "Ангилалууд",
   "ErrorOnSavingListItem": "Алдаа жагсаалтыг ачаалж чадсангүй: "
 }

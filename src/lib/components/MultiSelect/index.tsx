@@ -11,6 +11,8 @@ import {
 import styles from '../../theme/styles/styles.module.scss';
 import { t } from '../../loc/i18n';
 
+type ValueField = 'id' | 'name';
+
 //extends MultiSelectProps
 export interface IMultiSelectProps {
   id: string;
@@ -22,6 +24,8 @@ export interface IMultiSelectProps {
   startAdornment?: any;
   onChangeInput?(val: any);
   valueChanged(val: any);
+  keyfield?: ValueField;
+  margin?: 'none' | 'dense';
 }
 
 export interface IMultiSelectStates {
@@ -83,6 +87,7 @@ export default class MultiSelectField extends React.Component<
             disabled={this.props.disabled === true}
             required={this.props.required === true}
             multiple
+            margin={this.props.margin}
             value={this.state.selectedItems}
             onChange={this.onSelectedItemsChange}
             input={
@@ -102,11 +107,18 @@ export default class MultiSelectField extends React.Component<
             MenuProps={MenuProps}
           >
             {this.props.items.map((value) => (
-              <MenuItem key={value.id} value={value.name}>
+              <MenuItem
+                key={value.id}
+                value={value[this.props.keyfield || 'name']}
+              >
                 <Checkbox
                   //disabled={false}
                   color="primary"
-                  checked={this.state.selectedItems.indexOf(value.name) >= 0}
+                  checked={
+                    this.state.selectedItems.findIndex(
+                      (s) => s === value[this.props.keyfield || 'name']
+                    ) >= 0
+                  }
                 />
                 <ListItemText
                   primary={t(value.name, { defaultValue: value.name })}

@@ -69,5 +69,16 @@
   "ChangeEmail": "Change email",
   "TakePhoto": "Take photo",
   "ChooseFromLibrary": "Choose from library",
+  "Loading": "Loading...",
+  "Title": "Title",
+  "visibility": "Visibility",
+  "Date": "Date",
+  "Author": "Author",
+  "slug": "Slug",
+  "Tags": "Tags",
+  "image": "Image",
+  "allowcomment": "Allow comment",
+  "excerpt": "Excerpt",
+  "categories": "Categories",
   "ErrorOnSavingListItem": "Error on loading lists: "
 }
