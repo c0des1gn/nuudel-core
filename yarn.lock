@@ -445,6 +445,14 @@
     "@ckeditor/ckeditor5-ui" "^34.1.0"
     "@ckeditor/ckeditor5-utils" "^34.1.0"
 
+"@ckeditor/ckeditor5-source-editing@^34.1.0":
+  version "34.1.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-source-editing/-/ckeditor5-source-editing-34.1.0.tgz#07386e0e311239ed45f807376b75e4261d2e58f1"
+  integrity sha512-0ll7mtbuGc2L2RNN3GfFuA2laqlAjzQ6flgR3zOJJ9wSJAbJ4/siGXCaRJvATe/NB+9zJ6ZGjV5MOXhzdQjDuQ==
+  dependencies:
+    "@ckeditor/ckeditor5-theme-lark" "^34.1.0"
+    ckeditor5 "^34.1.0"
+
 "@ckeditor/ckeditor5-table@^34.1.0":
   version "34.1.0"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-table/-/ckeditor5-table-34.1.0.tgz#53f266987ac80cdbd48fbeedd89d87fd80cae10d"
@@ -452,6 +460,13 @@
   dependencies:
     ckeditor5 "^34.1.0"
     lodash-es "^4.17.15"
+
+"@ckeditor/ckeditor5-theme-lark@^34.1.0":
+  version "34.1.0"
+  resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-theme-lark/-/ckeditor5-theme-lark-34.1.0.tgz#51959004eb898907d6669ec9f9a46285cb0afb35"
+  integrity sha512-n533HFCh+99XRm3cSBtP0jqRqHFboO0WuW1d+3hZ4F/8x+j8zEOtxI8/TrqdCAJVHAQSCkYD0oAPpkMt2aM9Ow==
+  dependencies:
+    "@ckeditor/ckeditor5-ui" "^34.1.0"
 
 "@ckeditor/ckeditor5-typing@^34.1.0":
   version "34.1.0"
@@ -5135,10 +5150,10 @@ null-check@^1.0.0:
   resolved "https://registry.yarnpkg.com/null-check/-/null-check-1.0.0.tgz#977dffd7176012b9ec30d2a39db5cf72a0439edd"
   integrity sha1-l33/1xdgErnsMNKjnbXPcqBDnt0=
 
-nuudel-utils@^0.1.43:
-  version "0.1.43"
-  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.43.tgz#cf990c7b613a6ed93380c78099621c7f42f7d4af"
-  integrity sha512-cn2p7Z5ZUsAZhR3rmS+IhBhbUJ6NsrsbcrKTTMyDb1/gZnOkh+1UWydruxzhTIpBSXke72z0s0HhhIyH+2S/nQ==
+nuudel-utils@^0.1.44:
+  version "0.1.44"
+  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.44.tgz#5d9ce2f23be04caf19d7672d69c16d8d611f9406"
+  integrity sha512-s/NNPhZ0YEiUmYJCZh4xh2DnZVYvBeGbw8qFwkrOesvWsfZ0hGcMSx6Gb7M0Pxllz0jeaSLY5eduDQKkAtKVTA==
   dependencies:
     axios "0.24.0"
     crypto-js "3.1.9-1"

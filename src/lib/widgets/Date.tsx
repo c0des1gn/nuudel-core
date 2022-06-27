@@ -7,9 +7,7 @@ type Props = {
 export default function Date({ date }: Props) {
   return (
     <time dateTime={moment(date).toISOString()}>
-      <span className={styles.widgetColor}>
-        {moment(date).format('LLLL d, yyyy')}
-      </span>
+      <span className={styles.widgetColor}>{moment(date).format('llll')}</span>
     </time>
   );
 }

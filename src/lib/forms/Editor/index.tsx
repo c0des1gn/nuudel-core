@@ -32,12 +32,12 @@ import SaveIcon from '@material-ui/icons/Save';
 import DeleteIcon from '@material-ui/icons/Delete';
 //import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+//import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
 
 interface IProps {
   id?: string;
   post_type?: string;
   editdata?: IPost;
-  disabled?: boolean;
   onClose?();
   onSubmit?(data: any);
   permission?: Permission;
@@ -200,6 +200,7 @@ const GET_CATEGORIES = gql`
 
 const custom_config = {
   extraPlugins: [CustomUploadAdapterPlugin],
+  //plugins: [SourceEditing],
   toolbar: {
     items: [
       'heading',
@@ -212,10 +213,15 @@ const custom_config = {
       '|',
       'blockQuote',
       'insertTable',
+      'selectAll',
       '|',
       'imageUpload',
+      'mediaEmbed',
+      '|',
       'undo',
       'redo',
+      //'|',
+      //'sourceEditing',
     ],
   },
   table: {
@@ -434,7 +440,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
             <CKEditor
               editor={ClassicEditor}
               config={custom_config}
-              disabled={props.disabled === true}
+              disabled={props.permission === Permission.Read}
               data={html}
               onReady={(editor) => {
                 // You can store the "editor" and use when it is needed.
@@ -448,9 +454,15 @@ const Editor: React.FC<IProps> = (props: IProps) => {
             />
           </Grid>
           <Grid item xs={12} sm={4} md={3}>
-            <Box display="flex" justifyContent="flex-start" p={3}>
+            <Box display="flex" justifyContent="flex-end" p={0}>
               {!!props.id && (
-                <div style={{ marginRight: '15px', position: 'relative' }}>
+                <div
+                  style={{
+                    margin: '15px',
+                    marginLeft: '0px',
+                    position: 'relative',
+                  }}
+                >
                   <Button
                     startIcon={<DeleteIcon />}
                     variant="contained"
@@ -464,10 +476,16 @@ const Editor: React.FC<IProps> = (props: IProps) => {
                   </Button>
                 </div>
               )}
-              <div style={{ marginRight: '15px', position: 'relative' }}>
+              <div
+                style={{
+                  margin: '15px',
+                  marginLeft: '0px',
+                  position: 'relative',
+                }}
+              >
                 <Button
                   startIcon={<SaveIcon />}
-                  disabled={props.disabled}
+                  disabled={props.permission === Permission.Read}
                   color="primary"
                   onClick={() => doSave()}
                 >
@@ -515,29 +533,14 @@ const Editor: React.FC<IProps> = (props: IProps) => {
                 <Link
                   style={{ cursor: 'pointer' }}
                   target="_blank"
-                  href={`/${post_type?.toLowerCase()}s/` + formValues.slug}
+                  href={`/${post_type?.toLowerCase()}/` + formValues.slug}
                 >
-                  {`${process?.env?.DOMAIN}/${post_type?.toLowerCase()}s/` +
+                  {`${process?.env?.DOMAIN}/${post_type?.toLowerCase()}/` +
                     formValues.slug}
                 </Link>
               </Grid>
               {post_type === 'Post' && (
                 <>
-                  <Grid item xs={12}>
-                    <TagsInput
-                      value={formValues.tags}
-                      label={t('Tags')}
-                      placeholder={t('Tags')}
-                      fullWidth
-                      variant="outlined"
-                      margin="dense"
-                      onChange={(chips) => {
-                        if (chips && chips instanceof Array) {
-                          setChange('tags', chips);
-                        }
-                      }}
-                    />
-                  </Grid>
                   <Grid item xs={12}>
                     <TextField
                       label={t('Author')}
@@ -549,6 +552,20 @@ const Editor: React.FC<IProps> = (props: IProps) => {
                       maxLength={255}
                       variant="outlined"
                       margin="dense"
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
+                    <TagsInput
+                      value={formValues.tags}
+                      label={t('Tags')}
+                      placeholder={t('Tags')}
+                      fullWidth
+                      variant="outlined"
+                      onChange={(chips) => {
+                        if (chips && chips instanceof Array) {
+                          setChange('tags', chips);
+                        }
+                      }}
                     />
                   </Grid>
                   <Grid item xs={12}>
@@ -569,12 +586,12 @@ const Editor: React.FC<IProps> = (props: IProps) => {
                   <Grid item xs={12}>
                     <MultiSelect
                       id={String(props.id)}
-                      disabled={props.disabled}
+                      disabled={props.permission === Permission.Read}
                       items={listCat || []}
                       keyfield="id"
                       required={false}
                       label={t('categories')}
-                      margin="dense"
+                      //margin="dense"
                       selectedItems={formValues.categories}
                       valueChanged={(values: string[]) =>
                         setChange('categories', values)

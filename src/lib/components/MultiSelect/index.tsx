@@ -97,12 +97,20 @@ export default class MultiSelectField extends React.Component<
               />
             }
             startAdornment={this.props.startAdornment}
-            renderValue={(selected) =>
+            renderValue={(selected: string[]) =>
               !selected
                 ? selected
-                : (selected as string[])
-                    .map((s) => t(s, { defaultValue: s }))
+                : this.props.keyfield === 'id'
+                ? selected
+                    .map((v) => {
+                      let index = this.props.items.findIndex(
+                        (it) => it.id === v
+                      );
+                      let s = index >= 0 ? this.props.items[index].name : v;
+                      return t(s, { defaultValue: s });
+                    })
                     .join(', ')
+                : selected.map((s) => t(s, { defaultValue: s })).join(', ')
             }
             MenuProps={MenuProps}
           >

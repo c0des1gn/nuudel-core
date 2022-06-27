@@ -20,6 +20,7 @@ type Props = {
   author: string;
   description?: string;
   children: React.ReactNode;
+  withCopyright: boolean;
 };
 export default function PostLayout({
   title,
@@ -29,6 +30,7 @@ export default function PostLayout({
   tags,
   description = '',
   children,
+  withCopyright = false,
 }: Props) {
   tags = !tags ? [] : tags;
   const keywords = tags.map((it) => it.name);
@@ -85,7 +87,7 @@ export default function PostLayout({
           <div className={styles.socialList}>
             <SocialList />
           </div>
-          <Copyright />
+          {!!withCopyright && <Copyright />}
         </footer>
       </div>
     </Layout>
