@@ -20,7 +20,7 @@ type Props = {
   author: string;
   description?: string;
   children: React.ReactNode;
-  withCopyright: boolean;
+  withCopyright?: boolean;
 };
 export default function PostLayout({
   title,
