@@ -1,5 +1,5 @@
 import { useWindowDimensions } from './useWindowDimension';
-import { USER_TOKEN } from 'nuudel-utils';
+import { USER_TOKEN, isServer } from 'nuudel-utils';
 import {
   isIOS,
   isAndroid,
@@ -60,9 +60,12 @@ export class UI {
     key: string,
     callback?: (error?: Error) => void
   ): void => {
-    return typeof localStorage === 'undefined'
-      ? eraseCookie(key)
-      : localStorage.removeItem(key);
+    try {
+      eraseCookie(key);
+    } catch {}
+    try {
+      localStorage.removeItem(key);
+    } catch {}
   };
 
   public static async headers(): Promise<any> {
@@ -77,17 +80,17 @@ export class UI {
 }
 
 function setStorage(name: string, value: any) {
-  if (checkCookie()) {
+  if (checkCookie() || isServer) {
     setCookie(name, value);
     return;
   }
   typeof localStorage === 'undefined'
     ? setCookie(name, value)
-    : localStorage.setItem(name, value);
+    : localStorage?.setItem(name, value);
 }
 
 function getStorage(name: string) {
-  return getCookie(name) || localStorage.getItem(name);
+  return getCookie(name) || localStorage?.getItem(name);
 }
 
 function setCookie(name: string, value: any, days: number = 365) {
