@@ -37,7 +37,7 @@ export interface ICurrentUser {
   permission: IPermission[];
   phone: string;
   mobile: string;
-  _partner: IPartner;
+  _partner?: IPartner;
 }
 
 export interface IAppProps {

@@ -238,7 +238,7 @@ export function getCondition(condition) {
   return condition;
 }
 
-export const parseCookie = (str: string) =>
+export const parseCookie = (str: string): any =>
   str
     ?.split(';')
     .map((v) => v.split('='))

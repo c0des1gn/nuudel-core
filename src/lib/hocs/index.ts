@@ -1,7 +1,7 @@
 import withRedux, { initStore, store } from './withRedux';
 import withApollo from './withApollo';
 import { QUERY, typeDefs, resolvers } from './withApollo/resolvers';
-import withReducer from './withReducer';
+import withUser, { useAuth } from './withUser';
 import withContext, { Context } from './withContext';
 
 export {
@@ -10,7 +10,8 @@ export {
   withContext,
   Context,
   initStore,
-  withReducer,
+  withUser,
+  useAuth,
   QUERY,
   typeDefs,
   resolvers,
