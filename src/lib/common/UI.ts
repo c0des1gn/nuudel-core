@@ -77,15 +77,17 @@ export class UI {
 }
 
 function setStorage(name: string, value: any) {
+  if (checkCookie()) {
+    setCookie(name, value);
+    return;
+  }
   typeof localStorage === 'undefined'
     ? setCookie(name, value)
     : localStorage.setItem(name, value);
 }
 
 function getStorage(name: string) {
-  return typeof localStorage === 'undefined'
-    ? getCookie(name)
-    : localStorage.getItem(name);
+  return getCookie(name) || localStorage.getItem(name);
 }
 
 function setCookie(name: string, value: any, days: number = 365) {
@@ -98,6 +100,15 @@ function setCookie(name: string, value: any, days: number = 365) {
   try {
     document.cookie = name + '=' + (value || '') + expires + '; path=/';
   } catch {}
+}
+
+function checkCookie(test: boolean = true) {
+  var cookieEnabled = navigator.cookieEnabled;
+  if (!cookieEnabled && test) {
+    document.cookie = 'testcookie';
+    cookieEnabled = document.cookie.indexOf('testcookie') != -1;
+  }
+  return cookieEnabled;
 }
 
 function getCookie(name: string) {
