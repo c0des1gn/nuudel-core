@@ -89,8 +89,13 @@ function setStorage(name: string, value: any) {
     : localStorage?.setItem(name, value);
 }
 
-function getStorage(name: string) {
-  return getCookie(name) || localStorage?.getItem(name);
+function getStorage(name: string): string | null {
+  let cookie: string | null = null;
+  cookie = getCookie(name);
+  if (!cookie && typeof localStorage !== 'undefined') {
+    cookie = localStorage.getItem(name);
+  }
+  return cookie;
 }
 
 function setCookie(name: string, value: any, days: number = 365) {
@@ -114,7 +119,7 @@ function checkCookie(test: boolean = true) {
   return cookieEnabled;
 }
 
-function getCookie(name: string) {
+function getCookie(name: string): string | null {
   var nameEQ = name + '=';
   try {
     var ca = document.cookie.split(';');
