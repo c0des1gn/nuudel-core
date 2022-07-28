@@ -43,7 +43,7 @@ export interface IListFormService {
     filter: string,
     sort: string,
     limit: number,
-    userId: string | null
+    userId?: string | null
   ) => Promise<any>;
   getDataAll: (
     listname: string,
