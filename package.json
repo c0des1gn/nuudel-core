@@ -64,7 +64,7 @@
     "i18next": "^21.6.6",
     "material-ui-chip-input": "^1.1.0",
     "next-with-apollo": "^5.2.1",
-    "nuudel-utils": "^0.1.49",
+    "nuudel-utils": "^0.1.50",
     "pica": "^9.0.1",
     "react-device-detect": "^2.1.2",
     "react-dropzone": "^11.5.1",
@@ -103,7 +103,6 @@
     "eslint-plugin-import": "^2.22.0",
     "gh-pages": "^3.1.0",
     "graphql-tag": "^2.12.6",
-    "swr": "^1.0.1",
     "next": "^11.1.4",
     "node-sass": "^7.0.1",
     "npm-run-all": "^4.1.5",
@@ -114,6 +113,7 @@
     "react-dom": "^17.0.2",
     "react-test-renderer": "^17.0.2",
     "standard-version": "^9.0.0",
+    "swr": "^1.0.1",
     "ts-node": "^9.0.0",
     "typed-scss-modules": "^4.1.2",
     "typedoc": "^0.22.11",
@@ -125,10 +125,10 @@
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
-    "swr": "^1.0.1",
     "graphql-tag": "^2.12.6",
     "next": "^11.1.4",
-    "react": "*"
+    "react": "*",
+    "swr": "^1.0.1"
   },
   "files": [
     "build/main",

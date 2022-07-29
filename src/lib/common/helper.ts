@@ -188,6 +188,7 @@ export function getCondition(condition) {
       break;
     case 'refurbished':
     case 'renewed':
+    case 'excellent - refurbished':
       condition = t('Refurbished');
       break;
     case 'parts':
