@@ -19,5 +19,5 @@ export default interface IDataProvider {
   GetCategorySuggestions?(param: IProviderBase): Promise<any>;
   getFields?(listname: string): Promise<any[]>;
   lfs?;
-  category: any[];
+  category?: any[];
 }
