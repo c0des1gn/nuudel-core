@@ -1,6 +1,7 @@
 // Service
 import { ListFormService } from './lib/services/ListFormService';
 import { IListFormService } from './lib/services/IListFormService';
+import { ListProvider } from './lib/common/ListProvider';
 import { GetSchema } from './lib/services/graphqlSchema';
 import { UI } from './lib/common/UI';
 import {
@@ -49,6 +50,7 @@ export {
   UI,
   coreComponent,
   DataProvider,
+  ListProvider,
   createClient,
 };
 

@@ -3,6 +3,7 @@ import { Typography, TypographyProps } from '@material-ui/core';
 
 interface ITextProps extends TypographyProps {
   component?: string;
+  //children?: React.ReactNode;
   style?: any;
 }
 
