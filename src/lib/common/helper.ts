@@ -16,6 +16,7 @@ import { t } from '../loc/i18n';
 
 var debounce: any = null;
 export const signOut = (router?: any) => {
+  let re: boolean = true;
   try {
     const token = UI.getItem(USER_TOKEN);
     if (token) {
@@ -32,7 +33,10 @@ export const signOut = (router?: any) => {
         }
       }, 50);
     }
-  } catch {}
+  } catch {
+    re = false;
+  }
+  return re;
 };
 
 const GET_TOKEN_QUERY = gql`
@@ -168,8 +172,9 @@ export const getTimeLeft = (expired: any): string => {
   }
 };
 
-export function getCondition(condition) {
-  switch (condition ? condition.toLowerCase() : '') {
+export function getCondition(condition: string) {
+  let lowercase = !condition ? '' : condition.toLowerCase();
+  switch (lowercase) {
     case 'new':
     case 'sealed':
     case 'brand new':
@@ -188,7 +193,6 @@ export function getCondition(condition) {
       break;
     case 'refurbished':
     case 'renewed':
-    case 'excellent - refurbished':
       condition = t('Refurbished');
       break;
     case 'parts':
@@ -221,6 +225,7 @@ export function getCondition(condition) {
       condition = t('LikeNew');
       break;
     case 'very good':
+    case 'excellent':
       condition = t('VeryGood');
       break;
     case 'good':
@@ -234,6 +239,10 @@ export function getCondition(condition) {
       condition = t('Parts');
       break;
     default:
+      if (lowercase.endsWith('refurbished')) {
+        condition =
+          condition.substring(0, condition.length - 11) + t('Refurbished');
+      }
       break;
   }
   return condition;
