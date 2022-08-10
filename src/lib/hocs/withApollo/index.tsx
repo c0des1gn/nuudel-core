@@ -80,10 +80,10 @@ const errorLink = onError(({ networkError, graphQLErrors }) => {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {
       if (
         !isServer &&
-        window.location.pathname !== '/admin/login' &&
+        window.location?.pathname !== '/admin/login' &&
         //(!!message && message.toLowerCase().indexOf('access denied') >= 0) ||
         !!extensions &&
-        extensions.code.toUpperCase() === 'UNAUTHENTICATED'
+        extensions.code?.toUpperCase() === 'UNAUTHENTICATED'
       ) {
         window.location.href = '/admin/login';
       }
