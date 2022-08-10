@@ -4,13 +4,13 @@ import Pica from 'pica';
 export function resizeImage(
   file: HTMLCanvasElement | HTMLImageElement | File | Blob | any,
   toWidth: number = 600, // pixel
-  maxSize: number = 204800, // 200kb
+  maxSize: number = 204800 // 200kb
 ) {
   return new Promise<string | Blob>((resolve, reject) => {
     let reader: any = new FileReader();
     //Read the contents of Image File.
     reader.readAsDataURL(file);
-    reader.onload = ev => {
+    reader.onload = (ev) => {
       //Initiate the JavaScript Image object.
       let img = new Image();
 
@@ -19,9 +19,8 @@ export function resizeImage(
         let width: number = img.width,
           height: number = img.height;
         const pica = Pica(); //require('pica')();
-        const resizedCanvas: HTMLCanvasElement = document.createElement(
-          'canvas',
-        );
+        const resizedCanvas: HTMLCanvasElement =
+          document.createElement('canvas');
         const mimeType = file.type || 'image/jpeg';
         toWidth = width < toWidth ? width : toWidth;
         resizedCanvas.width = toWidth;
@@ -41,7 +40,7 @@ export function resizeImage(
           resolve(
             pica
               .resize(img, resizedCanvas, options)
-              .then(result => pica.toBlob(result, mimeType, 0.75)),
+              .then((result) => pica.toBlob(result, mimeType, 0.75))
           );
         }
         resolve(file);
