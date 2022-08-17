@@ -27,7 +27,7 @@ export const signOut = (router?: any) => {
       clearTimeout(debounce);
       debounce = setTimeout(() => {
         if (router && router.push) {
-          router.push('/admin/login');
+          router.push('/admin/login', undefined, { shallow: true });
         } else if (!isServer) {
           window.location.href = '/admin/login';
         }
