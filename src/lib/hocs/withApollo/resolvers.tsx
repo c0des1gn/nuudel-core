@@ -53,7 +53,7 @@ export const resolvers: AppResolvers = {
 
       const data = {
         ...cacheData,
-        snackBarOpen: variables.msg !== '' ? !cacheData.snackBarOpen : false,
+        snackBarOpen: variables.msg !== '' ? !cacheData?.snackBarOpen : false,
         snackMsg: variables.msg,
         snackType: variables.type,
       };

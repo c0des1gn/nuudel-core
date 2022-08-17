@@ -18,7 +18,7 @@ const Message = () => {
           vertical: 'bottom',
           horizontal: 'right',
         }}
-        open={data.snackBarOpen}
+        open={Boolean(data?.snackBarOpen)}
         autoHideDuration={6000}
         onClose={() =>
           toggleSnackBar({ variables: { msg: '', type: 'success' } })
