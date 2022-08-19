@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.1.119",
+  "version": "0.1.121",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -13,7 +13,7 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/c0des1gn/nuudel-core/issues"
-  },
+  }, 
   "keywords": [
     "react",
     "reactjs",
@@ -56,10 +56,12 @@
     "node": ">=10"
   },
   "dependencies": {
+    "@apollo/client": "3.5.10",
+    "@apollo/react-hooks": "^4.0.0",
     "@ckeditor/ckeditor5-build-classic": "^34.1.0",
     "@ckeditor/ckeditor5-react": "^5.0.2",
     "@ckeditor/ckeditor5-source-editing": "^34.1.0",
-    "graphql": "^15.7.2",
+    "graphql": "15.7.2",
     "graphql-2-json-schema": "0.2.0",
     "i18next": "^21.6.6",
     "material-ui-chip-input": "^1.1.0",
@@ -76,7 +78,6 @@
     "schema-dts": "^0.8.3"
   },
   "devDependencies": {
-    "@apollo/react-hooks": "^4.0.0",
     "@ava/typescript": "^1.1.1",
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@material-ui/core": "^4.12.3",
@@ -92,7 +93,6 @@
     "@types/react-test-renderer": "^17.0.1",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
     "@typescript-eslint/parser": "^4.0.1",
-    "apollo-client": "^2.6.10",
     "ava": "^3.12.1",
     "codecov": "^3.5.0",
     "cspell": "^4.1.0",
@@ -120,8 +120,6 @@
     "typescript": "^4.0.2"
   },
   "peerDependencies": {
-    "@apollo/client": "^3.4.16",
-    "@apollo/react-hooks": "^4.0.0",
     "@material-ui/core": "^4.12.3",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/lab": "^4.0.0-alpha.60",
@@ -129,6 +127,9 @@
     "next": "^11.1.4",
     "react": "*",
     "swr": "^1.0.1"
+  },
+  "resolutions": {
+    "@apollo/react-hooks/@apollo/client": "3.5.10"
   },
   "files": [
     "build/main",
