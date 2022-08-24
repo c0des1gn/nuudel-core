@@ -42,7 +42,11 @@ export const withUser =
 
     const { data: fetchedUser, error } = useSWR<any, any>(
       !token || !!state?.type ? null : currentUserQuery,
-      fetcher
+      fetcher,
+      {
+        revalidateOnFocus: false,
+        revalidateIfStale: false,
+      }
     );
 
     useEffect(() => {
