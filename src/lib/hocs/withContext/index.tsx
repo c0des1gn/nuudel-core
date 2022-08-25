@@ -7,7 +7,7 @@ var initialState: any = {
   sort: '',
   view: ViewMode.List,
   theme: 'light',
-  filters: {},
+  //filters: {},
 };
 
 // Create a context for a user
