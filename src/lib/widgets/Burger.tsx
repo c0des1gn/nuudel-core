@@ -4,15 +4,14 @@ type Props = {
   active: boolean;
   onClick: () => void;
 };
-export default function Burger({ active, onClick }: Props) {
+export default function Burger({active, onClick}: Props) {
   return (
     <div
-      className={styles.burgerContainer + (active ? styles.burgerActive : '')}
-      onClick={onClick}
-    >
-      <div className={`${styles.burgerMeat} ${styles.firstMeat}`} />
-      <div className={`${styles.burgerMeat} ${styles.secondMeat}`} />
-      <div className={`${styles.burgerMeat} ${styles.thirdMeat}`} />
+      className={'burger-container' + (active ? 'burger-active' : '')}
+      onClick={onClick}>
+      <div className={`${'burger-meat'} ${'first-meat'}`} />
+      <div className={`${'burger-meat'} ${'second-meat'}`} />
+      <div className={`${'burger-meat'} ${'third-meat'}`} />
     </div>
   );
 }

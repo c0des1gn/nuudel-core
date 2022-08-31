@@ -4,6 +4,7 @@ import Copyright from './Copyright';
 //import Date from './Date';
 import Layout from './Layout';
 import Navigation from './Navigation';
+import type { ICategory } from './Navigation';
 import Pagination from './Pagination';
 import PostItem from './PostItem';
 import PostLayout from './PostLayout';
@@ -35,4 +36,5 @@ export {
   JsonLdMeta,
   OpenGraphMeta,
   TwitterCardMeta,
+  ICategory,
 };

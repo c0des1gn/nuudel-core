@@ -1,5 +1,5 @@
 import React from 'react';
-import { IPostContent, ITagContent } from '../library/IBlog';
+import {IPostContent, ITagContent} from '../library/IBlog';
 import PostItem from './PostItem';
 import Pagination from './Pagination';
 import styles from './styles.module.scss';
@@ -14,14 +14,14 @@ interface Props {
 }
 export default function TagPostList({
   posts = [],
-  tag = { name: '', slug: '' },
+  tag = {name: '', slug: ''},
   pagination = {
     current: 1,
     pages: 1,
   },
 }: Props) {
   return (
-    <div className={styles.widgetTagPostContainer}>
+    <div className={'widget-tag-post-container'}>
       <h1>
         All posts / <span>{tag.name}</span>
       </h1>
@@ -37,7 +37,7 @@ export default function TagPostList({
         pages={pagination.pages}
         link={{
           href: () => '/posts/tags/[[...slug]]',
-          as: (page) =>
+          as: page =>
             page === 1
               ? '/posts/tags/' + tag.slug
               : `/posts/tags/${tag.slug}/${page}`,

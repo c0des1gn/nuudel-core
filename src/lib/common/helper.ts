@@ -256,3 +256,9 @@ export const parseCookie = (str: string): any =>
       acc[decodeURIComponent(v[0]?.trim())] = decodeURIComponent(v[1]?.trim());
       return acc;
     }, {}) || {};
+
+export const getTextFromHtml = (html: string): string => {
+  var div = document.createElement('div');
+  div.innerHTML = html;
+  return div.textContent || div.innerText;
+};

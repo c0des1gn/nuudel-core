@@ -7,9 +7,9 @@ import BasicMeta from './meta/BasicMeta';
 import JsonLdMeta from './meta/JsonLdMeta';
 import OpenGraphMeta from './meta/OpenGraphMeta';
 import TwitterCardMeta from './meta/TwitterCardMeta';
-import { SocialList } from './SocialList';
+import {SocialList} from './SocialList';
 import TagButton from './TagButton';
-import { ITagContent } from '../library/IBlog';
+import {ITagContent} from '../library/IBlog';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -33,10 +33,10 @@ export default function PostLayout({
   withCopyright = false,
 }: Props) {
   tags = !tags ? [] : tags;
-  const keywords = tags.map((it) => it.name);
+  const keywords = tags.map(it => it.name);
   const authorName = author;
   return (
-    <Layout>
+    <>
       <BasicMeta
         url={`/posts/${slug}`}
         title={title}
@@ -61,35 +61,33 @@ export default function PostLayout({
         author={authorName}
         description={description}
       />
-      <div className={styles.widgetPostContainer}>
+      <div className={'widget-post-container'}>
         <article>
           <header>
-            <h1>{title}</h1>
-            <div className={styles.widgetPostMetadata}>
-              <div>
+            <h1 className="post-title">{title}</h1>
+            <div className={'widget-post-metadata'}>
+              <p>
                 <Date date={date} />
-              </div>
-              <div>
+              </p>
+              <p>
                 <Author author={authorName} />
-              </div>
+              </p>
             </div>
           </header>
-          <div className={styles.widgetPostContent}>{children}</div>
-          <ul className={styles.tagList}>
+          <div className={'widget-post-content'}>{children}</div>
+          <div className={'tagList'}>
             {tags.map((it, i) => (
-              <li key={i}>
-                <TagButton tag={it} />
-              </li>
+              <TagButton key={i} tag={it} />
             ))}
-          </ul>
+          </div>
         </article>
         <footer>
-          <div className={styles.socialList}>
+          <div className={'social-list'}>
             <SocialList />
           </div>
           {!!withCopyright && <Copyright />}
         </footer>
       </div>
-    </Layout>
+    </>
   );
 }
