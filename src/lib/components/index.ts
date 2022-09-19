@@ -32,6 +32,7 @@ import NumberFormatInput from './NumberFormatInput';
 import Upload from './Upload';
 import MultiSelect from './MultiSelect';
 import ReCaptcha from './ReCaptcha';
+import ColorPicker from './ColorPicker';
 import Message, {
   SNACKBAR_STATE_QUERY,
   TOGGLE_SNACKBAR_MUTATION,
@@ -74,6 +75,7 @@ export {
   Upload,
   MultiSelect,
   ReCaptcha,
+  ColorPicker,
 };
 
 export type { MessageBarType, INotificationMessages };
