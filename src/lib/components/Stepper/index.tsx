@@ -2,10 +2,16 @@ import React from 'react';
 import { Stepper, StepperProps, Step, StepLabel } from '@material-ui/core';
 import { t } from '../../loc/i18n';
 
+interface IStepperItem {
+  value: string | any;
+  label: string;
+  //icon?: React.ReactNode;
+}
+
 interface IStepperProps extends StepperProps {
   status: string;
   step?: number;
-  steps: string[];
+  steps: string[] | IStepperItem[];
   failedSteps: string[];
 }
 
@@ -32,17 +38,24 @@ const Steppers: React.FC<IStepperProps> = ({
       alternativeLabel
       style={{ width: '100%' }}
     >
-      {steps.map((label, index) => {
+      {steps.map((item, index: number) => {
         const stepProps: { completed?: boolean } = {};
         const labelProps: {
           error?: boolean;
         } = {};
-        if (isStepFailed(label, failedSteps)) {
+        if (
+          isStepFailed(
+            typeof item === 'string' ? item : item?.value,
+            failedSteps
+          )
+        ) {
           labelProps.error = true;
         }
         return (
-          <Step key={label} {...stepProps}>
-            <StepLabel {...labelProps}>{t(label)}</StepLabel>
+          <Step key={index} {...stepProps}>
+            <StepLabel {...labelProps}>
+              {typeof item === 'string' ? t(item) : item?.label}
+            </StepLabel>
           </Step>
         );
       })}
