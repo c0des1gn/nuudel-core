@@ -98,7 +98,7 @@ function getStorage(name: string): string | null {
   return cookie;
 }
 
-function setCookie(name: string, value: any, days: number = 365) {
+export function setCookie(name: string, value: any, days: number = 365) {
   var expires = '';
   if (days) {
     var date = new Date();
@@ -119,7 +119,7 @@ function checkCookie(test: boolean = true) {
   return cookieEnabled;
 }
 
-function getCookie(name: string): string | null {
+export function getCookie(name: string): string | null {
   var nameEQ = name + '=';
   try {
     var ca = document.cookie.split(';');
