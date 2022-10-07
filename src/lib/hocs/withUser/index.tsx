@@ -10,16 +10,16 @@ import { UI } from '../../common/UI';
 import { fetcher } from '../../services/fetcher';
 import { ICurrentUser } from '../../common/Interfaces';
 import { currentUserQuery } from './Query';
-import { USER_ID, USER_TOKEN, USER_KEY } from 'nuudel-utils';
+import { USER_TOKEN, tokenObj, USER_ID } from 'nuudel-utils';
 import useSWR from 'swr';
-/*
+//*
 import Router from 'next/router';
 function getRedirectTo() {
   if (typeof window !== 'undefined' && window?.location) {
     return window.location;
   }
   return {};
-}// */
+} // */
 
 // Declaring the state object globally.
 var initialState: any = {};
@@ -30,14 +30,26 @@ UserContext.displayName = 'userContext';
 
 export const withUser =
   (WrappedComponent: ComponentType | any) => (props: any) => {
-    const token = UI.getItem(USER_TOKEN);
+    let token = UI.getItem(USER_TOKEN);
     const userId = UI.getItem(USER_ID);
-    const username = UI.getItem(USER_KEY);
+    let cuser: any = { _id: null, username: null, email: null };
+    const obj = tokenObj(token);
+    if (
+      obj?._id &&
+      userId === obj._id &&
+      obj?.exp > Math.ceil(Date.now() / 1000)
+    ) {
+      cuser = {
+        _id: obj._id,
+        username: obj.username,
+        email: obj.email,
+        //type: obj.type, // security эрсдэлтэй тул тайлбар болгов
+      };
+    }
+
     const [state, dispatch] = useReducer(reducer, {
       ...initialState,
-      _id: userId,
-      email: username?.includes('@') ? username : null,
-      username: !username?.includes('@') ? username : null,
+      ...cuser,
     });
 
     const { data: fetchedUser, error } = useSWR<any, any>(
@@ -56,23 +68,20 @@ export const withUser =
       }
     );
 
+    if (token && error && error.message?.includes('not logged')) {
+      const redir: any = getRedirectTo();
+      Router.replace(
+        `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`,
+        '/admin/login',
+        { shallow: true }
+      );
+    }
+
     useEffect(() => {
       if (fetchedUser?.data?.currentUser) {
         dispatch(fetchedUser.data.currentUser);
       }
     }, [fetchedUser]);
-    /*
-    useEffect(() => {
-      const redir: any = getRedirectTo();
-      if (token && userId) {
-      } else {
-        Router.replace(
-          `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`,
-          '/admin/login',
-          { shallow: true }
-        );
-      }
-    }, []); // */
 
     return (
       <UserContext.Provider value={state}>

@@ -48,6 +48,7 @@ export interface IDialogProps extends DialogProps {
   children?: any;
   //show: boolean;
   fullScreen?: boolean;
+  fullWidth?: boolean;
   maxWidth?: false | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   onOpen?(): void;
   onClose?(): void;
@@ -93,6 +94,7 @@ const DialogBasic: FunctionComponent<IDialogProps> = ({
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-content"
         maxWidth={props.maxWidth}
+        fullWidth={props.fullWidth}
         fullScreen={props.fullScreen}
       >
         <DialogTitle id="alert-dialog-title" className={classes.title}>
