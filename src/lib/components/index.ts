@@ -34,6 +34,7 @@ import MultiSelect from './MultiSelect';
 import ReCaptcha from './ReCaptcha';
 import ColorPicker from './ColorPicker';
 import useLongPress from './useLongPress';
+import useStateIfMounted from './useStateIfMounted';
 import Message, {
   SNACKBAR_STATE_QUERY,
   TOGGLE_SNACKBAR_MUTATION,
@@ -78,6 +79,7 @@ export {
   ReCaptcha,
   ColorPicker,
   useLongPress,
+  useStateIfMounted,
 };
 
 export type { MessageBarType, INotificationMessages };

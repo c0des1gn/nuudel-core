@@ -46,6 +46,13 @@ export const withUser =
       {
         revalidateOnFocus: false,
         revalidateIfStale: false,
+        revalidateOnReconnect: false,
+        loadingTimeout: 10000,
+        focusThrottleInterval: 0,
+        dedupingInterval: 10000,
+        errorRetryInterval: 10000,
+        errorRetryCount: 1,
+        shouldRetryOnError: false,
       }
     );
 
