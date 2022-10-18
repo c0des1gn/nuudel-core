@@ -31,7 +31,7 @@ const DisplayError = ({ ...props }) => {
       <ErrorStyles key={i}>
         <p data-test="graphql-error">
           <strong>Shoot!</strong>
-          {error.message.replace('GraphQL error: ', '')}
+          {error.message?.replace('GraphQL error: ', '')}
         </p>
       </ErrorStyles>
     ));
@@ -40,7 +40,7 @@ const DisplayError = ({ ...props }) => {
     <ErrorStyles>
       <p data-test="graphql-error">
         <strong>{'Shoot!'}</strong>
-        {error.message.replace('GraphQL error: ', '')}
+        {error.message?.replace('GraphQL error: ', '')}
       </p>
       <Snackbar
         anchorOrigin={{
