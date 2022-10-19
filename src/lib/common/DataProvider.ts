@@ -130,7 +130,10 @@ export default class DataProvider implements IDataProvider {
     return true;
   }
 
-  public async getFields(listname: string): Promise<any[]> {
+  public async getFields(
+    listname: string,
+    callback?: Function
+  ): Promise<any[]> {
     const fieldsSchema = await this._lfs.getFieldSchemasForForm(listname);
     const fields = fieldsSchema
       .filter(
@@ -196,13 +199,15 @@ export default class DataProvider implements IDataProvider {
             return !dat ? '--' : decodeHTML(dat);
           };
         } else if (field.InternalName.includes('.')) {
-          f['getCellValue'] = (row) => {
-            const dat = field.InternalName.split('.').reduce(
-              (d, f) => (!d[f] ? d : d[f]),
-              row
-            );
-            return !dat || typeof dat === 'object' ? '--' : dat;
-          };
+          f['getCellValue'] = !callback
+            ? (row) => {
+                const dat = field.InternalName.split('.').reduce(
+                  (d, f) => (!d[f] ? d : d[f]),
+                  row
+                );
+                return !dat || typeof dat === 'object' ? '--' : dat;
+              }
+            : (row) => callback(row, field.InternalName);
         }
 
         return f;
