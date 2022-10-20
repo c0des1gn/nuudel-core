@@ -140,8 +140,8 @@ export default class DataProvider implements IDataProvider {
         (field) =>
           !!field.FieldType &&
           (field.FieldType !== 'Object' || !!callback) &&
-          field.InternalName.indexOf('.createdAt') < 0 &&
-          field.InternalName.indexOf('.updatedAt') < 0
+          !field.InternalName?.endsWith('.createdAt') &&
+          !field.InternalName?.endsWith('.updatedAt')
       )
       .map((field) => {
         let f = {
@@ -198,9 +198,10 @@ export default class DataProvider implements IDataProvider {
               : row[field.InternalName];
             return !dat ? '--' : decodeHTML(dat);
           };
-        } else if (field.FieldType === 'Object') {
-          f['getCellValue'] = (row) => callback(row, field.InternalName);
-        } else if (field.InternalName.includes('.')) {
+        } else if (
+          field.InternalName.includes('.') ||
+          field.FieldType === 'Object'
+        ) {
           f['getCellValue'] = !callback
             ? (row) => {
                 const dat = field.InternalName.split('.').reduce(
