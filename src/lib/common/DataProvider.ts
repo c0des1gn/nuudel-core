@@ -139,7 +139,7 @@ export default class DataProvider implements IDataProvider {
       .filter(
         (field) =>
           !!field.FieldType &&
-          field.FieldType !== 'Object' &&
+          (field.FieldType !== 'Object' || !!callback) &&
           field.InternalName.indexOf('.createdAt') < 0 &&
           field.InternalName.indexOf('.updatedAt') < 0
       )
@@ -198,7 +198,10 @@ export default class DataProvider implements IDataProvider {
               : row[field.InternalName];
             return !dat ? '--' : decodeHTML(dat);
           };
-        } else if (field.InternalName.includes('.')) {
+        } else if (
+          field.InternalName.includes('.') ||
+          field.FieldType === 'Object'
+        ) {
           f['getCellValue'] = !callback
             ? (row) => {
                 const dat = field.InternalName.split('.').reduce(
@@ -209,7 +212,6 @@ export default class DataProvider implements IDataProvider {
               }
             : (row) => callback(row, field.InternalName);
         }
-
         return f;
       });
 
