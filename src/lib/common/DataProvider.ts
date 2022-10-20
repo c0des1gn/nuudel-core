@@ -198,6 +198,8 @@ export default class DataProvider implements IDataProvider {
               : row[field.InternalName];
             return !dat ? '--' : decodeHTML(dat);
           };
+        } else if (field.FieldType === 'Object') {
+          f['getCellValue'] = (row) => callback(row, field.InternalName);
         } else if (field.InternalName.includes('.')) {
           f['getCellValue'] = !callback
             ? (row) => {
@@ -208,8 +210,6 @@ export default class DataProvider implements IDataProvider {
                 return !dat || typeof dat === 'object' ? '--' : dat;
               }
             : (row) => callback(row, field.InternalName);
-        } else if (field.FieldType === 'Object') {
-          f['getCellValue'] = (row) => callback(row, field.InternalName);
         }
         return f;
       });
