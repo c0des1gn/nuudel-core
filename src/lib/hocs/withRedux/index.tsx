@@ -3,7 +3,7 @@ import { Provider } from 'react-redux';
 import { createStore } from '../../redux/store/';
 import { sign_in, updateProp } from '../../redux/actions/user';
 import { initialState } from '../../redux/reducers/User';
-import { USER_TOKEN, USER_ID } from 'nuudel-utils';
+import { USER_TOKEN, tokenObj } from 'nuudel-utils';
 import { I8, changeLanguage } from '../../loc/i18n';
 import UI from '../../common/UI';
 import { Language } from 'nuudel-utils';
@@ -13,8 +13,8 @@ export const store = createStore();
 export const initStore = async (lfs, user: any = undefined) => {
   const state = store.getState();
   if (typeof state.user === 'undefined' || !state.user.token) {
-    const userId = UI.getItem(USER_ID);
     const token = UI.getItem(USER_TOKEN);
+    const userId: string | null = tokenObj(token)?._id || null;
     if (userId !== null) {
       let usr: any = state.user || initialState;
       if (userId) {

@@ -10,7 +10,7 @@ import { UI } from '../../common/UI';
 import { fetcher } from '../../services/fetcher';
 import { ICurrentUser } from '../../common/Interfaces';
 import { currentUserQuery } from './Query';
-import { USER_TOKEN, tokenObj, USER_ID } from 'nuudel-utils';
+import { USER_TOKEN, tokenObj } from 'nuudel-utils';
 import useSWR from 'swr';
 //*
 import Router from 'next/router';
@@ -31,14 +31,9 @@ UserContext.displayName = 'userContext';
 export const withUser =
   (WrappedComponent: ComponentType | any) => (props: any) => {
     let token = UI.getItem(USER_TOKEN);
-    const userId = UI.getItem(USER_ID);
     let cuser: any = { _id: null, username: null, email: null };
     const obj = tokenObj(token);
-    if (
-      obj?._id &&
-      userId === obj._id &&
-      obj?.exp > Math.ceil(Date.now() / 1000)
-    ) {
+    if (obj?._id && obj?.exp > Math.ceil(Date.now() / 1000)) {
       cuser = {
         _id: obj._id,
         username: obj.username,

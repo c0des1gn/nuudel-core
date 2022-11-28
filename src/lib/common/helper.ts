@@ -189,6 +189,7 @@ export function getCondition(condition: string) {
       break;
     case 'openbox':
     case 'open box':
+      case 'open_box':
       condition = t('OpenBox');
       break;
     case 'refurbished':
@@ -204,6 +205,8 @@ export function getCondition(condition: string) {
     case 'collectible':
       condition = t('Collectible');
       break;
+    //case 'unknown': break; //  club | oem
+    case 'other':
     case 'new other (see details)':
     case 'new without tags':
     case 'new without box':
@@ -221,9 +224,12 @@ export function getCondition(condition: string) {
     case 'certified refurbished':
       condition = t('SellerRefurbished');
       break;
-    case 'like new':
+      
+    case 'like_new':
+      case 'like new':
       condition = t('LikeNew');
       break;
+      case 'very_good':
     case 'very good':
     case 'excellent':
       condition = t('VeryGood');
