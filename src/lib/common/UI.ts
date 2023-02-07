@@ -88,8 +88,13 @@ export class UI {
     callback?: (error?: Error) => void
   ): void => {
     try {
-      type === 'cookie' ? eraseCookie(key) : localStorage.removeItem(key);
-    } catch {}
+      // @ts-ignore
+      if (type === 'cookie' || typeof localStorage === 'undefined')
+        eraseCookie(key);
+      else localStorage.removeItem(key);
+    } catch {
+      type === 'cookie' ? localStorage?.removeItem(key) : eraseCookie(key);
+    }
     if (callback) {
       callback();
     }
