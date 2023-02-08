@@ -52,7 +52,7 @@ export class UI {
     let data: string | null = null;
     // @ts-ignore
     if (isServer || typeof localStorage === 'undefined') {
-      type === 'cookie';
+      type = 'cookie';
     }
     data = type === 'cookie' ? getCookie(key) : getStorage(key);
     if (!data && type === 'localStorage') {
@@ -73,10 +73,12 @@ export class UI {
     // @ts-ignore
     if (
       isServer ||
-      (typeof localStorage === 'undefined' && checkCookie()) ||
-      USER_TOKEN === key
+      USER_TOKEN === key ||
+      (type !== 'cookie' &&
+        typeof localStorage === 'undefined' &&
+        checkCookie())
     ) {
-      type === 'cookie';
+      type = 'cookie';
     }
     type === 'cookie' ? setCookie(key, value) : setStorage(key, value);
     if (callback) {
