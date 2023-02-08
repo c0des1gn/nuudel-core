@@ -71,7 +71,11 @@ export class UI {
     callback?: (error?: Error) => void
   ): void => {
     // @ts-ignore
-    if (isServer || (typeof localStorage === 'undefined' && checkCookie())) {
+    if (
+      isServer ||
+      (typeof localStorage === 'undefined' && checkCookie()) ||
+      USER_TOKEN === key
+    ) {
       type === 'cookie';
     }
     type === 'cookie' ? setCookie(key, value) : setStorage(key, value);
@@ -135,15 +139,27 @@ export function getCookie(name: string): string | null {
   return null;
 }
 
-export function setCookie(name: string, value: any, days: number = 365) {
-  var expires = '';
+export function setCookie(
+  name: string,
+  value: any,
+  days: number = 365,
+  Secure = false,
+  HttpOnly = false
+) {
+  var cook = [name + '=' + (value || ''), 'path=/'];
   if (days) {
     var date = new Date();
     date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
-    expires = '; expires=' + date.toUTCString();
+    cook.push('expires=' + date.toUTCString());
+  }
+  if (Secure) {
+    cook.push('Secure');
+  }
+  if (HttpOnly) {
+    cook.push('HttpOnly');
   }
   try {
-    document.cookie = name + '=' + (value || '') + expires + '; path=/';
+    document.cookie = cook.join('; ');
   } catch {}
 }
 
