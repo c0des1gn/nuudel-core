@@ -74,9 +74,7 @@ export class UI {
     if (isServer || (typeof localStorage === 'undefined' && checkCookie())) {
       type === 'cookie';
     }
-
     type === 'cookie' ? setCookie(key, value) : setStorage(key, value);
-
     if (callback) {
       callback();
     }
@@ -84,17 +82,14 @@ export class UI {
 
   public static removeItem = (
     key: string,
-    type: storageType = defaultType,
     callback?: (error?: Error) => void
   ): void => {
     try {
-      // @ts-ignore
-      if (type === 'cookie' || typeof localStorage === 'undefined')
-        eraseCookie(key);
-      else localStorage.removeItem(key);
-    } catch {
-      type === 'cookie' ? localStorage?.removeItem(key) : eraseCookie(key);
-    }
+      eraseCookie(key);
+    } catch {}
+    try {
+      localStorage.removeItem(key);
+    } catch {}
     if (callback) {
       callback();
     }
@@ -123,7 +118,7 @@ function getStorage(name: string): string | null {
 function setStorage(name: string, value: any) {
   // @ts-ignore
   if (typeof localStorage !== 'undefined') {
-    localStorage?.setItem(name, value);
+    localStorage.setItem(name, value);
   }
 }
 
