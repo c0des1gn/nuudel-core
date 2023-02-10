@@ -4,7 +4,7 @@ import Pica from 'pica';
 export function resizeImage(
   file: HTMLCanvasElement | HTMLImageElement | File | Blob | any,
   toWidth: number = 600, // pixel
-  maxSize: number = 204800 // 200kb
+  maxSize: number = 307200 // 300kb
 ) {
   return new Promise<string | Blob>((resolve, reject) => {
     let reader: any = new FileReader();

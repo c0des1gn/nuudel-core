@@ -28,17 +28,17 @@ interface IUploadProps {
   toWidth?: number;
 }
 
-const Upload: React.FC<IUploadProps> = ({ ...props }) => {
-  const {
-    uploaded = [],
-    label = '',
-    multiple = true,
-    disabled = false,
-    minSize = undefined,
-    maxSize = 10048576,
-    maxFiles = 20,
-    accept = 'image/*',
-  } = props;
+const Upload: React.FC<IUploadProps> = ({
+  uploaded = [],
+  label = '',
+  multiple = true,
+  disabled = false,
+  minSize = undefined,
+  maxSize = 10048576,
+  maxFiles = 20,
+  accept = 'image/*',
+  ...props
+}) => {
   const classes = useStyles();
   interface ImageProperties {
     uri: string;
@@ -102,7 +102,10 @@ const Upload: React.FC<IUploadProps> = ({ ...props }) => {
           url: uploadUrl, //'/c_crop,g_north,h_600,w_600'
           method: 'post',
           data: data,
-          headers: { ...(isDirect ? await UI.headers() : {}) },
+          headers: {
+            toWidth: props.toWidth,
+            ...(isDirect ? await UI.headers() : {}),
+          },
         });
         if (r && r.data) {
           let res: any = r.data;
