@@ -1,4 +1,4 @@
-import { Permission } from 'nuudel-utils';
+import { Permission, Language, Currency } from 'nuudel-utils';
 
 export interface IWarehouse {
   _id: string;
@@ -18,11 +18,19 @@ export interface IPermission {
 }
 
 export interface IPartner {
+  //custom?: boolean;
   vehicle?: string;
   section: boolean;
   regular: number;
   express: number;
   warehouseId?: string;
+}
+
+export interface ISettings {
+  notification: boolean;
+  currency: Currency;
+  locale: Language;
+  _devices?: string[];
 }
 
 export interface ICurrentUser {
@@ -37,6 +45,7 @@ export interface ICurrentUser {
   permission: IPermission[];
   phone: string;
   mobile: string;
+  settings?: ISettings;
   _partner?: IPartner;
 }
 

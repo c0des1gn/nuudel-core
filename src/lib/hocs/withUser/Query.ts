@@ -14,6 +14,12 @@ export const currentUserQuery = `query CurrentUser {
       }
       phone
       mobile
+      settings {
+        notification
+        currency
+        locale
+        _devices
+      }
     }
   }
   `;
