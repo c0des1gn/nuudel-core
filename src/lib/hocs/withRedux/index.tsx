@@ -6,7 +6,7 @@ import { initialState } from '../../redux/reducers/User';
 import { USER_TOKEN, tokenObj } from 'nuudel-utils';
 import { I8, changeLanguage } from '../../loc/i18n';
 import UI from '../../common/UI';
-import { Language } from 'nuudel-utils';
+import { Language, isServer } from 'nuudel-utils';
 import { currentUserQuery } from '../../../lib/hocs/withUser/Query';
 
 export const store = createStore();
@@ -42,8 +42,13 @@ export const initStore = async (lfs: any, user: any = undefined) => {
           status: user?._status || usr?.status || 'Active',
         };
       }
-      const locale = !usr.locale ? 'mn-MN' : Language[usr.locale];
-      if (I8.language !== locale) {
+      const locale =
+        (!usr?.locale
+          ? undefined
+          : usr?.locale.includes('-')
+          ? usr.locale
+          : Language[usr.locale]) || 'mn-MN';
+      if (!isServer && I8.language !== locale) {
         changeLanguage(locale);
       }
       store.dispatch(
