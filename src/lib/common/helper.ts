@@ -9,6 +9,7 @@ import {
   USER_LANG,
   isServer,
   getMinLeft,
+  Language,
 } from 'nuudel-utils';
 import gql from 'graphql-tag';
 import UI from '../common/UI';
@@ -189,7 +190,7 @@ export function getCondition(condition: string) {
       break;
     case 'openbox':
     case 'open box':
-      case 'open_box':
+    case 'open_box':
       condition = t('OpenBox');
       break;
     case 'refurbished':
@@ -224,12 +225,12 @@ export function getCondition(condition: string) {
     case 'certified refurbished':
       condition = t('SellerRefurbished');
       break;
-      
+
     case 'like_new':
-      case 'like new':
+    case 'like new':
       condition = t('LikeNew');
       break;
-      case 'very_good':
+    case 'very_good':
     case 'very good':
     case 'excellent':
       condition = t('VeryGood');
@@ -267,4 +268,14 @@ export const getTextFromHtml = (html: string): string => {
   var div = document.createElement('div');
   div.innerHTML = html;
   return div.textContent || div.innerText;
+};
+
+export const getLanguage = (locale: string) => {
+  return (
+    (!locale
+      ? undefined
+      : locale.includes('-') && locale.length === 5
+      ? locale
+      : Language[locale]) || 'mn-MN'
+  );
 };

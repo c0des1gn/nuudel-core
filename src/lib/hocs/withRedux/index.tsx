@@ -8,6 +8,7 @@ import { I8, changeLanguage } from '../../loc/i18n';
 import UI from '../../common/UI';
 import { Language, isServer } from 'nuudel-utils';
 import { currentUserQuery } from '../../../lib/hocs/withUser/Query';
+import { getLanguage } from '../../common/helper';
 
 export const store = createStore();
 
@@ -42,20 +43,15 @@ export const initStore = async (lfs: any, user: any = undefined) => {
           status: user?._status || usr?.status || 'Active',
         };
       }
-      const locale =
-        (!usr?.locale
-          ? undefined
-          : usr?.locale.includes('-')
-          ? usr.locale
-          : Language[usr.locale]) || 'mn-MN';
+      const locale = getLanguage(usr?.locale);
       if (!isServer && I8.language !== locale) {
         changeLanguage(locale);
       }
       store.dispatch(
         sign_in({
           userId: userId,
-          currency: usr.currency,
-          locale: Language[usr.locale],
+          currency: usr.currency || 'MNT',
+          locale: locale,
           token: token,
           type: usr.type,
           status: usr.status,
