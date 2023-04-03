@@ -164,7 +164,7 @@ export default withApollo(
   {
     render: ({ Page, props }) => {
       return (
-        <ApolloProvider client={props.apollo}>
+        <ApolloProvider client={props?.apollo}>
           <Page {...props} />
         </ApolloProvider>
       );

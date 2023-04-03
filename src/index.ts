@@ -20,6 +20,7 @@ import {
   IPartner,
   ICurrentUser,
   IAppProps,
+  ReduxProps,
 } from './lib/common/Interfaces';
 
 import {
@@ -86,6 +87,7 @@ export type {
   IListBaseState,
   IProviderBase,
   IProviderItems,
+  ReduxProps,
 };
 
 // Components

@@ -7,26 +7,39 @@ import { USER_TOKEN, tokenObj } from 'nuudel-utils';
 import { I8, changeLanguage } from '../../loc/i18n';
 import UI from '../../common/UI';
 import { Language } from 'nuudel-utils';
+import { currentUserQuery } from '../../../lib/hocs/withUser/Query';
 
 export const store = createStore();
 
-export const initStore = async (lfs, user: any = undefined) => {
+export const initStore = async (lfs: any, user: any = undefined) => {
   const state = store.getState();
   if (typeof state.user === 'undefined' || !state.user.token) {
     const token = UI.getItem(USER_TOKEN);
     const userId: string | null = tokenObj(token)?._id || null;
     if (userId !== null) {
       let usr: any = state.user || initialState;
-      if (userId) {
-        if (!user) {
-          user = await lfs.itemById('User', userId);
-        }
+      if (userId && !!lfs?.itemById) {
+        try {
+          if (!user) {
+            user = await lfs.itemById('User', userId);
+          } else if (!user && token && lfs?.client) {
+            const r = await lfs.client.query({
+              query: currentUserQuery,
+              variables: {},
+              fetchPolicy: 'no-cache',
+            });
+            user = r?.data?.currentUser;
+          }
+        } catch {}
+
         usr = {
           ...usr,
-          type: user.type || 'Guest',
-          currency: !user.settings ? 'MNT' : user.settings.currency,
-          locale: !user.settings ? 'mn-MN' : user.settings.locale,
-          status: user._status || 'Active',
+          type: user?.type || usr?.type || 'Guest',
+          currency:
+            (!user?.settings ? usr?.currency : user.settings.currency) || 'MNT',
+          locale:
+            (!user?.settings ? usr?.locale : user.settings.locale) || 'mn-MN',
+          status: user?._status || usr?.status || 'Active',
         };
       }
       const locale = !usr.locale ? 'mn-MN' : Language[usr.locale];

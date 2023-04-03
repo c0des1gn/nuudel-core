@@ -16,5 +16,12 @@ export const fetcher = async (
       query: query,
       variables: variables,
     },
-    headers: { ...(!isServer ? await UI.headers() : {}), ...headers },
+    headers: {
+      ...(!isServer
+        ? await UI.headers()
+        : !process?.env?.TOKEN
+        ? {}
+        : { Authorization: `Bearer ${process.env.TOKEN}` }),
+      ...headers,
+    },
   }).then((res) => res.data);

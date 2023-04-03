@@ -1,4 +1,8 @@
 import { Permission, Language, Currency } from 'nuudel-utils';
+import { Dispatch } from 'redux';
+import { IRootState } from '../redux/store';
+//import { ApolloClient } from '@apollo/client';
+//import { IListFormService } from '../services/IListFormService';
 
 export interface IWarehouse {
   _id: string;
@@ -54,4 +58,18 @@ export interface IAppProps {
   pathname: any;
   user?: ICurrentUser;
   IsDlg?: boolean;
+}
+
+//export interface ApolloProps extends ReduxProps {
+//  client: ApolloClient<any>;
+//  lfs: IListFormService;
+//}
+
+export interface ReduxProps {
+  dispatch: Dispatch<any>;
+  store: IRootState;
+  sign_out?(): void;
+  sign_in?(obj: any): void;
+  updateProp(prop: string, value: any): void;
+  updateProps(obj: any): void;
 }

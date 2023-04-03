@@ -20,7 +20,7 @@ export interface IUserProps {
   token: string;
   type: string;
   filters: any;
-  market: MarketType;
+  market?: MarketType;
   theme: Theme;
   status: string;
 }
