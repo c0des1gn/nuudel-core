@@ -1,4 +1,4 @@
-export const reducer = (state, action): any => {
+export const reducer = (state, action, initialState: any = {}): any => {
   if (action.type === 'set' && action.payload?.prop) {
     if (action.payload.key) {
       state = {
@@ -31,7 +31,7 @@ export const reducer = (state, action): any => {
   } else if (action.type === 'remove' && action.payload?.key) {
     delete state[action.payload.key];
   } else if (action.type === 'reset') {
-    state = {}; // {...initialState}
+    state = { ...initialState };
   } else if (typeof action === 'object' && (!action.type || !!action._id)) {
     // assign
     state = {
