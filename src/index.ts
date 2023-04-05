@@ -44,6 +44,7 @@ export {
   QUERY,
   typeDefs,
   resolvers,
+  reducer,
 } from './lib/hocs';
 export {
   ListFormService,
