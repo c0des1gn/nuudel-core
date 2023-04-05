@@ -3,6 +3,7 @@ import withApollo from './withApollo';
 import { QUERY, typeDefs, resolvers } from './withApollo/resolvers';
 import withUser, { useAuth } from './withUser';
 import withContext, { Context } from './withContext';
+import { reducer } from './withContext/reducer';
 
 export {
   withRedux,
@@ -16,4 +17,5 @@ export {
   typeDefs,
   resolvers,
   store,
+  reducer,
 };

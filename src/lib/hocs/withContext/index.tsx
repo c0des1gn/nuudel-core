@@ -1,4 +1,9 @@
-import React, { useReducer, createContext, ComponentType } from 'react';
+import React, {
+  useReducer,
+  createContext,
+  ComponentType,
+  useContext,
+} from 'react';
 import { ViewMode } from 'nuudel-utils';
 import { reducer } from './reducer';
 
@@ -13,6 +18,7 @@ var initialState: any = {
 // Create a context for a user
 export const Context = createContext(initialState);
 Context.displayName = 'mainContext';
+//export const useComponents = () => useContext(Context);
 
 export const withContext =
   (WrappedComponent: ComponentType | any) => (props: any) => {
