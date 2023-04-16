@@ -9,7 +9,7 @@ function Alert(props) {
 }
 
 const Message = () => {
-  const { data, error, loading } = useQuery(SNACKBAR_STATE_QUERY);
+  const { data, loading } = useQuery(SNACKBAR_STATE_QUERY);
   const [toggleSnackBar] = useMutation(TOGGLE_SNACKBAR_MUTATION);
   if (!loading && data) {
     return (

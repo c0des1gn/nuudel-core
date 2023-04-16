@@ -24,6 +24,15 @@ export const QUERY = gql`
   }
 `;
 
+export const initData = {
+  isLeftDrawerOpen: false,
+  snackMsg: '', // 'default'
+  snackType: 'success',
+  snackBarOpen: false,
+  leftDrawerWidth: 260,
+  isConnected: true,
+};
+
 type ResolverFn = (
   parent: any,
   args: any,
@@ -52,6 +61,7 @@ export const resolvers: AppResolvers = {
       });
 
       const data = {
+        ...initData,
         ...cacheData,
         snackBarOpen: variables.msg !== '' ? !cacheData?.snackBarOpen : false,
         snackMsg: variables.msg,

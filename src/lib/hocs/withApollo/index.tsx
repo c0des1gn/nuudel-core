@@ -16,7 +16,7 @@ import UI from '../../common/UI';
 import { isServer } from 'nuudel-utils';
 import { onErrors } from '../../common/helper';
 import withApollo from 'next-with-apollo';
-import { resolvers, typeDefs, QUERY } from './resolvers';
+import { resolvers, typeDefs, QUERY, initData } from './resolvers';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
 import { pathname } from 'nuudel-utils';
@@ -25,14 +25,7 @@ export const cache = new InMemoryCache({ addTypename: false }).restore({});
 
 cache.writeQuery({
   query: QUERY,
-  data: {
-    isLeftDrawerOpen: false,
-    snackMsg: 'default',
-    snackType: 'success',
-    snackBarOpen: false,
-    leftDrawerWidth: 260,
-    isConnected: true,
-  },
+  data: { ...initData },
 });
 
 const { NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
