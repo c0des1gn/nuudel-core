@@ -12,6 +12,7 @@ export const Copyright: FC<any> = ({ ...props }) => {
         color="inherit"
         style={{ color: '#9b9b9b' }}
         //className={styles.widgetColor}
+        target="_blank"
         href={'https://codesign.mn'}
       >
         Codesign
