@@ -14,6 +14,7 @@ import { t } from '../../loc/i18n';
 import axios from 'axios';
 import UI from '../../common/UI';
 import { resizeImage } from './resizeImage';
+//import { stringify_params } from 'nuudel-utils';
 
 interface IUploadProps {
   disabled?: boolean;
@@ -160,14 +161,18 @@ const Upload: React.FC<IUploadProps> = ({
     let allImagesData = [...allImages];
     let uploadUrl: string = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
     if (uploadUrl.indexOf('cloudinary.com') < 0) {
-      const data = new FormData();
-      data.append('delete', allImages[index].uri);
-      //data.append('upload_preset', NEXT_PUBLIC_OBJECT_STORAGE_BUCKET);
+      const data = {
+        delete: allImages[index].uri,
+        upload_preset: process.env.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
+      };
       const r = await axios({
         url: '/remove',
         method: 'post',
-        data: data,
-        headers: { ...(await UI.headers()) },
+        data: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          ...(await UI.headers()),
+        },
       });
     }
     allImagesData.splice(index, 1);

@@ -13,7 +13,7 @@ export default interface IDataProvider {
   GetItems(param: IProviderItems, fieldgroups?: string): Promise<any>;
   GetBrowseNodes(param: IProviderBase): Promise<any>;
   GetVariations(param: IProviderBase): Promise<any>;
-  readListData(state: IListBaseState): Promise<any>;
+  readListData(state: IListBaseState, isCached?: boolean): Promise<any>;
   getDealItems?(param: IProviderBase): Promise<any>;
   GetAvailability?(itemIds: string[]): Promise<any>;
   GetCategorySuggestions?(param: IProviderBase): Promise<any>;
