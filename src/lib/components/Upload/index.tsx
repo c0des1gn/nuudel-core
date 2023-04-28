@@ -78,8 +78,8 @@ const Upload: React.FC<IUploadProps> = ({
       let values: any[] = [];
 
       const uploadPreset: string =
-        process.env.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
-      let uploadUrl: string = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
+        process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
+      let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
       let isDirect: boolean = false;
       if (uploadUrl.indexOf('cloudinary.com') < 0) {
         uploadUrl = '/upload';
@@ -159,11 +159,11 @@ const Upload: React.FC<IUploadProps> = ({
       return;
     }
     let allImagesData = [...allImages];
-    let uploadUrl: string = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
+    let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
     if (uploadUrl.indexOf('cloudinary.com') < 0) {
       const data = {
         delete: allImages[index].uri,
-        upload_preset: process.env.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
+        upload_preset: process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
       };
       const r = await axios({
         url: '/remove',

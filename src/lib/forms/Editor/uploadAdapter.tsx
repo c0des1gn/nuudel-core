@@ -13,8 +13,9 @@ export class uploadAdapter {
 
   // Starts the upload process.
   upload() {
-    const uploadPreset: string = process.env.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
-    let uploadUrl: string = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
+    const uploadPreset: string =
+      process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
+    let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
     let isDirect: boolean = false;
     if (uploadUrl.indexOf('cloudinary.com') < 0) {
       uploadUrl = '/upload';

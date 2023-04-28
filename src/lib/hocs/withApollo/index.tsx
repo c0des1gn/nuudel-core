@@ -127,7 +127,7 @@ export const createClient = (headers?: any): any => {
         from([
           errorLink,
           link,
-          //createUploadLink({ uri: process.env.NEXT_PUBLIC_COMMON_BACKEND_URL }),
+          //createUploadLink({ uri: process?.env?.NEXT_PUBLIC_COMMON_BACKEND_URL }),
         ])
       ),
       resolvers,

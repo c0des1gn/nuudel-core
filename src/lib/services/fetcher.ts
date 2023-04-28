@@ -21,7 +21,7 @@ export const fetcher = async (
         ? await UI.headers()
         : !process?.env?.TOKEN
         ? {}
-        : { Authorization: `Bearer ${process.env.TOKEN}` }),
+        : { Authorization: `Bearer ${process?.env?.TOKEN}` }),
       ...headers,
     },
   }).then((res) => res.data);

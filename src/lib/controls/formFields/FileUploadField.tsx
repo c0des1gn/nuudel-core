@@ -49,8 +49,8 @@ export default class UploadField extends React.Component<
       //Check if any file is selected or not
       if (typeof fileToUpload !== 'undefined') {
         const uploadPreset: string =
-          process.env.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
-        let uploadUrl: string = process.env.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
+          process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
+        let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
         let isDirect: boolean = false;
         if (uploadUrl.indexOf('cloudinary.com') < 0) {
           uploadUrl = '/upload';
