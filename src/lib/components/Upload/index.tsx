@@ -40,7 +40,7 @@ const Upload: React.FC<IUploadProps> = ({
   accept = 'image/*',
   ...props
 }) => {
-  const { classes } = useStyles();
+  const classes = useStyles();
   interface ImageProperties {
     uri: string;
     height?: number;

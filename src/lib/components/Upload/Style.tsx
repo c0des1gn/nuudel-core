@@ -1,8 +1,8 @@
-import { Theme } from '@mui/material';
-import { makeStyles } from 'tss-react/mui';
+import { Theme } from '@mui/material/styles';
+import { createStyles, makeStyles } from '@mui/styles';
 
-export const useStyles = makeStyles()((theme: Theme) => {
-  return {
+export const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
     root: {
       display: 'block',
       margin: '0 auto',
@@ -71,5 +71,5 @@ export const useStyles = makeStyles()((theme: Theme) => {
     },
     ImageList: {},
     imgFullWidth: {},
-  };
-});
+  })
+);

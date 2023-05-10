@@ -5,16 +5,16 @@ import {
   DialogContent,
   DialogActions,
   DialogTitle,
-  Theme,
 } from '@mui/material';
 import { Button } from '../';
 import { t } from '../../loc/i18n';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { makeStyles } from 'tss-react/mui';
+import { Theme } from '@mui/material/styles';
+import { createStyles, makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles()((theme: Theme) => {
-  return {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
     root: {
       margin: 0,
       padding: theme.spacing(2),
@@ -39,8 +39,8 @@ const useStyles = makeStyles()((theme: Theme) => {
     dialogContent: {
       padding: theme.spacing(1),
     },
-  };
-});
+  })
+);
 
 export interface IDialogProps extends DialogProps {
   title: string;
@@ -58,7 +58,7 @@ const DialogBasic: FunctionComponent<IDialogProps> = ({
   children,
   ...props
 }) => {
-  const { classes } = useStyles();
+  const classes = useStyles();
   //const { show = false } = props;
   const [open, setOpen] = React.useState(false);
 

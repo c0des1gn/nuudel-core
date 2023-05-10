@@ -1,6 +1,6 @@
 import React from 'react';
 import StarRating, { RatingProps } from '@mui/material/Rating';
-import { makeStyles } from 'tss-react/mui';
+import { createStyles, makeStyles } from '@mui/styles';
 
 interface IRatingProps extends RatingProps {}
 

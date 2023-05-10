@@ -3,10 +3,10 @@ import { SwipeableDrawer, SwipeableDrawerProps } from '@mui/material';
 import clsx from 'clsx';
 import { isIOS } from 'react-device-detect';
 import { Theme } from '@mui/material/styles';
-import { makeStyles } from 'tss-react/mui';
+import { createStyles, makeStyles } from '@mui/styles';
 
-const useStyles = makeStyles()((theme: Theme) => {
-  return {
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
     list: {
       width: 300,
       overflowX: 'hidden',
@@ -15,8 +15,8 @@ const useStyles = makeStyles()((theme: Theme) => {
     fullList: {
       width: 'auto',
     },
-  };
-});
+  })
+);
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -27,7 +27,7 @@ interface IDrawerProps extends SwipeableDrawerProps {
 
 export const Drawer: React.FC<IDrawerProps> = ({ children, ...props }) => {
   const { anchor = 'right' } = props;
-  const { classes } = useStyles();
+  const classes = useStyles();
   const [open, setOpen] = React.useState(props.open === true);
 
   const toggleDrawer =
