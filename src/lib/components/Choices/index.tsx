@@ -4,7 +4,7 @@ import {
   RadioGroupProps,
   FormControlLabel,
   Radio,
-} from '@material-ui/core';
+} from '@mui/material';
 
 interface IRadioGroupProps extends RadioGroupProps {
   options: IChoicesItem[];

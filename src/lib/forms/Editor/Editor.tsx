@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { t } from '../../loc/i18n';
-import { FormControlLabel } from '@material-ui/core';
+import { FormControlLabel } from '@mui/material';
 import { uploadAdapter } from './uploadAdapter';
 import gql from 'graphql-tag';
 import {
@@ -28,8 +28,8 @@ import {
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { IImage, ICurrentUser } from '../../common/Interfaces';
 import { useRouter } from 'next/router';
-import SaveIcon from '@material-ui/icons/Save';
-import DeleteIcon from '@material-ui/icons/Delete';
+import SaveIcon from '@mui/icons-material/Save';
+import DeleteIcon from '@mui/icons-material/Delete';
 //import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
@@ -561,7 +561,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
                       placeholder={t('Tags')}
                       fullWidth
                       variant="outlined"
-                      onChange={(chips) => {
+                      onChange={(event: any, chips: string[]) => {
                         if (chips && chips instanceof Array) {
                           setChange('tags', chips);
                         }

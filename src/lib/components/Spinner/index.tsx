@@ -3,11 +3,12 @@ import {
   CircularProgress,
   CircularProgressProps,
   Backdrop,
-} from '@material-ui/core';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
+} from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { makeStyles } from 'tss-react/mui';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles()((theme: Theme) => {
+  return {
     root: {
       display: 'flex',
     },
@@ -15,8 +16,8 @@ const useStyles = makeStyles((theme: Theme) =>
       zIndex: theme.zIndex.drawer + 1,
       color: '#fff',
     },
-  }),
-);
+  };
+});
 
 interface IProps extends CircularProgressProps {
   overflowHide?: boolean;
@@ -24,7 +25,7 @@ interface IProps extends CircularProgressProps {
 }
 
 const Spinner: FunctionComponent<IProps> = ({ overflowHide, ...props }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const { clickClose = false, size = 48 } = props;
   const [open, setOpen] = React.useState(true);
   const handleClose = () => {

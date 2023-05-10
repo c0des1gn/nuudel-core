@@ -4,7 +4,7 @@ import {
   MenuProps,
   MenuItem,
   ListItemIcon,
-} from '@material-ui/core';
+} from '@mui/material';
 
 interface IMenuProps extends MenuProps {
   items: IMenuItem[];

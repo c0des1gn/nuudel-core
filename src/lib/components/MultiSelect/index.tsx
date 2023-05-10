@@ -7,7 +7,8 @@ import {
   Select,
   Checkbox,
   FormControl,
-} from '@material-ui/core';
+} from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 import styles from '../../theme/styles/styles.module.scss';
 import { t } from '../../loc/i18n';
 
@@ -54,11 +55,14 @@ export default class MultiSelectField extends React.Component<
     };
   }
 
-  onSelectedItemsChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  onSelectedItemsChange = (event: SelectChangeEvent) => {
     const { options } = event.target as HTMLSelectElement;
+    const {
+      target: { value },
+    } = event;
     let values: string[] = [];
     if (!options) {
-      values = event.target.value as string[];
+      values = typeof value === 'string' ? value.split(',') : (value as any);
     } else {
       for (let i = 0, l = options.length; i < l; i++) {
         if (options[i].selected) {
@@ -97,8 +101,8 @@ export default class MultiSelectField extends React.Component<
               />
             }
             startAdornment={this.props.startAdornment}
-            renderValue={(selected: string[]) =>
-              !selected
+            renderValue={(selected: string | string[]) =>
+              !selected || typeof selected === 'string'
                 ? selected
                 : this.props.keyfield === 'id'
                 ? selected

@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import { Alert, AlertTitle, AlertProps } from '@material-ui/lab';
-import { makeStyles, Theme, createStyles } from '@material-ui/core/styles';
-import { Collapse } from '@material-ui/core';
+import { Alert, AlertTitle, AlertProps } from '@mui/material';
+import { Theme } from '@mui/material/styles';
+import { Collapse } from '@mui/material';
+import { makeStyles } from 'tss-react/mui';
 
 export type MessageBarType = 'error' | 'warning' | 'info' | 'success';
 
@@ -17,16 +18,16 @@ export interface INotificationMessages extends AlertProps {
   duration: number;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
+const useStyles = makeStyles()((theme: Theme) => {
+  return {
     root: {
       width: '100%',
       '& > * + *': {
         marginTop: theme.spacing(2),
       },
     },
-  }),
-);
+  };
+});
 
 export const MessageBar: FunctionComponent<IMessageBarProps> = ({
   children,
@@ -35,7 +36,7 @@ export const MessageBar: FunctionComponent<IMessageBarProps> = ({
   onClose,
   ...props
 }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   const [open, setOpen] = React.useState(true);
   return (
     <div className={classes.root}>
@@ -43,7 +44,7 @@ export const MessageBar: FunctionComponent<IMessageBarProps> = ({
         <Alert
           {...props}
           severity={messageBarType}
-          onClose={e => {
+          onClose={(e) => {
             if (onClose) {
               onClose(e);
               setOpen(false);

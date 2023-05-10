@@ -1,6 +1,6 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
-import { Switch } from '@material-ui/core';
+import { Switch } from '@mui/material';
 import { t } from '../../loc/i18n';
 import { ControlMode } from 'nuudel-utils';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';

@@ -1,8 +1,8 @@
 import React from 'react';
-import clsx from 'clsx';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { Link as MuiLink, LinkProps } from '@material-ui/core';
+import { Link as MuiLink, LinkProps } from '@mui/material';
+import clsx from 'clsx';
 
 interface INextLinkProps extends LinkProps {
   href?: any;
@@ -48,7 +48,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
         passHref={passHref}
         locale={locale}
       >
-        <a ref={ref} {...props}>
+        <a ref={ref} {...(props as any)}>
           {children}
         </a>
       </NextLink>

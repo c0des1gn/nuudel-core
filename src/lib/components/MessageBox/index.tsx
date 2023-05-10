@@ -6,7 +6,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-} from '@material-ui/core';
+} from '@mui/material';
 import { t } from '../../loc/i18n';
 
 export interface IDialogProps {

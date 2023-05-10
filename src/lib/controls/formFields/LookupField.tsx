@@ -1,6 +1,6 @@
 import React from 'react';
-//import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
-import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
+//import { createStyles, makeStyles, Theme } from '@mui/material/styles';
+import { InputLabel, MenuItem, Select, FormControl } from '@mui/material';
 import { MultiSelect } from '../../components';
 import { ControlMode } from 'nuudel-utils';
 import styles from './styles.module.scss';

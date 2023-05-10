@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Select as BaseSelect, SelectProps, MenuItem } from '@material-ui/core';
+import { Select as BaseSelect, SelectProps, MenuItem } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 
 interface ISelectProps extends SelectProps {
   options: ISelectItem[];
@@ -17,27 +18,27 @@ export const Select: React.FC<ISelectProps> = React.forwardRef<
   HTMLSelectElement,
   ISelectProps
 >(({ options, onChange, ...props }, ref) => {
-  const handleChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    const value = event.target.value as string[];
+  const handleChange = (event: SelectChangeEvent) => {
+    let value: any = event?.target?.value;
     if (onChange) {
       onChange(
-        value && value instanceof Array && value.length > 0 ? value[0] : value,
+        !!value && value instanceof Array && value.length > 0 ? value[0] : value
       );
     }
   };
 
-  const handleChangeMultiple = (
-    event: React.ChangeEvent<{ value: unknown }>,
-  ) => {
-    const { options } = event.target as HTMLSelectElement;
-    const value: string[] = [];
+  const handleChangeMultiple = (event: SelectChangeEvent) => {
+    let value: any = event?.target?.value;
+    const { options = typeof value === 'string' ? value.split(',') : value } =
+      event.target as HTMLSelectElement;
+    const values: string[] = [];
     for (let i = 0, l = options.length; i < l; i += 1) {
       if (options[i].selected) {
-        value.push(options[i].value);
+        values.push(options[i].value);
       }
     }
     if (onChange) {
-      onChange(value);
+      onChange(values);
     }
   };
 

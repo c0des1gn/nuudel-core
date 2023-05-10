@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useState, useEffect } from 'react';
-import { Button as BaseButton, ButtonProps } from '@material-ui/core';
+import { Button as BaseButton, ButtonProps } from '@mui/material';
 
 interface IProps extends ButtonProps {
   timeout?: number;
@@ -19,7 +19,7 @@ export const Button: FunctionComponent<IProps> = ({ children, ...props }) => {
     };
   }, [_debounce]);
 
-  const onClick = e => {
+  const onClick = (e) => {
     if (timeout) {
       if (!_debounce) {
         props.onClick && props.onClick(e);
@@ -65,12 +65,12 @@ export class Touchable extends React.Component<TouchableProps, any> {
     timeout: 1200,
   };
 
-  protected onLongClick = e => {
+  protected onLongClick = (e) => {
     this.LongClick = true;
     this.props.onDoubleClick && this.props.onDoubleClick(e);
   };
 
-  protected onClick = e => {
+  protected onClick = (e) => {
     this.LongClick = false;
     if (this.props.timeout) {
       if (!this._debounce) {

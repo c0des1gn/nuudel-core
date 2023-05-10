@@ -3,7 +3,7 @@ import {
   Switch as BaseSwitch,
   SwitchProps,
   FormControlLabel,
-} from '@material-ui/core';
+} from '@mui/material';
 
 interface ISwitchProps extends SwitchProps {
   label?: string;

@@ -1,10 +1,10 @@
 import React from 'react';
-import StarRating, { RatingProps } from '@material-ui/lab/Rating';
-import { makeStyles } from '@material-ui/core';
+import StarRating, { RatingProps } from '@mui/material/Rating';
+import { makeStyles } from 'tss-react/mui';
 
 interface IRatingProps extends RatingProps {}
 
-export const Rating: React.FC<IRatingProps> = props => (
+export const Rating: React.FC<IRatingProps> = (props) => (
   <StarRating {...props} />
 );
 

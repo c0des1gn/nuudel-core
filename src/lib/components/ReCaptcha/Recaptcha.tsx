@@ -1,6 +1,6 @@
-import React, {useState, useCallback, useEffect, useRef} from 'react';
-import {useGoogleReCaptcha, GoogleReCaptcha} from 'react-google-recaptcha-v3';
-import Switch from '@material-ui/core/Switch';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
+import { useGoogleReCaptcha, GoogleReCaptcha } from 'react-google-recaptcha-v3';
+import Switch from '@mui/material/Switch';
 
 export interface IProps {
   captchaDomain?: string;
@@ -14,7 +14,7 @@ export const Recaptcha: React.FC<IProps> = ({
   action = 'contactus', // 'login' | 'homepage',
   ...props
 }) => {
-  const {executeRecaptcha} = useGoogleReCaptcha();
+  const { executeRecaptcha } = useGoogleReCaptcha();
 
   const _token = useRef<string>('');
   const handleReCaptchaVerify = async (): Promise<string> => {
@@ -33,7 +33,7 @@ export const Recaptcha: React.FC<IProps> = ({
         props.onReceiveToken(checked ? token : '');
       }
     },
-    [executeRecaptcha],
+    [executeRecaptcha]
   );
 
   useEffect(() => {
@@ -48,7 +48,7 @@ export const Recaptcha: React.FC<IProps> = ({
         <Switch
           name="Agree"
           defaultChecked={!!_token.current}
-          onChange={e => clickHandler(e?.target?.checked)}
+          onChange={(e) => clickHandler(e?.target?.checked)}
         />
       )}
       {/*

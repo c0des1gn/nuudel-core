@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container as BaseContainer, ContainerProps } from '@material-ui/core';
+import { Container as BaseContainer, ContainerProps } from '@mui/material';
 
 export interface IProps extends ContainerProps {
   children: any;

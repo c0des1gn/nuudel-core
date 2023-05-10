@@ -1,6 +1,6 @@
 import React from 'react';
 import moment from 'moment';
-import { TextField } from '@material-ui/core';
+import { TextField } from '@mui/material';
 import styles from './styles.module.scss';
 
 export type TextFieldType = 'time' | 'date' | 'datetime-local';

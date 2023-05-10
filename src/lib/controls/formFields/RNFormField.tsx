@@ -4,7 +4,7 @@ import { ControlMode, DisplayType } from 'nuudel-utils';
 import { IFieldSchema } from '../../services/datatypes/RenderListData';
 import { t } from '../../loc/i18n';
 import FormField, { IFormFieldProps } from './FormField';
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from '@mui/icons-material/Close';
 import { Label, Text, TextField } from '../../components';
 import RNFieldTextEdit from './RNFieldTextEdit';
 import RNFieldChoiceEdit from './RNFieldChoiceEdit';

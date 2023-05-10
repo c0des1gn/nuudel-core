@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from 'react';
-import { Typography, TypographyProps } from '@material-ui/core';
+import { Typography, TypographyProps } from '@mui/material';
 
 interface ITextProps extends TypographyProps {
   component?: string;

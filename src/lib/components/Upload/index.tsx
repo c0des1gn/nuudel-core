@@ -5,11 +5,11 @@ import {
   ImageListItem,
   ImageListItemBar,
   IconButton,
-} from '@material-ui/core';
+} from '@mui/material';
 import Image from '../../components/Image';
 import { useDropzone, DropzoneOptions } from 'react-dropzone';
 import { useStyles } from './Style';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { t } from '../../loc/i18n';
 import axios from 'axios';
 import UI from '../../common/UI';
@@ -40,7 +40,7 @@ const Upload: React.FC<IUploadProps> = ({
   accept = 'image/*',
   ...props
 }) => {
-  const classes = useStyles();
+  const { classes } = useStyles();
   interface ImageProperties {
     uri: string;
     height?: number;

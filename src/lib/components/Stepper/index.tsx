@@ -1,5 +1,5 @@
 import React from 'react';
-import { Stepper, StepperProps, Step, StepLabel } from '@material-ui/core';
+import { Stepper, StepperProps, Step, StepLabel } from '@mui/material';
 import { t } from '../../loc/i18n';
 
 interface IStepperItem {

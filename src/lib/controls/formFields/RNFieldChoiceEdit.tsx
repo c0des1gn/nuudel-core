@@ -1,7 +1,7 @@
 import React from 'react';
 import { IRNFormFieldProps } from './RNFormField';
 import { ControlMode } from 'nuudel-utils';
-import { InputLabel, MenuItem, Select, FormControl } from '@material-ui/core';
+import { InputLabel, MenuItem, Select, FormControl } from '@mui/material';
 import { TagsInput } from '../../components';
 import { mapDispatchToProps, mapStateToProps, storeProps } from './RNFieldCore';
 import { getValue, changeProp } from '../../redux/actions/fields';
@@ -113,7 +113,7 @@ const RNFieldChoiceEdit: React.FunctionComponent<IRNFormFieldProps> = (
           fullWidth
           variant="outlined"
           margin="normal"
-          onChange={(chips: string[]) => {
+          onChange={(event: any, chips: string[]) => {
             if (chips && chips instanceof Array) {
               props.valueChanged(chips);
             }
