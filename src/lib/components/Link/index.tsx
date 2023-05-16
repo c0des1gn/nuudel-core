@@ -33,6 +33,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
       shallow,
       prefetch,
       locale,
+      underline = 'hover',
       ...props
     },
     ref
@@ -48,7 +49,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
         passHref={passHref}
         locale={locale}
       >
-        <a ref={ref} {...(props as any)}>
+        <a ref={ref} underline={underline} {...(props as any)}>
           {children}
         </a>
       </NextLink>

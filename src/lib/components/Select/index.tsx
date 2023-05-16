@@ -58,11 +58,11 @@ export const Select: React.FC<ISelectProps> = React.forwardRef<
       {options.map((option: ISelectItem, i: number) => (
         <MenuItem
           key={i}
-          value={option.value}
+          value={option?.value}
           disabled={option.disabled === true}
         >
-          {option.icon && option.icon}
-          {option.label}
+          {!!option?.icon && option.icon}
+          {option?.label}
         </MenuItem>
       ))}
     </BaseSelect>

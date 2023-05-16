@@ -1,19 +1,43 @@
-import NumberFormat from 'react-number-format';
+import React from 'react';
+import { NumericFormat, NumericFormatProps } from 'react-number-format';
 
-interface INumberFormatProps {
-  inputRef: any;
+interface INumberFormatProps extends NumericFormatProps {
+  //ref: any;
   name: string;
   onChange(e: any);
 }
 
+const NumberFormatInput = React.forwardRef<
+  HTMLInputElement,
+  INumberFormatProps
+>(function NumberFormatInput({ name, onChange, ...props }, ref) {
+  return (
+    <NumericFormat
+      thousandSeparator
+      valueIsNumericString
+      allowLeadingZeros
+      {...props}
+      getInputRef={ref}
+      onValueChange={(values) => {
+        onChange({
+          target: {
+            name: name,
+            value: values.value,
+          },
+        });
+      }}
+    />
+  );
+});
+/*
 export const NumberFormatInput: React.FC<INumberFormatProps> = ({
-  inputRef,
+  ref,
   onChange,
   ...props
 }) => (
-  <NumberFormat
+  <NumericFormat
     {...props}
-    getInputRef={inputRef}
+    getInputRef={ref}
     onValueChange={(values) => {
       onChange({
         target: {
@@ -23,11 +47,9 @@ export const NumberFormatInput: React.FC<INumberFormatProps> = ({
       });
     }}
     thousandSeparator
-    isNumericString
-    allowEmptyFormatting
+    valueIsNumericString //isNumericString
     allowLeadingZeros
-    //suffix="₮"
   />
-);
+); // */
 
 export default NumberFormatInput;

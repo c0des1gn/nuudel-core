@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(2),
     },
     closeButton: {
-      position: 'absolute',
-      right: theme.spacing(1),
-      top: theme.spacing(1),
       //color: theme.palette.grey[500],
     },
     content: {
@@ -35,6 +32,10 @@ const useStyles = makeStyles((theme: Theme) =>
         '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
       backgroundColor: theme.palette.primary.main,
       zIndex: 1,
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'center',
+      color: theme.palette.common.white,
     },
     dialogContent: {
       padding: theme.spacing(1),

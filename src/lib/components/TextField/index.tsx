@@ -7,25 +7,24 @@ interface ITextFieldProps extends OutlinedTextFieldProps {
   //variant?: string;
 }
 
-const Input: React.FC<ITextFieldProps> = React.forwardRef<
-  HTMLInputElement,
-  ITextFieldProps
->(({ children, ...props }, ref) => {
-  const { variant = 'outlined', maxLength = 255, inputProps } = props;
-  props.variant = variant;
-  return (
-    <TextField
-      ref={ref}
-      {...props}
-      style={props.style}
-      inputProps={{
-        ...inputProps,
-        maxLength: maxLength,
-      }}
-    >
-      {children}
-    </TextField>
-  );
-});
+const Input = React.forwardRef<HTMLInputElement, ITextFieldProps>(
+  ({ children, ...props }, ref) => {
+    const { variant = 'outlined', maxLength = 255, inputProps } = props;
+    props.variant = variant;
+    return (
+      <TextField
+        ref={ref}
+        {...props}
+        sx={props.style}
+        inputProps={{
+          ...inputProps,
+          maxLength: maxLength,
+        }}
+      >
+        {children}
+      </TextField>
+    );
+  }
+);
 
 export default Input;
