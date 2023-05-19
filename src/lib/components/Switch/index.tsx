@@ -11,19 +11,16 @@ interface ISwitchProps extends SwitchProps {
   labelValue?: any;
 }
 
-export const Switch: React.FC<ISwitchProps> = ({
-  label,
-  labelPlacement,
-  labelValue,
-  value,
-  ...props
-}) => (
+export const Switch: React.FC<ISwitchProps> = React.forwardRef<
+  HTMLButtonElement,
+  ISwitchProps
+>(({ label, labelPlacement, labelValue, value, ...props }, ref) => (
   <FormControlLabel
-    control={<BaseSwitch {...props} />}
+    control={<BaseSwitch {...props} ref={ref} />}
     label={label}
     labelPlacement={labelPlacement}
     value={labelValue}
   />
-);
+));
 
 export default Switch;
