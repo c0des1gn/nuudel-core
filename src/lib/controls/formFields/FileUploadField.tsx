@@ -52,7 +52,7 @@ export default class UploadField extends React.Component<
           process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
         let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
         let isDirect: boolean = false;
-        if (uploadUrl.indexOf('cloudinary.com') < 0) {
+        if (uploadUrl?.indexOf('cloudinary.com') < 0) {
           uploadUrl = '/upload';
           isDirect = true;
         }

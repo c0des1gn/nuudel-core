@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useRef, useEffect } from 'react';
+import React, { FC, useRef, useEffect } from 'react';
 import {
   Dialog,
   DialogProps,
@@ -55,10 +55,7 @@ export interface IDialogProps extends DialogProps {
   onSubmit?(e?: any): void;
 }
 
-const DialogBasic: FunctionComponent<IDialogProps> = ({
-  children,
-  ...props
-}) => {
+const DialogBasic: FC<IDialogProps> = ({ children, ...props }) => {
   const classes = useStyles();
   //const { show = false } = props;
   const [open, setOpen] = React.useState(false);

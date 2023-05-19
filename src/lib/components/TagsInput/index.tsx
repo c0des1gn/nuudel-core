@@ -23,26 +23,28 @@ export const TagsInput: React.FC<ITagsProps | any> = (props: ITagsProps) => {
     label,
     variant,
     margin,
-    disabled,
+    disabled = false,
     placeholder,
     onChange,
     ...prop
   } = props;
   return (
     <Autocomplete
-      multiple
       options={[]}
-      freeSolo
       fullWidth
       {...prop}
+      multiple
+      freeSolo
       onChange={onChange}
-      disabled={disabled}
+      readOnly={disabled}
+      //disabled={disabled}
       placeholder={placeholder}
       renderTags={(value, getTagProps) =>
         value.map((option, index) => (
           <Chip
             variant={'outlined'}
             label={option}
+            disabled={disabled}
             {...getTagProps({ index })}
           />
         ))
