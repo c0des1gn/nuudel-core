@@ -4,7 +4,7 @@ import {
   Chip,
   TextField,
   //TextFieldProps,
-  //AutocompleteProps,
+  AutocompleteProps,
 } from '@mui/material';
 
 type ITagsProps = {
@@ -17,7 +17,10 @@ type ITagsProps = {
   onChange?(event: any, chips: any, reason?: any): void;
 };
 
-export const TagsInput: React.FC<ITagsProps | any> = (props: ITagsProps) => {
+export const TagsInput: React.FC<ITagsProps & any> = React.forwardRef<
+  HTMLSelectElement,
+  ITagsProps
+>(({ ...props }, ref) => {
   const {
     required,
     label,
@@ -33,6 +36,7 @@ export const TagsInput: React.FC<ITagsProps | any> = (props: ITagsProps) => {
       options={[]}
       fullWidth
       {...prop}
+      ref={ref}
       multiple
       freeSolo
       onChange={onChange}
@@ -62,6 +66,6 @@ export const TagsInput: React.FC<ITagsProps | any> = (props: ITagsProps) => {
       )}
     />
   );
-};
+});
 
 export default TagsInput;
