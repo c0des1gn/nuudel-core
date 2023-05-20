@@ -22,7 +22,7 @@ export interface IMultiSelectProps {
   required?: boolean;
   label?: string;
   startAdornment?: any;
-  onChangeInput?(val: any);
+  //onChangeInput?(val: any);
   valueChanged(val: any);
   keyfield?: ValueField;
   margin?: 'none' | 'dense';
