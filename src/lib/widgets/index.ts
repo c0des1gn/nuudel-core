@@ -36,5 +36,6 @@ export {
   JsonLdMeta,
   OpenGraphMeta,
   TwitterCardMeta,
-  ICategory,
 };
+
+export type { ICategory };
