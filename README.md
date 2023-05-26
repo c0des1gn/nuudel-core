@@ -11,4 +11,4 @@ git checkout main
 git checkout -b <newbranch>
 
 yarn build
-npm publish
+npm publish --tag mui4
