@@ -9,3 +9,6 @@ git branch -a
 git checkout mui4
 git checkout main
 git checkout -b <newbranch>
+
+yarn build
+npm publish
