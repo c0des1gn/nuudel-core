@@ -5102,10 +5102,10 @@ null-check@^1.0.0:
   resolved "https://registry.yarnpkg.com/null-check/-/null-check-1.0.0.tgz#977dffd7176012b9ec30d2a39db5cf72a0439edd"
   integrity sha1-l33/1xdgErnsMNKjnbXPcqBDnt0=
 
-nuudel-utils@^0.1.72:
-  version "0.1.72"
-  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.72.tgz#b75fd6caa0fb3d135067f29d63504a34b8452eba"
-  integrity sha512-dwXc+IuJpf16WjXHw/ApE2zS6HPC9am1EmfPR+YBeMisBSvrDuJenPQELEkPviTi9leAeE0IJXJsB8/aoc0XKg==
+nuudel-utils@^0.1.74:
+  version "0.1.74"
+  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.74.tgz#b2b9616d8f68cda193f8b882dcff467800b1e581"
+  integrity sha512-RLlUewVFMRGCLA53KwLeI9ICn4C03/cp1W4vIRVHobQFpRQiFmzbc9BvgBvR27KkILgYwhylmZciwhSGBl7Ctg==
   dependencies:
     axios "0.27.2"
     crypto-js "3.1.9-1"
@@ -6936,7 +6936,7 @@ typedoc@^0.22.11:
     minimatch "^3.0.4"
     shiki "^0.10.0"
 
-typescript@^4.4.4:
+typescript@^4.0.8:
   version "4.9.5"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.9.5.tgz#095979f9bcc0d09da324d58d03ce8f8374cbe65a"
   integrity sha512-1FXk9E2Hm+QzZQ7z+McJiHL4NW1F2EzMu9Nq9i3zAaGqibafqYwCVU6WyWAuyQRRzOlxou8xZSyXLEN8oKj24g==
