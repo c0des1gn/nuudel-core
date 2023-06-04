@@ -7,14 +7,18 @@ import {
   osName,
   osVersion,
   browserName,
+  browserVersion,
+  fullBrowserVersion,
+  getUA,
   isMobile,
+  mobileModel,
+  deviceType,
 } from 'react-device-detect';
 
-const DeviceInfo = '',
-  getUniqueId = '';
+const getUniqueId = mobileModel || deviceType;
 export const DeviceId = {
   uniqueId: getUniqueId,
-  deviceId: DeviceInfo,
+  deviceId: fullBrowserVersion,
   brand: browserName,
   os: osName,
   osVersion: osVersion,
@@ -22,8 +26,8 @@ export const DeviceId = {
   isIOS: isIOS,
   isAndroid: isAndroid,
   isMobile: isMobile,
-  //version: DeviceInfo.getVersion(),
-  device: DeviceInfo,
+  version: browserVersion,
+  device: getUA,
 };
 
 export const isIpad = isIOS && isTablet;

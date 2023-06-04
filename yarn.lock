@@ -4293,7 +4293,7 @@ i18next@*:
   dependencies:
     "@babel/runtime" "^7.17.2"
 
-i18next@^21.10.0:
+i18next@^21.5.6:
   version "21.10.0"
   resolved "https://registry.yarnpkg.com/i18next/-/i18next-21.10.0.tgz#85429af55fdca4858345d0e16b584ec29520197d"
   integrity sha512-YeuIBmFsGjUfO3qBmMOc0rQaun4mIpGKET5WDwvu8lU7gvwpcariZLNtL0Fzj+zazcHUrlXHiptcFhBMFaxzfg==
@@ -5815,10 +5815,10 @@ null-check@^1.0.0:
   resolved "https://registry.yarnpkg.com/null-check/-/null-check-1.0.0.tgz#977dffd7176012b9ec30d2a39db5cf72a0439edd"
   integrity sha1-l33/1xdgErnsMNKjnbXPcqBDnt0=
 
-nuudel-utils@^0.1.74:
-  version "0.1.74"
-  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.74.tgz#b2b9616d8f68cda193f8b882dcff467800b1e581"
-  integrity sha512-RLlUewVFMRGCLA53KwLeI9ICn4C03/cp1W4vIRVHobQFpRQiFmzbc9BvgBvR27KkILgYwhylmZciwhSGBl7Ctg==
+nuudel-utils@^0.1.75:
+  version "0.1.75"
+  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.75.tgz#b8dd7331bb7f86e53a58ab152553bc7efd766bd1"
+  integrity sha512-iqcuoIfiF1rxFIBECsAqleqxSawaELdiXbiLpo23xx9V00osZDRQpnC62Zjcaand0btiw17qhR+5LQ70NekLtw==
   dependencies:
     axios "0.27.2"
     crypto-js "3.1.9-1"
