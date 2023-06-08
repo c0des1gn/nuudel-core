@@ -57,6 +57,7 @@ export default function PostLayout({
         title={title}
         description={description}
         image={image}
+        tags={keywords}
       />
       <JsonLdMeta
         url={`/posts/${slug}`}

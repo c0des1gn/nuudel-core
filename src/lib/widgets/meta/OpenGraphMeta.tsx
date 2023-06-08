@@ -9,6 +9,7 @@ type Props = {
   image?: string | IImage;
   type?: string;
   tags?: string[];
+  deeplink?: string;
 };
 export default function OpenGraphMeta({
   url,
@@ -16,6 +17,7 @@ export default function OpenGraphMeta({
   description,
   type = 'article',
   tags,
+  deeplink,
   ...props
 }: Props) {
   const {
@@ -42,7 +44,13 @@ export default function OpenGraphMeta({
       />
       <meta property="og:image" content={image || CONF.logo?.uri} />
       <meta property="og:type" content={type} />
-      {!!tags && tags.length > 0 && (
+      {!!deeplink && (
+        <meta property="al:android:url" content={`${deeplink}://${url}`} />
+      )}
+      {!!deeplink && (
+        <meta property="al:ios:url" content={`${deeplink}://${url}`} />
+      )}
+      {!!tags && tags.length > 0 && type === 'article' && (
         <meta name="article:tag" content={tags.join(', ')} />
       )}
       {!!width && <meta property="og:image:width" content={width + 'px'} />}
