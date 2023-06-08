@@ -1,5 +1,6 @@
 import Head from 'next/head';
 import { CONF } from 'nuudel-utils';
+import { isMobile } from 'react-device-detect';
 
 type Props = {
   title?: string;
@@ -18,20 +19,21 @@ export default function BasicMeta({
   return (
     <Head>
       <title>{[title, CONF.site_title].filter(Boolean).join(' | ')}</title>
-      <meta name="description" content={description || CONF.site_description} />
-      <meta
-        name="keywords"
-        content={!keywords ? CONF.site_keywords?.join(',') : keywords.join(',')}
-      />
+      {!!description && <meta name="description" content={description} />}
+      {!!keywords && keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(', ')} />
+      )}
       {!author ? null : <meta name="author" content={author} />}
-      <link
-        rel="canonical"
-        href={
-          CONF.base_url +
-          (CONF.base_url?.endsWith('/') || url?.startsWith('/') ? '' : '/') +
-          url
-        }
-      />
+      {isMobile && (
+        <link
+          rel="canonical"
+          href={
+            CONF.base_url +
+            (CONF.base_url?.endsWith('/') || url?.startsWith('/') ? '' : '/') +
+            url
+          }
+        />
+      )}
     </Head>
   );
 }

@@ -32,7 +32,7 @@ export default function JsonLdMeta({
             (CONF.base_url?.endsWith('/') || url?.startsWith('/') ? '' : '/') +
             url,
           headline: title || CONF.site_title,
-          keywords: !keywords ? undefined : keywords.join(','),
+          keywords: !keywords ? undefined : keywords.join(', '),
           datePublished: dateToString(date, 'YYYY/MM/DD HH:mm'),
           author: author,
           image: image || CONF.logo?.uri,
