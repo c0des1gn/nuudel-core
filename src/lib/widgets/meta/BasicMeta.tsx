@@ -17,19 +17,21 @@ export default function BasicMeta({
 }: Props) {
   return (
     <Head>
-      <title>
-        {title ? [title, CONF.site_title].join(' | ') : CONF.site_title}
-      </title>
-      <meta
-        name="description"
-        content={description ? description : CONF.site_description}
-      />
+      <title>{[title, CONF.site_title].filter(Boolean).join(' | ')}</title>
+      <meta name="description" content={description || CONF.site_description} />
       <meta
         name="keywords"
-        content={keywords ? keywords.join(',') : CONF.site_keywords.join(',')}
+        content={!keywords ? CONF.site_keywords?.join(',') : keywords.join(',')}
       />
-      {author ? <meta name="author" content={author} /> : null}
-      <link rel="canonical" href={CONF.base_url + url} />
+      {!author ? null : <meta name="author" content={author} />}
+      <link
+        rel="canonical"
+        href={
+          CONF.base_url +
+          (CONF.base_url?.endsWith('/') || url?.startsWith('/') ? '' : '/') +
+          url
+        }
+      />
     </Head>
   );
 }

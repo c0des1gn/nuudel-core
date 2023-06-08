@@ -7,9 +7,10 @@ import BasicMeta from './meta/BasicMeta';
 import JsonLdMeta from './meta/JsonLdMeta';
 import OpenGraphMeta from './meta/OpenGraphMeta';
 import TwitterCardMeta from './meta/TwitterCardMeta';
-import {SocialList} from './SocialList';
+import { SocialList } from './SocialList';
 import TagButton from './TagButton';
-import {ITagContent} from '../library/IBlog';
+import { ITagContent } from '../library/IBlog';
+import { IImage } from '../../lib/common/Interfaces';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -21,6 +22,7 @@ type Props = {
   description?: string;
   children: React.ReactNode;
   withCopyright?: boolean;
+  image?: string | IImage;
 };
 export default function PostLayout({
   title,
@@ -31,9 +33,10 @@ export default function PostLayout({
   description = '',
   children,
   withCopyright = false,
+  image,
 }: Props) {
   tags = !tags ? [] : tags;
-  const keywords = tags.map(it => it.name);
+  const keywords = tags.map((it) => it.name);
   const authorName = author;
   return (
     <>
@@ -47,11 +50,13 @@ export default function PostLayout({
         url={`/posts/${slug}`}
         title={title}
         description={description}
+        image={typeof image === 'string' ? image : image?.uri}
       />
       <OpenGraphMeta
         url={`/posts/${slug}`}
         title={title}
         description={description}
+        image={image}
       />
       <JsonLdMeta
         url={`/posts/${slug}`}
@@ -60,6 +65,7 @@ export default function PostLayout({
         date={date}
         author={authorName}
         description={description}
+        image={typeof image === 'string' ? image : image?.uri}
       />
       <div className={'widget-post-container'}>
         <article>
