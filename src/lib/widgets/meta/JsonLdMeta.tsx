@@ -1,7 +1,6 @@
 import { BlogPosting } from 'schema-dts';
 import { jsonLdScriptProps } from 'react-schemaorg';
-import { CONF } from 'nuudel-utils';
-import moment from 'moment';
+import { CONF, dateToString } from 'nuudel-utils';
 import Head from 'next/head';
 
 type Props = {
@@ -17,7 +16,7 @@ export default function JsonLdMeta({
   url,
   title,
   keywords,
-  date,
+  date = new Date(),
   author,
   image,
   description,
@@ -28,13 +27,16 @@ export default function JsonLdMeta({
         {...jsonLdScriptProps<BlogPosting>({
           '@context': 'https://schema.org',
           '@type': 'BlogPosting',
-          mainEntityOfPage: CONF.base_url + url,
-          headline: title,
-          keywords: keywords ? undefined : keywords.join(','),
-          datePublished: moment(date).format('YYYY/MM/DD HH:mm'),
+          mainEntityOfPage:
+            CONF.base_url +
+            (CONF.base_url?.endsWith('/') || url?.startsWith('/') ? '' : '/') +
+            url,
+          headline: title || CONF.site_title,
+          keywords: !keywords ? undefined : keywords.join(', '),
+          datePublished: dateToString(date, 'YYYY/MM/DD HH:mm'),
           author: author,
-          image: image,
-          description: description,
+          image: image || CONF.logo?.uri,
+          description: description || CONF.site_description,
         })}
       />
     </Head>
