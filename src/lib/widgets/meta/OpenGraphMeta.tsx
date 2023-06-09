@@ -10,6 +10,7 @@ type Props = {
   type?: string;
   tags?: string[];
   deeplink?: string;
+  alt?: string;
 };
 export default function OpenGraphMeta({
   url,
@@ -18,6 +19,7 @@ export default function OpenGraphMeta({
   type = 'article',
   tags,
   deeplink,
+  alt,
   ...props
 }: Props) {
   const {
@@ -55,6 +57,7 @@ export default function OpenGraphMeta({
       )}
       {!!width && <meta property="og:image:width" content={width + 'px'} />}
       {!!height && <meta property="og:image:height" content={height + 'px'} />}
+      {!!alt && <meta property="og:image:alt" content={alt} />}
     </Head>
   );
 }

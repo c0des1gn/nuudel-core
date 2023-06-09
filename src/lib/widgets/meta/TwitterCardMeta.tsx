@@ -6,17 +6,26 @@ type Props = {
   title?: string;
   description?: string;
   image?: string;
+  username?: string; // @your_twitter_username
+  alt?: string;
 };
 export default function TwitterCardMeta({
   url,
   title,
   description,
   image,
+  alt,
+  username = process?.env?.TWITTER_USERNAME,
 }: Props) {
   return (
     <Head>
-      <meta property="twitter:card" content={image || CONF.logo?.uri} />
-      <meta property="twitter:site" content={CONF.site_title} />
+      <meta
+        property="twitter:card"
+        content={!image ? 'summary' : 'summary_large_image'}
+      />
+      <meta property="twitter:image" content={image || CONF.logo?.uri} />
+      {!!alt && <meta property="twitter:image:alt" content={alt} />}
+      {!!username && <meta property="twitter:site" content={username} />}
       <meta
         property="twitter:url"
         content={
