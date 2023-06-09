@@ -2,15 +2,12 @@ import React from 'react';
 import Author from './Author';
 import Copyright from './Copyright';
 import Date from './Date';
-import Layout from './Layout';
-import BasicMeta from './meta/BasicMeta';
-import JsonLdMeta from './meta/JsonLdMeta';
-import OpenGraphMeta from './meta/OpenGraphMeta';
-import TwitterCardMeta from './meta/TwitterCardMeta';
 import { SocialList } from './SocialList';
 import TagButton from './TagButton';
 import { ITagContent } from '../library/IBlog';
 import { IImage } from '../../lib/common/Interfaces';
+import { ArticleJsonLd, NextSeo } from 'next-seo';
+import { MetaJson } from './meta/MetaJson';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -38,35 +35,40 @@ export default function PostLayout({
   tags = !tags ? [] : tags;
   const keywords = tags.map((it) => it.name);
   const authorName = author;
+  const meta = MetaJson({
+    url: `/posts/${slug}`,
+    title: title,
+    description: description,
+    image: image,
+  });
   return (
     <>
-      <BasicMeta
-        url={`/posts/${slug}`}
-        title={title}
-        keywords={keywords}
-        description={description}
+      <NextSeo
+        title={meta.title}
+        description={meta.description}
+        canonical={meta.url}
+        openGraph={{
+          ...meta,
+        }}
+        twitter={{
+          handle: process?.env?.TWITTER_USERNAME,
+          site: process?.env?.TWITTER_USERNAME,
+          cardType: 'summary_large_image',
+        }}
       />
-      <TwitterCardMeta
-        url={`/posts/${slug}`}
-        title={title}
-        description={description}
-        image={typeof image === 'string' ? image : image?.uri}
-      />
-      <OpenGraphMeta
-        url={`/posts/${slug}`}
-        title={title}
-        description={description}
-        image={image}
-        tags={keywords}
-      />
-      <JsonLdMeta
-        url={`/posts/${slug}`}
-        title={title}
-        keywords={keywords}
-        date={date}
-        author={authorName}
-        description={description}
-        image={typeof image === 'string' ? image : image?.uri}
+      <ArticleJsonLd
+        useAppDir={false}
+        type="BlogPosting"
+        keywords={keywords.join(', ')}
+        url={meta.url}
+        title={meta.title}
+        images={[typeof image === 'string' ? image : image?.uri].filter(
+          Boolean
+        )}
+        datePublished={date.toISOString()}
+        dateModified={date.toISOString()}
+        authorName={authorName}
+        description={meta.description}
       />
       <div className={'widget-post-container'}>
         <article>

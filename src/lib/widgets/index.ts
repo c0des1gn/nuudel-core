@@ -13,10 +13,7 @@ import { SocialList } from './SocialList';
 import TagButton from './TagButton';
 import TagLink from './TagLink';
 import TagPostList from './TagPostList';
-import BasicMeta from './meta/BasicMeta';
-import JsonLdMeta from './meta/JsonLdMeta';
-import OpenGraphMeta from './meta/OpenGraphMeta';
-import TwitterCardMeta from './meta/TwitterCardMeta';
+import { MetaJson } from './meta/MetaJson';
 
 export {
   Author,
@@ -32,10 +29,7 @@ export {
   TagButton,
   TagLink,
   TagPostList,
-  BasicMeta,
-  JsonLdMeta,
-  OpenGraphMeta,
-  TwitterCardMeta,
+  MetaJson,
 };
 
 export type { ICategory };
