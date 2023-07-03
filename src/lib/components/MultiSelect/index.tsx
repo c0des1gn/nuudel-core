@@ -26,6 +26,7 @@ export interface IMultiSelectProps {
   valueChanged(val: any);
   keyfield?: ValueField;
   margin?: 'none' | 'dense';
+  size?: 'small' | 'medium';
 }
 
 const ITEM_HEIGHT = 48;
@@ -83,6 +84,7 @@ export const MultiSelectField: React.FC<IMultiSelectProps> = React.forwardRef<
           required={props.required === true}
           multiple
           margin={props.margin}
+          size={props.size}
           value={selectedItems}
           onChange={onSelectedItemsChange}
           input={

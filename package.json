@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.2.27",
+  "version": "0.2.31",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -69,7 +69,7 @@
     "react-device-detect": "^2.1.2",
     "react-dropzone": "^11.7.1",
     "react-google-recaptcha-v3": "^1.10.1",
-    "react-number-format": "^5.2.1",
+    "react-number-format": "^5.2.2",
     "react-redux": "^7.2.6",
     "redux": "^4.1.2"
   },

@@ -40,7 +40,7 @@ export default class DataProvider implements IDataProvider {
   }
 
   initCategory() {
-    this.GetBrowseNodes({ ID: '', resources: 'cid, name', depth: 1 }).then(
+    this.GetBrowseNodes({ ID: '', columns: 'cid, name', depth: 1 }).then(
       (r) => {
         if (r) {
           this._category = r;
@@ -66,7 +66,7 @@ export default class DataProvider implements IDataProvider {
       { label: t('LowestPriceShipping'), value: "{'Price.value': 1}" },
       { label: t('HighestPriceShipping'), value: "{'Price.value': -1}" },
       { label: t('EndingSoonest'), value: '{expired: 1}' },
-      { label: t('NewlyListed'), value: '{createdAt: 1}' },
+      { label: t('NewlyListed'), value: '{createdAt: -1}' },
     ];
   }
 
@@ -219,7 +219,7 @@ export default class DataProvider implements IDataProvider {
   }
 
   public async GetItem(param: IProviderBase): Promise<any> {
-    let { ID, resources, listname } = param;
+    let { ID, columns, listname } = param;
     listname = listname || this._listname;
     let r: any = false;
 
@@ -228,7 +228,7 @@ export default class DataProvider implements IDataProvider {
       r = await this._lfs.client.query({
         query: gql`query Get${listname}($_id: ObjectId!){
         get${listname}(_id: $_id) {
-          ${resources ? resources : this.columns}
+          ${!columns ? this.columns : columns}
         }
       }`,
         variables: { _id: ID },
@@ -247,7 +247,7 @@ export default class DataProvider implements IDataProvider {
   }
 
   public async GetItems(param: IProviderItems, options?: string): Promise<any> {
-    let { Ids, resources, listname } = param;
+    let { Ids, columns, listname } = param;
     listname = listname || this._listname;
     let r: any = false;
     if (typeof Ids === 'undefined') {
@@ -260,10 +260,10 @@ export default class DataProvider implements IDataProvider {
         query: gql`query GetAll${listname}($filter: String, $sort: String, $limit: Int) {
         getAll${listname}(filter: $filter, sort: $sort, limit: $limit) {
           ${
-            resources
-              ? resources
-              : `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
+            !columns
+              ? `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
                oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}`
+              : columns
           }
       }}`,
         variables: {
@@ -284,7 +284,7 @@ export default class DataProvider implements IDataProvider {
   }
 
   public async GetBrowseNodes(param: IProviderBase): Promise<any> {
-    let { ID, resources, depth } = param;
+    let { ID, columns, depth } = param;
     const listname = 'Category';
     let r: any = false;
     try {
@@ -292,7 +292,7 @@ export default class DataProvider implements IDataProvider {
         query: gql`
       query GetChild${listname}($id: String, $depth: Int) {
         getChild${listname}(id: $id, depth: $depth) {
-          ${!resources ? 'cid, name, slug, parent_id, img' : resources}
+          ${!columns ? 'cid, name, slug, parent_id, img' : columns}
         }
       }
     `,
@@ -305,7 +305,7 @@ export default class DataProvider implements IDataProvider {
     } catch (e) {
       this.onError(e);
     }
-    if (r && r.data) {
+    if (r?.data) {
       return Promise.resolve(r.data[`getChild${listname}`]);
     } else {
       return Promise.resolve([]);
@@ -313,7 +313,7 @@ export default class DataProvider implements IDataProvider {
   }
 
   public async GetVariations(param: IProviderBase): Promise<any> {
-    let { ID, resources } = param;
+    let { ID, columns } = param;
     const listname = 'Itemgroup';
     let r: any = false;
 
@@ -324,13 +324,13 @@ export default class DataProvider implements IDataProvider {
         query: gql`query Get${listname}($_id: ObjectId!){
         get${listname}(_id: $_id) {
           ${
-            resources
-              ? resources
-              : `_id,
+            !columns
+              ? `_id,
             article,
             items {${this.columns}},
             itemIds,
             attributeValues { Name, Value }`
+              : columns
           }
         }
       }
@@ -402,7 +402,7 @@ export default class DataProvider implements IDataProvider {
     const query =
       listname === this._listname && !!this._query
         ? this._query
-        : await this.getQuery(listname);
+        : await this.getQuery(listname || this._listname);
     if (!this._query && listname === this._listname) {
       this._query = query;
     }

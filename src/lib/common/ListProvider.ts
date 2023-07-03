@@ -6,7 +6,7 @@ import {
 } from './IListBaseState';
 import gql from 'graphql-tag';
 import { IListFormService } from '../services/IListFormService';
-import { ListFormService as _lfs } from '../services/ListFormService';
+import { ListFormService as lfs } from '../services/ListFormService';
 import { getPlural, decodeHTML, dateToString } from 'nuudel-utils';
 import { clientError } from './helper';
 import { t } from '../loc/i18n';
@@ -14,7 +14,7 @@ import { FetchPolicy } from '@apollo/client';
 import IDataProvider from './IDataProvider';
 
 var _query = '';
-var columns = `
+var _columns = `
   _id
   _createdby
   _modifiedby
@@ -23,22 +23,22 @@ var columns = `
   `;
 
 const _listname: string = 'Product';
-var _category: any = [];
+var category: any = [];
 const _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
 
 const initCategory = () => {
-  GetBrowseNodes({ ID: '', resources: 'cid, name', depth: 1 }).then((r) => {
+  GetBrowseNodes({ ID: '', columns: 'cid, name', depth: 1 }).then((r) => {
     if (r) {
-      _category = r;
+      category = r;
     }
   });
 };
 
-const category = () => {
-  if (_category && _category.length === 0) {
+const _category = () => {
+  if (lfs?.client && (!category || category?.length === 0)) {
     initCategory();
   }
-  return _category;
+  return category;
 };
 
 function Sorting() {
@@ -63,7 +63,7 @@ const filterOptions = () => {
       name: 'categories',
       type: 'multiselect',
       text: t('Categories'),
-      choices: _category.map((item) => ({
+      choices: category.map((item) => ({
         value: item.cid,
         label: item.name,
       })),
@@ -98,21 +98,21 @@ const filterOptions = () => {
 const getQuery = async (listname) => {
   let query = '';
   try {
-    const fieldsSchema = await _lfs.getFieldSchemasForForm(listname);
-    query = _lfs.listQuery(listname, fieldsSchema);
+    const fieldsSchema = await lfs.getFieldSchemasForForm(listname);
+    query = lfs.listQuery(listname, fieldsSchema);
   } catch {}
   return query;
 };
 
 const validateSettings = (): boolean => {
-  if (!_lfs) {
+  if (!lfs) {
     return false;
   }
   return true;
 };
 
 const getFields = async (listname: string): Promise<any[]> => {
-  const fieldsSchema = await _lfs.getFieldSchemasForForm(listname);
+  const fieldsSchema = await lfs.getFieldSchemasForForm(listname);
   const fields = fieldsSchema
     .filter(
       (field) =>
@@ -193,15 +193,15 @@ const getFields = async (listname: string): Promise<any[]> => {
 };
 
 const GetItem = async (param: IProviderBase): Promise<any> => {
-  let { ID, resources, listname } = param;
+  let { ID, columns, listname } = param;
   listname = listname || _listname;
   let r: any = false;
 
   try {
-    r = await _lfs.client.query({
+    r = await lfs.client.query({
       query: gql`query Get${listname}($_id: ObjectId!){
           get${listname}(_id: $_id) {
-            ${resources ? resources : columns}
+            ${!columns ? _columns : columns}
           }
         }`,
       variables: { _id: ID },
@@ -223,7 +223,7 @@ const GetItems = async (
   param: IProviderItems,
   options?: string
 ): Promise<any> => {
-  let { Ids, resources, listname } = param;
+  let { Ids, columns, listname } = param;
   listname = listname || _listname;
   let r: any = false;
   if (typeof Ids === 'undefined') {
@@ -231,14 +231,14 @@ const GetItems = async (
   }
 
   try {
-    r = await _lfs.client.query({
+    r = await lfs.client.query({
       query: gql`query GetAll${listname}($filter: String, $sort: String, $limit: Int) {
           getAll${listname}(filter: $filter, sort: $sort, limit: $limit) {
             ${
-              resources
-                ? resources
-                : `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
+              !columns
+                ? `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
                  oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}`
+                : columns
             }
         }}`,
       variables: {
@@ -259,15 +259,15 @@ const GetItems = async (
 };
 
 const GetBrowseNodes = async (param: IProviderBase): Promise<any> => {
-  let { ID, resources, depth } = param;
+  let { ID, columns, depth } = param;
   const listname = 'Category';
   let r: any = false;
   try {
-    r = await _lfs.client.query({
+    r = await lfs.client.query({
       query: gql`
         query GetChild${listname}($id: String, $depth: Int) {
           getChild${listname}(id: $id, depth: $depth) {
-            ${!resources ? 'cid, name, slug, parent_id, img' : resources}
+            ${!columns ? 'cid, name, slug, parent_id, img' : columns}
           }
         }
       `,
@@ -286,26 +286,27 @@ const GetBrowseNodes = async (param: IProviderBase): Promise<any> => {
     return Promise.resolve([]);
   }
 };
+_category();
 
 const GetVariations = async (param: IProviderBase): Promise<any> => {
-  let { ID, resources } = param;
+  let { ID, columns } = param;
   const listname = 'Itemgroup';
   let r: any = false;
 
-  //r = await _lfs.itemById(listname, ID);
+  //r = await lfs.itemById(listname, ID);
 
   try {
-    r = await _lfs.client.query({
+    r = await lfs.client.query({
       query: gql`query Get${listname}($_id: ObjectId!){
           get${listname}(_id: $_id) {
             ${
-              resources
-                ? resources
-                : `_id,
+              !columns
+                ? `_id,
               article,
-              items {${columns}},
+              items {${_columns}},
               itemIds,
               attributeValues { Name, Value }`
+                : columns
             }
           }
         }
@@ -375,7 +376,9 @@ const readListData = async (state: IListBaseState): Promise<any> => {
   sorting = !sorting ? '{}' : sorting;
 
   const query =
-    listname === _listname && !!_query ? _query : await getQuery(listname);
+    listname === _listname && !!_query
+      ? _query
+      : await getQuery(listname || _listname);
   if (!_query && listname === _listname) {
     _query = query;
   }
@@ -385,7 +388,7 @@ const readListData = async (state: IListBaseState): Promise<any> => {
   }
   let r: any = false;
   try {
-    r = await _lfs.client.query({
+    r = await lfs.client.query({
       query: gql`
         ${query}
       `,
@@ -405,7 +408,7 @@ const readListData = async (state: IListBaseState): Promise<any> => {
   }
 
   if (r && r.data) {
-    return Promise.resolve(r.data[`get${getPlural(listname)}s`]);
+    return Promise.resolve(r.data[`get${getPlural(listname || _listname)}s`]);
   } else {
     onError(r);
     await clientError(r);
@@ -427,4 +430,6 @@ export const ListProvider: IDataProvider = {
   GetBrowseNodes,
   GetVariations,
   readListData,
+  category,
+  lfs,
 };

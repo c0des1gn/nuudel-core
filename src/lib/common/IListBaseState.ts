@@ -1,19 +1,19 @@
 export interface IListBaseState {
+  search?: string;
   total: number;
   filter: any;
-  search?: string;
-  //columns: any[];
   sorting: string;
   pageSize: number;
   currentPage: number;
   listname?: string;
+  columns?: string;
   fetchPolicy?: string;
 }
 
 interface IProviderCore {
   query?: string;
   listname?: string;
-  resources?: string;
+  columns?: string;
 }
 
 export interface IProviderBase extends IProviderCore {
