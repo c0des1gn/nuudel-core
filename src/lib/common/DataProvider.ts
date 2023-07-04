@@ -262,7 +262,7 @@ export default class DataProvider implements IDataProvider {
           ${
             !columns
               ? `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
-               oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}`
+               oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}}`
               : columns
           }
       }}`,

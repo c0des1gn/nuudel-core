@@ -22,6 +22,15 @@ var _columns = `
   updatedAt
   `;
 
+function setQuery(query?: string, columns?: string) {
+  if (query) {
+    _query = query;
+  }
+  if (columns) {
+    _columns = columns;
+  }
+}
+
 const _listname: string = 'Product';
 var category: any = [];
 const _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
@@ -237,7 +246,7 @@ const GetItems = async (
             ${
               !columns
                 ? `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
-                 oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}`
+                 oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}}`
                 : columns
             }
         }}`,
@@ -430,6 +439,7 @@ export const ListProvider: IDataProvider = {
   GetBrowseNodes,
   GetVariations,
   readListData,
+  setQuery,
   category,
   lfs,
 };

@@ -18,6 +18,7 @@ export default interface IDataProvider {
   GetAvailability?(itemIds: string[]): Promise<any>;
   GetCategorySuggestions?(param: IProviderBase): Promise<any>;
   getFields?(listname: string, callback?: Function): Promise<any[]>;
+  setQuery?(query?: string, columns?: string): void;
   lfs?;
   category?: any[];
 }
