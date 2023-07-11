@@ -80,5 +80,6 @@
   "allowcomment": "Allow comment",
   "excerpt": "Excerpt",
   "categories": "Categories",
+  "Searchbar": "Search from {{market}}",
   "ErrorOnSavingListItem": "Error on loading lists: "
 }

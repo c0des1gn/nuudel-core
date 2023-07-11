@@ -80,5 +80,6 @@
   "allowcomment": "Сэтгэгдэл зөвшөөрөх",
   "excerpt": "Товчлол",
   "categories": "Ангилалууд",
+  "Searchbar": "{{market}} -с хайх",
   "ErrorOnSavingListItem": "Алдаа жагсаалтыг ачаалж чадсангүй: "
 }

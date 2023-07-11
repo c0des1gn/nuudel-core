@@ -12,6 +12,7 @@ import { clientError } from './helper';
 import { t } from '../loc/i18n';
 import { FetchPolicy } from '@apollo/client';
 import IDataProvider from './IDataProvider';
+import { IPaginatedVar, IPaginatedRes } from './Interfaces';
 
 var _query = '';
 var _columns = `
@@ -53,10 +54,10 @@ const _category = () => {
 function Sorting() {
   return [
     { label: t('BestMatch'), value: '' },
-    { label: t('LowestPriceShipping'), value: "{'Price.value': 1}" },
-    { label: t('HighestPriceShipping'), value: "{'Price.value': -1}" },
-    { label: t('EndingSoonest'), value: '{expired: 1}' },
-    { label: t('NewlyListed'), value: '{createdAt: 1}' },
+    { label: t('LowestPriceShipping'), value: '{"price.value": 1}' },
+    { label: t('HighestPriceShipping'), value: '{"price.value": -1}' },
+    { label: t('EndingSoonest'), value: '{"expired": 1}' },
+    { label: t('NewlyListed'), value: '{"createdAt": -1}' },
   ];
 }
 
@@ -69,14 +70,14 @@ const defaultFilters = () => {
 const filterOptions = () => {
   return [
     {
-      name: 'categories',
-      type: 'multiselect',
+      name: 'categoryId',
+      type: 'select',
       text: t('Categories'),
       choices: category.map((item) => ({
         value: item.cid,
         label: item.name,
       })),
-      default: [''],
+      default: '',
     },
     {
       name: 'condition',
@@ -339,7 +340,7 @@ const GetVariations = async (param: IProviderBase): Promise<any> => {
   }
 };
 
-const readListData = async (state: IListBaseState): Promise<any> => {
+const readListData = async (stat: IListBaseState): Promise<any> => {
   let {
     sorting,
     pageSize,
@@ -348,10 +349,10 @@ const readListData = async (state: IListBaseState): Promise<any> => {
     search,
     listname,
     fetchPolicy = _fetchPolicy,
-  } = state;
+  } = stat;
   search = typeof search !== 'undefined' ? search.trim() : undefined;
   let filter =
-    typeof state.filter === 'object' ? { ...state.filter } : state.filter;
+    typeof stat.filter === 'object' ? { ...stat.filter } : stat.filter;
 
   const emptyResult = {
     itemSummaries: [],
@@ -397,15 +398,15 @@ const readListData = async (state: IListBaseState): Promise<any> => {
   }
   let r: any = false;
   try {
-    r = await lfs.client.query({
+    r = await lfs.client.query<IPaginatedRes, IPaginatedVar>({
       query: gql`
         ${query}
       `,
       variables: {
-        filter: filter,
+        filter: filter as string,
         sort: sorting,
         total: total,
-        skip: pageSize * (currentPage >= 0 ? currentPage : 0),
+        skip: pageSize * (currentPage > 0 ? currentPage - 1 : 0),
         take: pageSize,
       },
       fetchPolicy: fetchPolicy as FetchPolicy,

@@ -63,10 +63,10 @@ export default class DataProvider implements IDataProvider {
   public Sorting() {
     return [
       { label: t('BestMatch'), value: '' },
-      { label: t('LowestPriceShipping'), value: "{'Price.value': 1}" },
-      { label: t('HighestPriceShipping'), value: "{'Price.value': -1}" },
-      { label: t('EndingSoonest'), value: '{expired: 1}' },
-      { label: t('NewlyListed'), value: '{createdAt: -1}' },
+      { label: t('LowestPriceShipping'), value: '{"price.value": 1}' },
+      { label: t('HighestPriceShipping'), value: '{"price.value": -1}' },
+      { label: t('EndingSoonest'), value: '{"expired": 1}' },
+      { label: t('NewlyListed'), value: '{"createdAt": -1}' },
     ];
   }
 
@@ -79,14 +79,14 @@ export default class DataProvider implements IDataProvider {
   public filterOptions() {
     return [
       {
-        name: 'categories',
-        type: 'multiselect',
+        name: 'categoryId',
+        type: 'select',
         text: t('Categories'),
         choices: this._category.map((item) => ({
           value: item.cid,
           label: item.name,
         })),
-        default: [''],
+        default: '',
       },
       {
         name: 'condition',
@@ -420,7 +420,7 @@ export default class DataProvider implements IDataProvider {
           filter: filter,
           sort: sorting,
           total: total,
-          skip: pageSize * (currentPage >= 0 ? currentPage : 0),
+          skip: pageSize * (currentPage > 0 ? currentPage - 1 : 0),
           take: pageSize,
         },
         fetchPolicy: fetchPolicy as FetchPolicy,

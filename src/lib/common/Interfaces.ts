@@ -73,3 +73,19 @@ export interface ReduxProps {
   updateProp(prop: string, value: any): void;
   updateProps(obj: any): void;
 }
+
+export interface IPaginatedVar {
+  skip?: number;
+  take?: number;
+  filter?: string;
+  sort?: string;
+  total?: number;
+}
+
+export interface IPaginatedRes {
+  itemSummaries: any[];
+  total?: number;
+  limit?: number;
+  offset?: number;
+  next?: boolean;
+}
