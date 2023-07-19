@@ -30,9 +30,9 @@ import { IImage, ICurrentUser } from '../../common/Interfaces';
 import { useRouter } from 'next/router';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
-//import { CKEditor } from '@ckeditor/ckeditor5-react';
-//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-//import SourceEditing from '@ckeditor/ckeditor5-source-editing/src/sourceediting';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 
 export interface IProps {
   id?: string;
@@ -200,7 +200,7 @@ const GET_CATEGORIES = gql`
 
 const custom_config = {
   extraPlugins: [CustomUploadAdapterPlugin],
-  //plugins: [SourceEditing],
+  plugins: [SourceEditing],
   toolbar: {
     items: [
       'heading',
@@ -221,7 +221,7 @@ const custom_config = {
       'undo',
       'redo',
       //'|',
-      //'sourceEditing',
+      'sourceEditing',
     ],
   },
   table: {
@@ -233,10 +233,10 @@ var _debounce: any = undefined;
 const Editor: React.FC<IProps> = (props: IProps) => {
   const router = useRouter();
   const { post_type = 'Post', editdata = initialValues } = props;
-  const editorRef: any = useRef();
+  //const editorRef: any = useRef();
+  //const { CKEditor, ClassicEditor } = editorRef.current || {};
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
-  const { CKEditor, ClassicEditor } = editorRef.current || {};
   const [formValues, setFormValues] = useState(editdata as IPost);
   const [listCat, setListCat] = useState([]);
   const [html, setHtml] = useState(editdata.content || '');
@@ -293,10 +293,6 @@ const Editor: React.FC<IProps> = (props: IProps) => {
   );
 
   useEffect(() => {
-    editorRef.current = {
-      CKEditor: require('@ckeditor/ckeditor5-react').CKEditor, //Added .CKEditor
-      ClassicEditor: require('@ckeditor/ckeditor5-build-classic'),
-    };
     if (props.id && !props.editdata) {
       getItem({
         variables: {

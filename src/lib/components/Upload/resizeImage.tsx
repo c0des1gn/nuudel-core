@@ -18,7 +18,7 @@ export function resizeImage(
       img.onload = () => {
         let width: number = img.width,
           height: number = img.height;
-        const pica = Pica(); //require('pica')();
+        const pica = Pica();
         const resizedCanvas: HTMLCanvasElement =
           document.createElement('canvas');
         const mimeType = file.type || 'image/jpeg';
