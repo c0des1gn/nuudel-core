@@ -31,8 +31,9 @@ import { useRouter } from 'next/router';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
+//import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+//import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
+//const SourceEditing = require('@ckeditor/ckeditor5-source-editing').SourceEditing;
 
 export interface IProps {
   id?: string;
@@ -200,7 +201,7 @@ const GET_CATEGORIES = gql`
 
 const custom_config = {
   extraPlugins: [CustomUploadAdapterPlugin],
-  plugins: [SourceEditing],
+  //plugins: [SourceEditing],
   toolbar: {
     items: [
       'heading',
@@ -221,7 +222,7 @@ const custom_config = {
       'undo',
       'redo',
       //'|',
-      'sourceEditing',
+      //'sourceEditing',
     ],
   },
   table: {
@@ -233,8 +234,7 @@ var _debounce: any = undefined;
 const Editor: React.FC<IProps> = (props: IProps) => {
   const router = useRouter();
   const { post_type = 'Post', editdata = initialValues } = props;
-  //const editorRef: any = useRef();
-  //const { CKEditor, ClassicEditor } = editorRef.current || {};
+  const editorRef: any = useRef<any>();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
   const [formValues, setFormValues] = useState(editdata as IPost);
@@ -293,6 +293,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
   );
 
   useEffect(() => {
+    editorRef.current = require('@ckeditor/ckeditor5-build-classic');
     if (props.id && !props.editdata) {
       getItem({
         variables: {
@@ -434,7 +435,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
               onChange={(e) => setChange('title', e?.target?.value)}
             />
             <CKEditor
-              editor={ClassicEditor}
+              editor={editorRef.current}
               config={custom_config}
               disabled={props.permission === Permission.Read}
               data={html}
@@ -444,7 +445,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
                 //console.log('Editor is ready to use!', editor);
               }}
               //onChange={(event, editor) => { setHtml(editor.getData()); }}
-              onBlur={(event, editor) => {
+              onBlur={(event, editor: any) => {
                 setHtml(editor.getData());
               }}
             />
