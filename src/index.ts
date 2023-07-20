@@ -65,9 +65,6 @@ export * from './lib/library/';
 //widgets
 export * from './lib/widgets/';
 
-//@Components
-export * from './lib/components/index';
-
 /**
  * Types exported by 'components/base'
  */
