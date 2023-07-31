@@ -39,12 +39,12 @@ const _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
 const initCategory = () => {
   GetBrowseNodes({ ID: '', columns: 'cid, name', depth: 1 }).then((r) => {
     if (r) {
-      category = r;
+      category = [{ cid: '', name: 'All Categories' }].concat(r);
     }
   });
 };
 
-const _category = () => {
+const _category = (): any[] => {
   if (lfs?.client && (!category || category?.length === 0)) {
     initCategory();
   }
@@ -441,6 +441,6 @@ export const ListProvider: IDataProvider = {
   GetVariations,
   readListData,
   setQuery,
-  category,
+  category: _category,
   lfs,
 };

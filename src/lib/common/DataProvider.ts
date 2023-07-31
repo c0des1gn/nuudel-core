@@ -43,14 +43,14 @@ export default class DataProvider implements IDataProvider {
     this.GetBrowseNodes({ ID: '', columns: 'cid, name', depth: 1 }).then(
       (r) => {
         if (r) {
-          this._category = r;
+          this._category = [{ cid: '', name: 'All Categories' }].concat(r);
         }
       }
     );
   }
 
   public get category() {
-    if (this._category && this._category.length === 0) {
+    if (!this._category || this._category?.length === 0) {
       this.initCategory();
     }
     return this._category;

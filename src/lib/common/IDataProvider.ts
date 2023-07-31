@@ -20,5 +20,5 @@ export default interface IDataProvider {
   getFields?(listname: string, callback?: Function): Promise<any[]>;
   setQuery?(query?: string, columns?: string): void;
   lfs?;
-  category?: any[];
+  category?: any;
 }
