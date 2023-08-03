@@ -25,7 +25,7 @@ const editorConfiguration = {
       'selectAll',
       '|',
       'imageUpload',
-      'mediaEmbed',
+      //'mediaEmbed',
       '|',
       'undo',
       'redo',

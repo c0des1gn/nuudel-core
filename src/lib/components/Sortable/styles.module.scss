@@ -1,0 +1,100 @@
+@import '../../theme/variables/colors';
+
+.sortableItem {
+    display: flex;
+    justify-content: space-between;
+    flex-grow: 1;
+    align-items: center;
+    padding: 18px 20px;
+    background-color: #fff;
+    box-shadow: 0 0 0 calc(1px / var(--scale-x, 1)) rgba(63, 63, 68, 0.05),
+        0 1px calc(3px / var(--scale-x, 1)) 0 rgba(34, 33, 81, 0.15);
+    border-radius: calc(4px / var(--scale-x, 1));
+    box-sizing: border-box;
+    list-style: none;
+    color: $text-dark;
+    font-weight: 400;
+    font-size: 1rem;
+
+    &:hover .removeItem {
+        visibility: visible !important;
+    }
+}
+
+.dragHandle,
+.removeItem {
+    display: flex;
+    width: 12px;
+    padding: 15px;
+    margin-left: 3px;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    touch-action: none;
+    cursor: var(--cursor, pointer);
+    border-radius: 5px;
+    border: none;
+    outline: none;
+    appearance: none;
+    background-color: rgba(255, 255, 255, 0.5);
+    -webkit-tap-highlight-color: transparent;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.75);
+    }
+
+    &:focus-visible {
+        box-shadow: 0 0px 0px 2px $primary;
+    }
+
+    svg {
+        flex: 0 0 auto;
+        margin: auto;
+        height: 100%;
+        overflow: visible;
+        fill: $placeholder;
+    }
+}
+
+.removeItem {
+    visibility: hidden;
+}
+
+.actionButtons {
+    z-index: 1;
+    display: flex;
+    align-self: flex-start;
+    margin-top: -12px;
+    margin-left: auto;
+    margin-bottom: -15px;
+    margin-right: -10px;
+}
+
+.itemGrid {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    max-width: 330px;
+
+    @media screen and (min-width: 1100px) {
+        max-width: 1100px;
+    }
+
+    @media screen and (min-width: 960px) and (max-width: 1099px) {
+        max-width: 960px;
+    }
+
+    @media screen and (min-width: 780px) and (max-width: 959px) {
+        max-width: 780px;
+    }
+
+    @media screen and (min-width: 500px) and (max-width: 779px) {
+        max-width: 500px;
+    }
+
+    li:first-child {
+        //border: 2px solid $warning;
+        border-radius: 2px;
+        box-shadow: 0px 0px 0px 4px rgba(0, 0, 0, 0.3);
+    }
+}

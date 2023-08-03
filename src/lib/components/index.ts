@@ -39,6 +39,7 @@ import Message, {
   SNACKBAR_STATE_QUERY,
   TOGGLE_SNACKBAR_MUTATION,
 } from './Material/SuccessMessage';
+import Sortable from './Sortable';
 
 export {
   Message,
@@ -80,6 +81,7 @@ export {
   ColorPicker,
   useLongPress,
   useStateIfMounted,
+  Sortable,
 };
 
 export type { MessageBarType, INotificationMessages };

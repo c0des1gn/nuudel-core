@@ -7,18 +7,20 @@ import {
   IconButton,
 } from '@mui/material';
 import Image from '../../components/Image';
-import { useDropzone, DropzoneOptions } from 'react-dropzone';
+import { useDropzone, DropzoneOptions, Accept } from 'react-dropzone';
 import { useStyles } from './Style';
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { t } from '../../loc/i18n';
 import axios from 'axios';
 import UI from '../../common/UI';
 import { resizeImage } from './resizeImage';
+import { Sortable } from '../Sortable';
+import { SortableItem } from '../Sortable/SortableItem';
 //import { stringify_params } from 'nuudel-utils';
 
 interface IUploadProps {
   disabled?: boolean;
-  accept?: string;
+  accept?: Accept;
   multiple?: boolean;
   label?: string;
   uploaded?: any;
@@ -27,6 +29,7 @@ interface IUploadProps {
   maxFiles?: number;
   onChange?(val: any);
   toWidth?: number;
+  width?: number;
 }
 
 const Upload: React.FC<IUploadProps> = ({
@@ -37,7 +40,10 @@ const Upload: React.FC<IUploadProps> = ({
   minSize = undefined,
   maxSize = 10048576,
   maxFiles = 20,
-  accept = 'image/*',
+  width = 100,
+  accept = {
+    'image/*': [],
+  },
   ...props
 }) => {
   const classes = useStyles();
@@ -50,9 +56,9 @@ const Upload: React.FC<IUploadProps> = ({
   const [totalFilesUploaded, setTotalFilesUploaded] = useState<
     ImageProperties[]
   >([]);
-  const [alreadyUploadedImages, setAlreadyUploadedImages] = useState(
-    uploaded instanceof Array ? uploaded : uploaded ? [uploaded] : uploaded
-  );
+  const [alreadyUploadedImages, setAlreadyUploadedImages] = useState<
+    ImageProperties[]
+  >(uploaded instanceof Array ? uploaded : !uploaded ? [] : [uploaded]);
   //////////////////////////////////////////////
   const [files, setFiles] = useState([]);
   const { getRootProps, getInputProps } = useDropzone({
@@ -158,11 +164,11 @@ const Upload: React.FC<IUploadProps> = ({
     if (!allImages[index] || !allImages[index].uri) {
       return;
     }
-    let allImagesData = [...allImages];
+    let allImagesData = allImages.map((it) => ({ ...it }));
     let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
     if (uploadUrl?.indexOf('cloudinary.com') < 0) {
       const data = {
-        delete: allImages[index].uri,
+        delete: allImagesData[index].uri,
         upload_preset: process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
       };
       const r = await axios({
@@ -183,7 +189,7 @@ const Upload: React.FC<IUploadProps> = ({
   };
 
   const ProductImagesSection: React.FC<any> = ({ images }) => {
-    if (images && images.length > 0) {
+    if (images?.length > 0) {
       return (
         <ImageList className={classes.gridList} style={{ margin: '0px' }}>
           {images.map((image: any, index: number) => {
@@ -191,18 +197,18 @@ const Upload: React.FC<IUploadProps> = ({
               <ImageListItem
                 key={index}
                 style={{
-                  width: '90px',
-                  height: '90px',
+                  width: `${width}px`,
+                  height: `${width}px`,
                   padding: '0',
                   display: 'inline-block',
                   marginRight: '5px',
                 }}
               >
                 <Image
-                  src={image.uri || '/images/placeholder.png'}
+                  src={image?.uri || '/images/placeholder.png'}
                   alt="Image"
-                  width={90} //image.width
-                  height={90} //image.height
+                  width={width}
+                  height={width}
                 />
                 <ImageListItemBar
                   classes={{
@@ -260,31 +266,46 @@ const Upload: React.FC<IUploadProps> = ({
     }
   };
 
+  const onRemove = (Id: string | number) => {
+    let index: number = alreadyUploadedImages.findIndex(
+      (item) => item?.uri === Id
+    );
+    if (index >= 0) {
+      removeExistingImage(index, alreadyUploadedImages);
+    }
+  };
+
   return (
     <Grid container>
-      {multiple ? (
-        <Grid item xs={12} style={{ marginBottom: '5px' }}>
-          <ProductImagesSection
-            images={alreadyUploadedImages}
-          ></ProductImagesSection>
-        </Grid>
-      ) : (
-        <ProductImagesSection
-          images={alreadyUploadedImages}
-        ></ProductImagesSection>
-      )}
-      <section className={classes.FileContainer}>
-        {/* DROPZONE */}
-        <div {...getRootProps({ className: 'dropzone' })}>
-          <input {...getInputProps()} />
-          <p>{t(`Image drag and drop`, { label: label })}</p>
-        </div>
-        <FileUploading />
-        {
-          //<aside className={classes.thumbsContainer}>{thumbs}</aside>
-          /* DROPZONE */
-        }
-      </section>
+      <Sortable
+        items={alreadyUploadedImages}
+        onChange={setAlreadyUploadedImages}
+        renderItem={(item: any) => (
+          <SortableItem id={item?.uri} item={item} onRemove={onRemove} />
+        )}
+      >
+        <section className={classes.FileContainer} style={{ maxHeight: width }}>
+          {/* DROPZONE */}
+          <div
+            {...getRootProps({ className: 'dropzone' })}
+            style={{
+              width: alreadyUploadedImages?.length > 0 ? width : undefined,
+            }}
+          >
+            <input {...getInputProps()} />
+            {alreadyUploadedImages?.length > 0 ? (
+              <span style={{ fontSize: 60, lineHeight: '50px' }}>+</span>
+            ) : (
+              <p>{t(`Image drag and drop`, { label: label })}</p>
+            )}
+          </div>
+          <FileUploading />
+          {/* DROPZONE */}
+        </section>
+      </Sortable>
+      {
+        //<ProductImagesSection images={alreadyUploadedImages}></ProductImagesSection>
+      }
     </Grid>
   );
 };

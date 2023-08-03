@@ -1,4 +1,4 @@
-import { useWindowDimensions } from './useWindowDimension';
+export { useWindowDimensions } from './useWindowDimension';
 import { USER_TOKEN, isServer } from 'nuudel-utils';
 import {
   isIOS,
