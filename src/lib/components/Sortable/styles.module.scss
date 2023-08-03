@@ -58,6 +58,10 @@
 
 .removeItem {
     visibility: hidden;
+
+    &.onmobile {
+        visibility: visible !important;
+    }
 }
 
 .actionButtons {
