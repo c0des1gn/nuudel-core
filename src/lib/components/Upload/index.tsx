@@ -117,7 +117,7 @@ const Upload: React.FC<IUploadProps> = ({
         if (r?.data) {
           let res: any = r.data;
           const url = res.secure_url || res.url || res.uri || res.data?.uri;
-          let picture: any = { uri: url };
+          let picture: any = { uri: url || '' };
           if (res.height) {
             picture['height'] = res.height;
           }

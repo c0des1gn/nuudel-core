@@ -34,8 +34,8 @@ export default function Navigation({ category }: Props) {
             category
               .filter((cata) => cata['parent_id'] === null)
               .map((cat, i) => (
-                <li>
-                  <Link key={i} href={`/posts/category/${cat['cid']}`}>
+                <li key={i}>
+                  <Link href={`/posts/category/${cat['cid']}`}>
                     <span
                     // className={router.pathname === '/' ? 'widget-navigation-active' : null}
                     >

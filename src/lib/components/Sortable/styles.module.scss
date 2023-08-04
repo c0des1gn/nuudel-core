@@ -96,6 +96,10 @@
         max-width: 500px;
     }
 
+    li {
+        display: inline-block;
+    }
+
     li:first-child {
         //border: 2px solid $warning;
         border-radius: 2px;
