@@ -3,6 +3,7 @@ import NextImage, { ImageLoader } from 'next/image';
 
 interface IImageProps {
   src?: string | any;
+  srcSet?: string;
   width?: number | string;
   height?: number | string;
   className?: string;
