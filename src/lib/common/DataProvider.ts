@@ -39,14 +39,12 @@ export default class DataProvider implements IDataProvider {
     }
   }
 
-  initCategory() {
-    this.GetBrowseNodes({ ID: '', columns: 'cid, name', depth: 1 }).then(
-      (r) => {
-        if (r) {
-          this._category = [{ cid: '', name: 'All Categories' }].concat(r);
-        }
+  initCategory(depth = 1) {
+    this.GetBrowseNodes({ ID: '', columns: 'cid, name', depth }).then((r) => {
+      if (r) {
+        this._category = [{ cid: '', name: 'All Categories' }].concat(r);
       }
-    );
+    });
   }
 
   public get category() {
@@ -378,6 +376,53 @@ export default class DataProvider implements IDataProvider {
 
     if (listname === this._listname && typeof search === 'undefined') {
       return Promise.resolve(emptyResult);
+    }
+
+    if (listname === 'Product' && filter) {
+      try {
+        filter =
+          typeof filter === 'object' ? filter : JSON.parse(filter || '{}');
+      } catch {
+        filter = {};
+      }
+      let minPrice = '',
+        maxPrice = '';
+      if (filter.hasOwnProperty('MinPrice')) {
+        minPrice = filter['MinPrice'];
+        delete filter['MinPrice'];
+      }
+      if (filter.hasOwnProperty('MaxPrice')) {
+        maxPrice = filter['MaxPrice'];
+        delete filter['MaxPrice'];
+      }
+      if (minPrice && maxPrice) {
+        filter['price.value'] = { $gte: minPrice, $lte: maxPrice };
+      } else if (maxPrice) {
+        filter['price.value'] = { $lte: maxPrice };
+      } else if (minPrice) {
+        filter['price.value'] = { $gte: minPrice };
+      }
+
+      if (
+        filter.hasOwnProperty('categoryId') &&
+        typeof filter.categoryId === 'string'
+      ) {
+        if (filter.categoryId) {
+          let cats: any[] = [];
+          try {
+            cats = await this.GetBrowseNodes({
+              ID: filter['categoryId']?.toString(),
+              columns: 'cid, name',
+              depth: 3,
+            });
+          } catch {}
+          filter['categoryId'] = {
+            $in: cats.map((c) => parseInt(c?.cid)).filter(Boolean),
+          };
+        } else {
+          delete filter['categoryId'];
+        }
+      }
     }
 
     filter = !filter

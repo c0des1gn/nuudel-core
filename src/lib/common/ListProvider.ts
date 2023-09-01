@@ -36,15 +36,15 @@ const _listname: string = 'Product';
 var category: any = [];
 const _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
 
-const initCategory = () => {
-  GetBrowseNodes({ ID: '', columns: 'cid, name', depth: 1 }).then((r) => {
+const initCategory = (depth = 1) => {
+  GetBrowseNodes({ ID: '', columns: 'cid, name', depth }).then((r) => {
     if (r) {
       category = [{ cid: '', name: 'All Categories' }].concat(r);
     }
   });
 };
 
-const _category = (): any[] => {
+const _category = (depth?: number): any[] => {
   if (lfs?.client && (!category || category?.length === 0)) {
     initCategory();
   }
@@ -364,6 +364,52 @@ const readListData = async (stat: IListBaseState): Promise<any> => {
 
   if (listname === _listname && typeof search === 'undefined') {
     return Promise.resolve(emptyResult);
+  }
+
+  if (listname === 'Product' && filter) {
+    try {
+      filter = typeof filter === 'object' ? filter : JSON.parse(filter || '{}');
+    } catch {
+      filter = {};
+    }
+    let minPrice = '',
+      maxPrice = '';
+    if (filter.hasOwnProperty('MinPrice')) {
+      minPrice = filter['MinPrice'];
+      delete filter['MinPrice'];
+    }
+    if (filter.hasOwnProperty('MaxPrice')) {
+      maxPrice = filter['MaxPrice'];
+      delete filter['MaxPrice'];
+    }
+    if (minPrice && maxPrice) {
+      filter['price.value'] = { $gte: minPrice, $lte: maxPrice };
+    } else if (maxPrice) {
+      filter['price.value'] = { $lte: maxPrice };
+    } else if (minPrice) {
+      filter['price.value'] = { $gte: minPrice };
+    }
+
+    if (
+      filter.hasOwnProperty('categoryId') &&
+      typeof filter.categoryId === 'string'
+    ) {
+      if (filter.categoryId) {
+        let cats: any[] = [];
+        try {
+          cats = await GetBrowseNodes({
+            ID: filter['categoryId']?.toString(),
+            columns: 'cid, name',
+            depth: 3,
+          });
+        } catch {}
+        filter['categoryId'] = {
+          $in: cats.map((c) => parseInt(c?.cid)).filter(Boolean),
+        };
+      } else {
+        delete filter['categoryId'];
+      }
+    }
   }
 
   filter = !filter
