@@ -39,7 +39,7 @@ export default class DataProvider implements IDataProvider {
     }
   }
 
-  initCategory(depth = 1) {
+  initCategory(depth = 0) {
     this.GetBrowseNodes({ ID: '', columns: 'cid, name', depth }).then((r) => {
       if (r) {
         this._category = [{ cid: '', name: 'All Categories' }].concat(r);
@@ -70,7 +70,7 @@ export default class DataProvider implements IDataProvider {
 
   public defaultFilters() {
     return {
-      availability: 'IN_STOCK',
+      availability: 'IN_STOCK', // { $in: ['IN_STOCK', 'BACK_ORDER'] },
     };
   }
 

@@ -36,7 +36,7 @@ const _listname: string = 'Product';
 var category: any = [];
 const _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
 
-const initCategory = (depth = 1) => {
+const initCategory = (depth = 0) => {
   GetBrowseNodes({ ID: '', columns: 'cid, name', depth }).then((r) => {
     if (r) {
       category = [{ cid: '', name: 'All Categories' }].concat(r);
@@ -63,7 +63,7 @@ function Sorting() {
 
 const defaultFilters = () => {
   return {
-    availability: 'IN_STOCK',
+    availability: 'IN_STOCK', // { $in: ['IN_STOCK', 'BACK_ORDER'] },
   };
 };
 
@@ -102,6 +102,33 @@ const filterOptions = () => {
       type: 'number',
       text: t('MaxPrice'),
     },
+    /*
+    {
+      name: 'color',
+      type: 'multiselect',
+      text: t('color'),
+      choices: [
+        { value: 'None', label: t('None') },
+        { value: 'Black', label: t('Black') },
+        { value: 'Blue', label: t('Blue') },
+        { value: 'Brown', label: t('Brown') },
+        { value: 'Gray', label: t('Gray') },
+        { value: 'Green', label: t('Green') },
+        { value: 'Red', label: t('Red') },
+        { value: 'White', label: t('White') },
+        { value: 'Ivory', label: t('Ivory') },
+        { value: 'Beige', label: t('Beige') },
+        { value: 'Orange', label: t('Orange') },
+        { value: 'Pink', label: t('Pink') },
+        { value: 'Purple', label: t('Purple') },
+        { value: 'Yellow', label: t('Yellow') },
+        { value: 'Silver', label: t('Silver') },
+        { value: 'Gold', label: t('Gold') },
+        { value: 'Clear', label: t('Clear') },
+        { value: 'Multi', label: t('Multi') },
+      ],
+      default: [],
+    }, // */
   ];
 };
 

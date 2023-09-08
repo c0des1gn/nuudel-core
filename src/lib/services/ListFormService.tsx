@@ -998,8 +998,8 @@ const generateData = async (listname: string) => {
  */
 const executeQuery = (
   query: string,
-  listname: string,
-  type: QueryType | string,
+  listname: string = '',
+  type: QueryType | string = '',
   variables: any = {}
 ): Promise<any> => {
   if ((!listname && type !== QueryType.Many) || !query) {
