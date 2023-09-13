@@ -259,7 +259,7 @@ export default class DataProvider implements IDataProvider {
         getAll${listname}(filter: $filter, sort: $sort, limit: $limit) {
           ${
             !columns
-              ? `_id, title, image, condition, color, Size, availability, quantity, price {value, currency},
+              ? `_id, _parentGroup, title, image, condition, color, Size, availability, quantity, price {value, currency},
                oldPrice, shortDesc, shipping {ServiceCode, quantityEstimate, ShippingCost{currency,value}}`
               : columns
           }
@@ -362,7 +362,7 @@ export default class DataProvider implements IDataProvider {
       listname,
       fetchPolicy = this._fetchPolicy,
     } = state;
-    search = typeof search !== 'undefined' ? search.trim() : undefined;
+    search = !search ? search : search?.trim();
     let filter =
       typeof state.filter === 'object' ? { ...state.filter } : state.filter;
 
@@ -374,7 +374,11 @@ export default class DataProvider implements IDataProvider {
       limit: 0,
     };
 
-    if (listname === this._listname && typeof search === 'undefined') {
+    if (
+      listname === this._listname &&
+      !search &&
+      (!filter || Object.keys(filter)?.length === 0)
+    ) {
       return Promise.resolve(emptyResult);
     }
 
