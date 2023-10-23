@@ -70,7 +70,7 @@ export default class DataProvider implements IDataProvider {
 
   public defaultFilters() {
     return {
-      availability: 'IN_STOCK', // { $in: ['IN_STOCK', 'BACK_ORDER'] },
+      availability: { $in: ['IN_STOCK', 'BACK_ORDER'] },
     };
   }
 
@@ -476,7 +476,7 @@ export default class DataProvider implements IDataProvider {
         //errorPolicy: 'all',
       });
     } catch (err) {
-      console.warn(err);
+      //console.warn(err);
       return Promise.resolve(emptyResult);
     }
 

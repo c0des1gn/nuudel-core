@@ -63,7 +63,7 @@ function Sorting() {
 
 const defaultFilters = () => {
   return {
-    availability: 'IN_STOCK', // { $in: ['IN_STOCK', 'BACK_ORDER'] },
+    availability: { $in: ['IN_STOCK', 'BACK_ORDER'] },
   };
 };
 
@@ -326,8 +326,8 @@ const GetBrowseNodes = async (param: IProviderBase): Promise<any> => {
 _category();
 
 const GetVariations = async (param: IProviderBase): Promise<any> => {
-  let { ID, columns } = param;
-  const listname = 'Itemgroup';
+  let { ID, columns, listname = 'Itemgroup' } = param;
+
   let r: any = false;
 
   //r = await lfs.itemById(listname, ID);
@@ -486,7 +486,7 @@ const readListData = async (stat: IListBaseState): Promise<any> => {
       //errorPolicy: 'all',
     });
   } catch (err) {
-    console.warn(err);
+    //console.warn(err);
     return Promise.resolve(emptyResult);
   }
 
