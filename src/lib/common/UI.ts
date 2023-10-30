@@ -109,10 +109,14 @@ export class UI {
     // get the authentication token from local storage if it exists
     const token = UI.getItem(USER_TOKEN);
     // return the headers object
-    return {
-      Authorization: token ? `Bearer ${token}` : '',
+
+    let headers: any = {
       deviceuniqid: DeviceId.uniqueId + '|' + DeviceId.device,
     };
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+    return headers;
   }
 }
 

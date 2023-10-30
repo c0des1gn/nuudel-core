@@ -419,7 +419,7 @@ const readListData = async (stat: IListBaseState): Promise<any> => {
 
     if (
       filter.hasOwnProperty('categoryId') &&
-      typeof filter.categoryId === 'string'
+      ['string', 'number'].includes(typeof filter.categoryId)
     ) {
       if (filter.categoryId) {
         let cats: any[] = [];

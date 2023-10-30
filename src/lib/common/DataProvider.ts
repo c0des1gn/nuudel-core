@@ -409,7 +409,7 @@ export default class DataProvider implements IDataProvider {
 
       if (
         filter.hasOwnProperty('categoryId') &&
-        typeof filter.categoryId === 'string'
+        ['string', 'number'].includes(typeof filter.categoryId)
       ) {
         if (filter.categoryId) {
           let cats: any[] = [];
