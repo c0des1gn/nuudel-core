@@ -171,7 +171,7 @@ const getFields = async (listname: string): Promise<any[]> => {
                 row
               )
             : row[field.InternalName];
-          return !dat?.uri ? '--' : dat.uri;
+          return !dat?.uri ? '' : dat.uri;
         };
       } else if (field.FieldType === 'Boolean') {
         f['getCellValue'] = (row) => {

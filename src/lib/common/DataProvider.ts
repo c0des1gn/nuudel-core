@@ -154,7 +154,7 @@ export default class DataProvider implements IDataProvider {
                   row
                 )
               : row[field.InternalName];
-            return !dat?.uri ? '--' : dat.uri;
+            return !dat?.uri ? '' : dat.uri;
           };
         } else if (field.FieldType === 'Boolean') {
           f['getCellValue'] = (row) => {

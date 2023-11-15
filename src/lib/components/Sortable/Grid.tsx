@@ -5,10 +5,17 @@ import { useWindowDimensions } from '../../common/useWindowDimension';
 
 type GridProps = {
   columns: number;
+  gridGap?: number;
+  maxCol?: number;
 };
 
-const Grid: React.FC<GridProps> = ({ children, columns }) => {
-  const maxColumn = columns > 10 ? 10 : columns;
+const Grid: React.FC<GridProps> = ({
+  children,
+  columns,
+  gridGap = 10,
+  maxCol = 10,
+}) => {
+  const maxColumn = columns > maxCol ? maxCol : columns;
   let cols = Math.floor(useWindowDimensions().width / 120) || columns;
   return (
     <MuiGrid container>
@@ -19,9 +26,9 @@ const Grid: React.FC<GridProps> = ({ children, columns }) => {
           gridTemplateColumns: `repeat(${
             cols > maxColumn ? maxColumn : cols
           }, 1fr)`,
-          gridGap: 10,
+          gridGap: gridGap,
           //maxWidth: '1200px',
-          margin: '10px 0',
+          margin: `${gridGap}px 0`,
         }}
       >
         {children}

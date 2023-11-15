@@ -1,5 +1,5 @@
-import React, {FC, useState, useCallback, useMemo, useEffect} from 'react';
-import type {ReactNode} from 'react';
+import React, { FC, useState, useCallback, useMemo, useEffect } from 'react';
+import type { ReactNode } from 'react';
 import {
   DndContext,
   closestCenter,
@@ -22,7 +22,7 @@ import {
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable';
 import Grid from './Grid';
-import type {DropAnimation, Active, UniqueIdentifier} from '@dnd-kit/core';
+import type { DropAnimation, Active, UniqueIdentifier } from '@dnd-kit/core';
 
 interface BaseItem {
   id: UniqueIdentifier | string;
@@ -33,6 +33,8 @@ interface IProps<T extends BaseItem> {
   items: T[];
   onChange?(items: T[]): void;
   renderItem(item: T): ReactNode;
+  gridGap?: number;
+  maxCol?: number;
 }
 
 const dropAnimationConfig: DropAnimation = {
@@ -65,8 +67,8 @@ export const Sortable: FC<IProps<any>> = ({
   }, [props.items]);
 
   const activeItem = useMemo(
-    () => items.find(item => item?.uri === active?.id),
-    [active, items],
+    () => items.find((item) => item?.uri === active?.id),
+    [active, items]
   );
   const sensors = useSensors(
     //useSensor(MouseSensor),
@@ -74,7 +76,7 @@ export const Sortable: FC<IProps<any>> = ({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    }),
+    })
   );
 
   const handleDragStart = useCallback((event: DragStartEvent) => {
@@ -82,15 +84,15 @@ export const Sortable: FC<IProps<any>> = ({
   }, []);
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
-    const {active, over} = event;
+    const { active, over } = event;
 
     if (over && active.id !== over?.id) {
-      setItems(items => {
+      setItems((items) => {
         const activeIndex = items.findIndex(
-          ({uri = undefined}) => uri === active.id,
+          ({ uri = undefined }) => uri === active.id
         );
         const overIndex = items.findIndex(
-          ({uri = undefined}) => uri === over.id,
+          ({ uri = undefined }) => uri === over.id
         );
         let arr = arrayMove(items, activeIndex, overIndex) || [];
         onChange!(arr);
@@ -112,12 +114,14 @@ export const Sortable: FC<IProps<any>> = ({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       onDragCancel={handleDragCancel}
-      measuring={measuringConfig}>
+      measuring={measuringConfig}
+    >
       <SortableContext
         items={items.filter(Boolean)}
         strategy={rectSortingStrategy}
-        disabled={props.disabled}>
-        <Grid columns={items.length + 1}>
+        disabled={props.disabled}
+      >
+        <Grid columns={items.length + 1} gridGap={props.gridGap}>
           {items?.filter(Boolean).map((item, index) => (
             <li key={item?.uri || index}>{renderItem(item)}</li>
           ))}
@@ -127,7 +131,8 @@ export const Sortable: FC<IProps<any>> = ({
       <DragOverlay
         adjustScale
         //style={{transformOrigin: '0 0 '}}
-        dropAnimation={dropAnimationConfig}>
+        dropAnimation={dropAnimationConfig}
+      >
         {!activeItem ? null : renderItem(activeItem)}
       </DragOverlay>
     </DndContext>

@@ -20,6 +20,7 @@ import { SortableItem } from '../Sortable/SortableItem';
 
 interface IUploadProps {
   disabled?: boolean;
+  mini?: boolean;
   accept?: Accept;
   multiple?: boolean;
   label?: string;
@@ -41,6 +42,7 @@ const Upload: React.FC<IUploadProps> = ({
   maxSize = 10048576,
   maxFiles = 20,
   width = 100,
+  mini = false,
   accept = {
     'image/*': [],
   },
@@ -278,6 +280,7 @@ const Upload: React.FC<IUploadProps> = ({
   return (
     <Grid container>
       <Sortable
+        gridGap={!mini ? 10 : 0}
         items={alreadyUploadedImages}
         onChange={setAlreadyUploadedImages}
         renderItem={(item: any) => (
