@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.2.75",
+  "version": "0.2.86",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",

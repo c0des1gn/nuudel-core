@@ -23,18 +23,22 @@ import {
 } from '@dnd-kit/sortable';
 import Grid from './Grid';
 import type { DropAnimation, Active, UniqueIdentifier } from '@dnd-kit/core';
+import { SortableItem } from './SortableItem';
+import { arraysEqual } from '../../common/helper';
 
 interface BaseItem {
   id: UniqueIdentifier | string;
 }
 
 interface IProps<T extends BaseItem> {
+  id?: string;
   disabled?: boolean;
   items: T[];
   onChange?(items: T[]): void;
-  renderItem(item: T): ReactNode;
+  onRemove?(Id: string | number): void;
   gridGap?: number;
   maxCol?: number;
+  itemProp?: string;
 }
 
 const dropAnimationConfig: DropAnimation = {
@@ -55,19 +59,25 @@ const measuringConfig = {
 
 export const Sortable: FC<IProps<any>> = ({
   onChange,
-  renderItem,
+  onRemove,
   children,
+  itemProp = 'uri',
   ...props
 }) => {
   const [items, setItems] = useState<any[]>(props.items || []);
   const [active, setActive] = useState<Active | null>(null);
 
   useEffect(() => {
-    setItems(props.items || []);
+    if (
+      !(props.items?.length === 0 && items?.length === 0) &&
+      !arraysEqual(props.items, items)
+    ) {
+      setItems(props.items || []);
+    }
   }, [props.items]);
 
   const activeItem = useMemo(
-    () => items.find((item) => item?.uri === active?.id),
+    () => items.find((item) => item[itemProp] === active?.id),
     [active, items]
   );
   const sensors = useSensors(
@@ -85,29 +95,40 @@ export const Sortable: FC<IProps<any>> = ({
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
     const { active, over } = event;
-
     if (over && active.id !== over?.id) {
       setItems((items) => {
         const activeIndex = items.findIndex(
-          ({ uri = undefined }) => uri === active.id
+          (it = {}) => it[itemProp] === active.id
         );
         const overIndex = items.findIndex(
-          ({ uri = undefined }) => uri === over.id
+          (it = {}) => it[itemProp] === over.id
         );
         let arr = arrayMove(items, activeIndex, overIndex) || [];
         onChange!(arr);
         return arr;
       });
     }
-
-    setActive(null);
+    if (active != null) {
+      setActive(null);
+    }
   }, []);
 
   const handleDragCancel = useCallback(() => {
-    setActive(null);
+    if (active != null) {
+      setActive(null);
+    }
   }, []);
 
-  return (
+  const renderItem = (item: any) => (
+    <SortableItem
+      id={item[itemProp]}
+      key={item[itemProp]}
+      item={item}
+      onRemove={onRemove}
+    />
+  );
+
+  return items?.length > 1 ? (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
@@ -117,13 +138,14 @@ export const Sortable: FC<IProps<any>> = ({
       measuring={measuringConfig}
     >
       <SortableContext
+        id={props.id}
         items={items.filter(Boolean)}
         strategy={rectSortingStrategy}
         disabled={props.disabled}
       >
         <Grid columns={items.length + 1} gridGap={props.gridGap}>
           {items?.filter(Boolean).map((item, index) => (
-            <li key={item?.uri || index}>{renderItem(item)}</li>
+            <li key={item[itemProp] || index}>{renderItem(item)}</li>
           ))}
           {children}
         </Grid>
@@ -136,6 +158,8 @@ export const Sortable: FC<IProps<any>> = ({
         {!activeItem ? null : renderItem(activeItem)}
       </DragOverlay>
     </DndContext>
+  ) : (
+    <>{children}</>
   );
 };
 
