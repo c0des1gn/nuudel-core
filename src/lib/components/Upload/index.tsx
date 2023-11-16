@@ -154,13 +154,15 @@ const Upload: React.FC<IUploadProps> = ({
     preview: string;
   }
 
-  const thumbs = files.map((file: UploadFile) => (
-    <div className={classes.thumb} key={file.name}>
-      <div className={classes.thumbInner}>
-        <Image src={file.preview} className={classes.img} />
+  const thumbs = files.map(
+    (file: UploadFile, width: any = undefined, height: any = undefined) => (
+      <div className={classes.thumb} key={file.name} style={{ width, height }}>
+        <div className={classes.thumbInner}>
+          <Image src={file.preview} className={classes.img} />
+        </div>
       </div>
-    </div>
-  ));
+    )
+  );
 
   const removeExistingImage = async (
     index: number,
@@ -264,7 +266,7 @@ const Upload: React.FC<IUploadProps> = ({
       if (totalFilesUploaded.length > 0) {
         return <span>{totalFilesUploaded.length} file(s) uploaded. </span>;
       } else {
-        return <span>Uploading. </span>;
+        return <span>Uploading... </span>;
       }
     } else {
       return <span></span>;
@@ -298,7 +300,11 @@ const Upload: React.FC<IUploadProps> = ({
             <></>
           ) : !showDnd ? (
             <span
-              style={{ fontSize: 60, lineHeight: '50px', cursor: 'pointer' }}
+              style={{
+                fontSize: width / 2 + 10,
+                lineHeight: `${width / 2}px`,
+                cursor: 'pointer',
+              }}
             >
               +
             </span>
@@ -337,6 +343,8 @@ const Upload: React.FC<IUploadProps> = ({
           items={alreadyUploadedImages.map((im) => ({ ...im }))}
           onChange={setAlreadyUploadedImages}
           onRemove={onRemove}
+          width={width}
+          height={width}
         >
           <RenderSection />
         </Sortable>

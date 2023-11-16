@@ -5,22 +5,33 @@ import styles from './styles.module.scss';
 export type ItemProps = HTMLAttributes<HTMLDivElement> & {
   id: string | number;
   item: any;
+  width?: number;
+  height?: number;
   withOpacity?: boolean;
   isDragging?: boolean;
   onRemove?(id: string | number);
 };
 
-const width = 100;
-
 const Item = forwardRef<HTMLDivElement, ItemProps>(
-  ({ item, withOpacity, isDragging, style, ...props }, ref) => {
+  (
+    {
+      item,
+      withOpacity,
+      isDragging,
+      style,
+      width = 100,
+      height = 100,
+      ...props
+    },
+    ref
+  ) => {
     const inlineStyles: CSSProperties = {
       opacity: withOpacity ? '0.5' : '1',
       transformOrigin: '50% 50%',
       height: `${width}px`,
-      width: `${width}px`,
+      width: `${height}px`,
       maxWidth: `${width}px`,
-      maxHeight: `${width}px`,
+      maxHeight: `${height}px`,
       borderRadius: '0px',
       //cursor: !isDragging ? 'grab' : 'grabbing',
       backgroundColor: '#fff',

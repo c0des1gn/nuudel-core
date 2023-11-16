@@ -39,6 +39,8 @@ interface IProps<T extends BaseItem> {
   gridGap?: number;
   maxCol?: number;
   itemProp?: string;
+  width?: number;
+  height?: number;
 }
 
 const dropAnimationConfig: DropAnimation = {
@@ -61,6 +63,8 @@ export const Sortable: FC<IProps<any>> = ({
   onChange,
   onRemove,
   children,
+  width,
+  height,
   itemProp = 'uri',
   ...props
 }) => {
@@ -124,6 +128,8 @@ export const Sortable: FC<IProps<any>> = ({
       id={item[itemProp]}
       key={item[itemProp]}
       item={item}
+      width={width}
+      height={height}
       onRemove={onRemove}
     />
   );
