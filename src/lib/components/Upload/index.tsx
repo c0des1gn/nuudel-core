@@ -1,28 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
-import {
-  Grid,
-  ImageList,
-  ImageListItem,
-  ImageListItemBar,
-  IconButton,
-} from '@mui/material';
-import Image from '../../components/Image';
+import { Grid } from '@mui/material';
 import { useDropzone, DropzoneOptions, Accept } from 'react-dropzone';
 import { useStyles } from './Style';
-import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline';
 import { t } from '../../loc/i18n';
 import axios from 'axios';
 import UI from '../../common/UI';
 import { resizeImage } from './resizeImage';
 import { Sortable } from '../Sortable';
 import { arraysEqual } from '../../common/helper';
-//import { stringify_params } from 'nuudel-utils';
 
 interface IUploadProps {
   id?: string;
   disabled?: boolean;
   mini?: boolean;
-  sortable?: boolean;
   accept?: Accept;
   multiple?: boolean;
   label?: string;
@@ -45,7 +35,6 @@ const Upload: React.FC<IUploadProps> = ({
   maxFiles = 20,
   width = 100,
   mini = false,
-  sortable = true,
   accept = {
     'image/*': [],
   },
@@ -154,16 +143,6 @@ const Upload: React.FC<IUploadProps> = ({
     preview: string;
   }
 
-  const thumbs = files.map(
-    (file: UploadFile, width: any = undefined, height: any = undefined) => (
-      <div className={classes.thumb} key={file.name} style={{ width, height }}>
-        <div className={classes.thumbInner}>
-          <Image src={file.preview} className={classes.img} />
-        </div>
-      </div>
-    )
-  );
-
   const removeExistingImage = async (
     index: number,
     allImages: ImageProperties[]
@@ -193,52 +172,6 @@ const Upload: React.FC<IUploadProps> = ({
     if (props.onChange) {
       props.onChange(!multiple ? null : allImagesData);
     }
-  };
-
-  const ProductImagesSection: React.FC<any> = ({ images }) => {
-    return images?.length > 0 ? (
-      <ImageList className={classes.gridList} style={{ margin: '0px' }}>
-        {images.map((image: any, index: number) => {
-          return (
-            <ImageListItem
-              key={index}
-              style={{
-                width: `${width}px`,
-                height: `${width}px`,
-                padding: '0',
-                display: 'inline-block',
-                marginRight: '5px',
-              }}
-            >
-              <Image
-                src={image?.uri || '/images/placeholder.png'}
-                alt="Image"
-                width={width}
-                height={width}
-              />
-              <ImageListItemBar
-                classes={{
-                  root: classes.titleBar,
-                }}
-                actionIcon={
-                  <IconButton
-                    disabled={disabled === true}
-                    onClick={(e) => {
-                      removeExistingImage(index, alreadyUploadedImages);
-                    }}
-                    className={classes.icon}
-                  >
-                    <DeleteOutlineIcon />
-                  </IconButton>
-                }
-              />
-            </ImageListItem>
-          );
-        })}
-      </ImageList>
-    ) : (
-      <div></div>
-    );
   };
 
   const didMountRef = useRef(false);
@@ -282,73 +215,49 @@ const Upload: React.FC<IUploadProps> = ({
     }
   };
 
-  const RenderSection = () => {
-    return (
-      <section className={classes.FileContainer} style={{ maxHeight: width }}>
-        {/* DROPZONE */}
-        <div
-          {...getRootProps({ className: 'dropzone' })}
-          style={{
-            width: alreadyUploadedImages?.length > 0 ? width : undefined,
-          }}
-        >
-          <input {...getInputProps()} />
-          {alreadyUploadedImages?.length >= maxFiles ||
-          (!multiple &&
-            alreadyUploadedImages?.length > 0 &&
-            !!alreadyUploadedImages[0].uri) ? (
-            <></>
-          ) : !showDnd ? (
-            <span
-              style={{
-                fontSize: width / 2 + 10,
-                lineHeight: `${width / 2}px`,
-                cursor: 'pointer',
-              }}
-            >
-              +
-            </span>
-          ) : (
-            <p>{t(`Image drag and drop`, { label: label })}</p>
-          )}
-        </div>
-        <FileUploading />
-        {/* DROPZONE */}
-      </section>
-    );
-  };
-
-  const showDnd = !mini && alreadyUploadedImages?.length === 0;
   return (
     <Grid container>
-      {!sortable ? (
-        <>
-          {multiple ? (
-            <Grid item xs={12} style={{ marginBottom: '5px' }}>
-              <ProductImagesSection
-                images={alreadyUploadedImages}
-              ></ProductImagesSection>
-            </Grid>
-          ) : (
-            <ProductImagesSection
-              images={alreadyUploadedImages}
-            ></ProductImagesSection>
-          )}
-          <RenderSection />
-        </>
-      ) : (
-        <Sortable
-          id={props.id}
-          gridGap={!mini ? 10 : 0}
-          items={alreadyUploadedImages.map((im) => ({ ...im }))}
-          onChange={setAlreadyUploadedImages}
-          onRemove={onRemove}
-          width={width}
-          height={width}
-        >
-          <RenderSection />
-        </Sortable>
-      )}
+      <Sortable
+        id={props.id}
+        gridGap={!mini ? 10 : 0}
+        items={alreadyUploadedImages.map((im) => ({ ...im }))}
+        onChange={setAlreadyUploadedImages}
+        onRemove={onRemove}
+        width={width}
+        height={width}
+      >
+        <section className={classes.FileContainer} style={{ maxHeight: width }}>
+          {/* DROPZONE */}
+          <div
+            {...getRootProps({ className: 'dropzone' })}
+            style={{
+              width: alreadyUploadedImages?.length > 0 ? width : undefined,
+            }}
+          >
+            <input {...getInputProps()} />
+            {alreadyUploadedImages?.length >= maxFiles ||
+            (!multiple &&
+              alreadyUploadedImages?.length > 0 &&
+              !!alreadyUploadedImages[0].uri) ? (
+              <></>
+            ) : !mini && alreadyUploadedImages?.length > 0 ? (
+              <span
+                style={{
+                  fontSize: width / 2 + 10,
+                  lineHeight: `${width / 2}px`,
+                  cursor: 'pointer',
+                }}
+              >
+                +
+              </span>
+            ) : (
+              <p>{t(`Image drag and drop`, { label: label })}</p>
+            )}
+          </div>
+          <FileUploading />
+          {/* DROPZONE */}
+        </section>
+      </Sortable>
     </Grid>
   );
 };
