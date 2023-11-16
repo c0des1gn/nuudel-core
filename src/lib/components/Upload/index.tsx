@@ -247,7 +247,7 @@ const Upload: React.FC<IUploadProps> = ({
                 }}
               >
                 <input {...getInputProps()} />
-                {!mini && alreadyUploadedImages?.length > 0 ? (
+                {mini || alreadyUploadedImages?.length > 0 ? (
                   <span
                     style={{
                       fontSize: width / 2 + 10,
