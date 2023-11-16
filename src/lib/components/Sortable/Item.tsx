@@ -5,6 +5,7 @@ import styles from './styles.module.scss';
 export type ItemProps = HTMLAttributes<HTMLDivElement> & {
   id: string | number;
   item: any;
+  total?: number;
   width?: number;
   height?: number;
   withOpacity?: boolean;
@@ -21,6 +22,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
       style,
       width = 100,
       height = 100,
+      total = 1,
       ...props
     },
     ref
@@ -52,7 +54,7 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
       <div ref={ref} style={inlineStyles} {...props}>
         <div className={styles.actionButtons}>
           <RemoveItem id={item?.uri} />
-          <DragHandle />
+          {total > 1 && <DragHandle />}
         </div>
       </div>
     );

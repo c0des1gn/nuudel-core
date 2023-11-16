@@ -226,37 +226,46 @@ const Upload: React.FC<IUploadProps> = ({
         width={width}
         height={width}
       >
-        <section className={classes.FileContainer} style={{ maxHeight: width }}>
-          {/* DROPZONE */}
-          <div
-            {...getRootProps({ className: 'dropzone' })}
-            style={{
-              width: alreadyUploadedImages?.length > 0 ? width : undefined,
-            }}
-          >
-            <input {...getInputProps()} />
-            {alreadyUploadedImages?.length >= maxFiles ||
-            (!multiple &&
-              alreadyUploadedImages?.length > 0 &&
-              !!alreadyUploadedImages[0].uri) ? (
-              <></>
-            ) : !mini && alreadyUploadedImages?.length > 0 ? (
-              <span
+        {
+          // hide image uploader
+          alreadyUploadedImages?.length >= maxFiles ||
+          (!multiple &&
+            alreadyUploadedImages?.length > 0 &&
+            !!alreadyUploadedImages[0].uri) ? (
+            <></>
+          ) : (
+            <section
+              className={classes.FileContainer}
+              style={{ maxHeight: width }}
+            >
+              {/* DROPZONE */}
+              <div
+                {...getRootProps({ className: 'dropzone' })}
                 style={{
-                  fontSize: width / 2 + 10,
-                  lineHeight: `${width / 2}px`,
-                  cursor: 'pointer',
+                  width: alreadyUploadedImages?.length > 0 ? width : undefined,
+                  padding: !mini ? undefined : 12,
                 }}
               >
-                +
-              </span>
-            ) : (
-              <p>{t(`Image drag and drop`, { label: label })}</p>
-            )}
-          </div>
-          <FileUploading />
-          {/* DROPZONE */}
-        </section>
+                <input {...getInputProps()} />
+                {!mini && alreadyUploadedImages?.length > 0 ? (
+                  <span
+                    style={{
+                      fontSize: width / 2 + 10,
+                      lineHeight: `${width / 2}px`,
+                      cursor: 'pointer',
+                    }}
+                  >
+                    +
+                  </span>
+                ) : (
+                  <p>{t(`Image drag and drop`, { label: label })}</p>
+                )}
+              </div>
+              <FileUploading />
+              {/* DROPZONE */}
+            </section>
+          )
+        }
       </Sortable>
     </Grid>
   );

@@ -123,18 +123,19 @@ export const Sortable: FC<IProps<any>> = ({
     }
   }, []);
 
-  const renderItem = (item: any) => (
+  const renderItem = (item: any, total?: number) => (
     <SortableItem
       id={item[itemProp]}
       key={item[itemProp]}
       item={item}
       width={width}
       height={height}
+      total={total}
       onRemove={onRemove}
     />
   );
 
-  return items?.length > 1 ? (
+  return (
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
@@ -150,8 +151,10 @@ export const Sortable: FC<IProps<any>> = ({
         disabled={props.disabled}
       >
         <Grid columns={items.length + 1} gridGap={props.gridGap}>
-          {items?.filter(Boolean).map((item, index) => (
-            <li key={item[itemProp] || index}>{renderItem(item)}</li>
+          {items?.filter(Boolean).map((item, index, arr) => (
+            <li key={item[itemProp] || index}>
+              {renderItem(item, arr.length)}
+            </li>
           ))}
           {children}
         </Grid>
@@ -161,11 +164,9 @@ export const Sortable: FC<IProps<any>> = ({
         //style={{transformOrigin: '0 0 '}}
         dropAnimation={dropAnimationConfig}
       >
-        {!activeItem ? null : renderItem(activeItem)}
+        {!activeItem ? null : renderItem(activeItem, items.length)}
       </DragOverlay>
     </DndContext>
-  ) : (
-    <>{children}</>
   );
 };
 
