@@ -79,7 +79,7 @@ export function RemoveItem<IRemoveProp>(prop: IRemoveProps) {
       className={clsx(styles.removeItem, DeviceId.isMobile && styles.onmobile)}
       type="button"
       onClick={(e) => {
-        if (onRemove) {
+        if (onRemove && prop?.id) {
           onRemove!(prop.id);
         }
         //e.preventDefault();

@@ -20,7 +20,9 @@ interface IUploadProps {
   minSize?: number;
   maxSize?: number;
   maxFiles?: number;
+  removable?: boolean;
   onChange?(val: any);
+  onRemove?(Id?: string | number);
   toWidth?: number;
   width?: number;
 }
@@ -35,6 +37,7 @@ const Upload: React.FC<IUploadProps> = ({
   maxFiles = 20,
   width = 100,
   mini = false,
+  removable = true,
   accept = {
     'image/*': [],
   },
@@ -152,7 +155,7 @@ const Upload: React.FC<IUploadProps> = ({
     }
     let allImagesData = allImages.map((it) => ({ ...it }));
     let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
-    if (uploadUrl?.indexOf('cloudinary.com') < 0) {
+    if (uploadUrl?.indexOf('cloudinary.com') < 0 && removable) {
       const data = {
         delete: allImagesData[index].uri,
         upload_preset: process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
@@ -212,6 +215,16 @@ const Upload: React.FC<IUploadProps> = ({
     );
     if (index >= 0) {
       removeExistingImage(index, alreadyUploadedImages);
+      if (props.onRemove) {
+        props.onRemove(Id);
+      }
+    }
+  };
+
+  const onChangeSort = (items: ImageProperties[]) => {
+    setAlreadyUploadedImages(items);
+    if (props.onChange && multiple) {
+      props.onChange(items);
     }
   };
 
@@ -221,14 +234,15 @@ const Upload: React.FC<IUploadProps> = ({
         id={props.id}
         gridGap={!mini ? 10 : 0}
         items={alreadyUploadedImages.map((im) => ({ ...im }))}
-        onChange={setAlreadyUploadedImages}
+        onChange={onChangeSort}
         onRemove={onRemove}
+        disabled={disabled}
         width={width}
         height={width}
       >
         {
           // hide image uploader
-          alreadyUploadedImages?.length >= maxFiles ||
+          alreadyUploadedImages?.filter((it) => it?.uri).length >= maxFiles ||
           (!multiple &&
             alreadyUploadedImages?.length > 0 &&
             !!alreadyUploadedImages[0].uri) ? (

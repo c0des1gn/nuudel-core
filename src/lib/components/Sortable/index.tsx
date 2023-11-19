@@ -72,10 +72,7 @@ export const Sortable: FC<IProps<any>> = ({
   const [active, setActive] = useState<Active | null>(null);
 
   useEffect(() => {
-    if (
-      !(props.items?.length === 0 && items?.length === 0) &&
-      !arraysEqual(props.items, items)
-    ) {
+    if (!arraysEqual(props.items, items)) {
       setItems(props.items || []);
     }
   }, [props.items]);
@@ -130,6 +127,7 @@ export const Sortable: FC<IProps<any>> = ({
       item={item}
       width={width}
       height={height}
+      disabled={props.disabled}
       total={total}
       onRemove={onRemove}
     />
@@ -146,16 +144,18 @@ export const Sortable: FC<IProps<any>> = ({
     >
       <SortableContext
         id={props.id}
-        items={items.filter(Boolean)}
+        items={items?.filter((it) => it && it[itemProp])}
         strategy={rectSortingStrategy}
         disabled={props.disabled}
       >
         <Grid columns={items.length + 1} gridGap={props.gridGap}>
-          {items?.filter(Boolean).map((item, index, arr) => (
-            <li key={item[itemProp] || index}>
-              {renderItem(item, arr.length)}
-            </li>
-          ))}
+          {items
+            ?.filter((it) => it && it[itemProp])
+            .map((item, index, arr) => (
+              <li key={item[itemProp] || index}>
+                {renderItem(item, arr.length)}
+              </li>
+            ))}
           {children}
         </Grid>
       </SortableContext>

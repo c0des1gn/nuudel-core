@@ -6,7 +6,7 @@ export function resizeImage(
   toWidth: number = 600, // pixel
   maxSize: number = 307200 // 300kb
 ) {
-  return new Promise<string | Blob>((resolve, reject) => {
+  return new Promise<Blob>((resolve, reject) => {
     let reader: any = new FileReader();
     //Read the contents of Image File.
     reader.readAsDataURL(file);

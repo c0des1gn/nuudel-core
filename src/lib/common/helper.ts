@@ -280,9 +280,32 @@ export const getLanguage = (locale: string) => {
   );
 };
 
-export const objectsEqual = (o1 = {}, o2 = {}) =>
+const compareArrays = (a1: any, a2: any) => {
+  // if the other array is a falsy value, return
+  if (!a2) return false;
+  // if the argument is the same array, we can be sure the contents are same as well
+  if (a2 === a1) return true;
+  // compare lengths - can save a lot of time
+  if (a1?.length != a2?.length) return false;
+
+  for (let i: number = 0, l = a1.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (a1[i] instanceof Array && a2[i] instanceof Array) {
+      // recurse into the nested arrays
+      if (!a1[i].equals(a2[i])) return false;
+    } else if (a1[i] != a2[i]) {
+      // Warning - two different object instances will never be equal: {x:20} != {x:20}
+      return false;
+    }
+  }
+  return true;
+};
+
+const objectsEqual = (o1 = {}, o2 = {}) =>
   Object.keys(o1).length === Object.keys(o2).length &&
-  Object.keys(o1).every((p) => o1[p] === o2[p]);
+  Object.keys(o1).every((p) =>
+    o1[p] instanceof Array ? compareArrays(o1[p], o2[p]) : o1[p] === o2[p]
+  );
 
 export const arraysEqual = (a1 = [], a2 = []) =>
-  a1.length === a2.length && a1.every((o, idx) => objectsEqual(o, a2[idx]));
+  a1?.length === a2?.length && a1.every((o, idx) => objectsEqual(o, a2[idx]));

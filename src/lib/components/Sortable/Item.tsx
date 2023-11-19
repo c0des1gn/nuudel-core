@@ -10,6 +10,7 @@ export type ItemProps = HTMLAttributes<HTMLDivElement> & {
   height?: number;
   withOpacity?: boolean;
   isDragging?: boolean;
+  disabled?: boolean;
   onRemove?(id: string | number);
 };
 
@@ -53,8 +54,8 @@ const Item = forwardRef<HTMLDivElement, ItemProps>(
     return (
       <div ref={ref} style={inlineStyles} {...props}>
         <div className={styles.actionButtons}>
-          <RemoveItem id={item?.uri} />
-          {total > 1 && <DragHandle />}
+          {!props.disabled && <RemoveItem id={item?.uri} />}
+          {!props.disabled && total > 1 && <DragHandle />}
         </div>
       </div>
     );
