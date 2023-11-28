@@ -40,6 +40,7 @@ import Message, {
   TOGGLE_SNACKBAR_MUTATION,
 } from './Material/SuccessMessage';
 import Sortable from './Sortable';
+import NoResult from './NoResult';
 
 export {
   Message,
@@ -82,6 +83,7 @@ export {
   useLongPress,
   useStateIfMounted,
   Sortable,
+  NoResult,
 };
 
 export type { MessageBarType, INotificationMessages };

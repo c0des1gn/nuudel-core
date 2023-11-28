@@ -305,7 +305,7 @@
   dependencies:
     ckeditor5 "38.1.1"
 
-"@ckeditor/ckeditor5-build-classic@^38.1.1":
+"@ckeditor/ckeditor5-build-classic@38.1.1":
   version "38.1.1"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-build-classic/-/ckeditor5-build-classic-38.1.1.tgz#31e7c7a268dccc2114b497d5682b23b163200182"
   integrity sha512-TaVK+kVX2hMZD8imbfsQHKTiMo4seBkmZvu8KgNPn8tNarmJacO27EYmPmzL04KyctP2pv4rt2UTzPfuFZyqvg==
@@ -476,7 +476,7 @@
   dependencies:
     ckeditor5 "38.1.1"
 
-"@ckeditor/ckeditor5-react@^6.1.0":
+"@ckeditor/ckeditor5-react@6.1.0":
   version "6.1.0"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-react/-/ckeditor5-react-6.1.0.tgz#601db37d0810e52796276c85cce9907d882463e0"
   integrity sha512-uwJ89pOJnjlMgfluGJhxatt6zV5ZavuV7AaRvJpxzAU7SjoC3sNumohDRmI0KGDGoyCVPMJO9fgE3ijIb3gHlQ==
@@ -492,7 +492,7 @@
     "@ckeditor/ckeditor5-ui" "38.1.1"
     "@ckeditor/ckeditor5-utils" "38.1.1"
 
-"@ckeditor/ckeditor5-source-editing@^38.1.1":
+"@ckeditor/ckeditor5-source-editing@38.1.1":
   version "38.1.1"
   resolved "https://registry.yarnpkg.com/@ckeditor/ckeditor5-source-editing/-/ckeditor5-source-editing-38.1.1.tgz#8ddf81dff449950ca4c74ceca85dc404dfbb8a54"
   integrity sha512-GX4/h7629IiUKUbpfS3THPkMxQ1nJuHXOZVudW6xIMkMlvf8dFuyGx3yr6TuTWT+R6fdnhOn94HVjeZtycTQBQ==

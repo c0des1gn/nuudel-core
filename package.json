@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.2.97",
+  "version": "0.2.99",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -55,9 +55,9 @@
   "dependencies": {
     "@apollo/client": "3.5.10",
     "@apollo/react-hooks": "^4.0.0",
-    "@ckeditor/ckeditor5-build-classic": "^38.1.1",
-    "@ckeditor/ckeditor5-react": "^6.1.0",
-    "@ckeditor/ckeditor5-source-editing": "^38.1.1",
+    "@ckeditor/ckeditor5-build-classic": "38.1.1",
+    "@ckeditor/ckeditor5-react": "6.1.0",
+    "@ckeditor/ckeditor5-source-editing": "38.1.1",
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/sortable": "^7.0.2",
     "graphql": "^15.7.2",
