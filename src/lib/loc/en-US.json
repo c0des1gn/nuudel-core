@@ -81,5 +81,6 @@
   "excerpt": "Excerpt",
   "categories": "Categories",
   "Searchbar": "Search from {{market}}",
+  "All posts": "All posts",
   "ErrorOnSavingListItem": "Error on loading lists: "
 }

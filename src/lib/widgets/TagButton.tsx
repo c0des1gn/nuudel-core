@@ -11,7 +11,9 @@ export default function TagButton({ tag }: Props) {
   return (
     <>
       <Link href={'/posts/tags/[[...slug]]'} as={`/posts/tags/${slug}`}>
-        <span className={'widget-tag-button'}>{name}</span>
+        <span className={'widget-tag-button'} title={slug}>
+          {name}
+        </span>
       </Link>
     </>
   );

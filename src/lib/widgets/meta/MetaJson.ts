@@ -1,5 +1,5 @@
 import { CONF } from 'nuudel-utils';
-import { IImage } from '../../common/Interfaces';
+import { IImage } from 'nuudel-core';
 
 type Props = {
   url: string;
@@ -36,7 +36,7 @@ export function MetaJson({
       (CONF.base_url?.endsWith('/') || url?.startsWith('/') ? '' : '/') +
       url,
     site_name: CONF.site_title,
-    type: 'article',
+    type: type,
     images: images,
   };
 }

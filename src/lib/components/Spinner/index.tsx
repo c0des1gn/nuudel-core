@@ -4,14 +4,6 @@ import {
   CircularProgressProps,
   Backdrop,
 } from '@mui/material';
-import { SxProps, Theme } from '@mui/material';
-
-export const sxstyle: Record<string, SxProps<Theme> | undefined> = {
-  backdrop: {
-    zIndex: (theme) => theme.zIndex.drawer + 1,
-    color: '#fff',
-  },
-};
 
 interface IProps extends CircularProgressProps {
   overflowHide?: boolean;
@@ -46,7 +38,14 @@ const Spinner: FunctionComponent<IProps> = ({ overflowHide, ...props }) => {
     </div>
   ) : (
     <div>
-      <Backdrop sx={sxstyle.backdrop} open={open} onClick={handleClose}>
+      <Backdrop
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          color: '#fff',
+        }}
+        open={open}
+        onClick={handleClose}
+      >
         <CircularProgress {...props} />
       </Backdrop>
     </div>

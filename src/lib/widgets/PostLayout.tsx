@@ -5,7 +5,7 @@ import Date from './Date';
 import { SocialList } from './SocialList';
 import TagButton from './TagButton';
 import { ITagContent } from 'nuudel-core';
-import { IImage } from '../../lib/common/Interfaces';
+import { IImage } from 'nuudel-core';
 import { ArticleJsonLd, NextSeo } from 'next-seo';
 import { MetaJson } from './meta/MetaJson';
 import styles from './styles.module.scss';
@@ -33,10 +33,10 @@ export default function PostLayout({
   image,
 }: Props) {
   tags = !tags ? [] : tags;
-  const keywords = tags.map((it) => it.name);
+  const keywords = tags.map(it => it.name);
   const authorName = author;
   const meta = MetaJson({
-    url: `/posts/${slug}`,
+    url: `/post/${slug}`,
     title: title,
     description: description,
     image: image,
@@ -63,7 +63,7 @@ export default function PostLayout({
         url={meta.url}
         title={meta.title}
         images={[typeof image === 'string' ? image : image?.uri].filter(
-          Boolean
+          Boolean,
         )}
         datePublished={date.toISOString()}
         dateModified={date.toISOString()}
@@ -92,7 +92,13 @@ export default function PostLayout({
         </article>
         <footer>
           <div className={'social-list'}>
-            <SocialList />
+            <SocialList
+              items={[
+                { name: 'facebook', link: '#' },
+                { name: 'twitter', link: '#' },
+                { name: 'instagram', link: '#' },
+              ]}
+            />
           </div>
           {!!withCopyright && <Copyright />}
         </footer>

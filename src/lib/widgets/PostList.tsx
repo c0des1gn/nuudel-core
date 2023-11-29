@@ -1,25 +1,17 @@
 import React from 'react';
 import PostItem from './PostItem';
-import TagLink from './TagLink';
 import Pagination from './Pagination';
-import { ITagContent, IPostContent } from 'nuudel-core';
+import { IPostContent } from 'nuudel-core';
 import styles from './styles.module.scss';
 
 interface Props {
   posts: IPostContent[];
-  tags: ITagContent[];
   pagination: {
     current: number;
     pages: number;
   };
 }
-export default function PostList({ posts, tags, pagination }: Props) {
-  console.log(
-    'pagi current',
-    pagination.current,
-    'pagi pages',
-    pagination.pages
-  );
+export default function PostList({ posts, pagination }: Props) {
   return (
     <div className={'widget-post-list-container'}>
       <div className={'widget-posts'}>
@@ -34,18 +26,11 @@ export default function PostList({ posts, tags, pagination }: Props) {
           current={pagination.current}
           pages={pagination.pages}
           link={{
-            href: (page) => (page === 1 ? '/posts' : '/posts/page/[page]'),
-            as: (page) => (page === 1 ? null : '/posts/page/' + page),
+            href: page => (!page ? '/posts' : `/posts?page=${page}`),
+            as: page => (!page ? '/posts' : `/posts?page=${page}`),
           }}
         />
       </div>
-      <ul className={'widget-post-categories'}>
-        {tags.map((it, i) => (
-          <li key={i}>
-            <TagLink tag={it} />
-          </li>
-        ))}
-      </ul>
     </div>
   );
 }

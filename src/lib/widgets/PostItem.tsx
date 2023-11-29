@@ -4,8 +4,9 @@ import { Link, Text } from 'nuudel-core';
 import { titleShorter, decodeHTML } from 'nuudel-utils';
 import moment from 'moment';
 import styles from './styles.module.scss';
-import { getTextFromHtml } from '../common/helper';
+import { getTextFromHtml } from 'nuudel-core';
 import TagButton from './TagButton';
+import Author from './Author';
 
 interface Props {
   post: IPostContent;
@@ -15,7 +16,7 @@ interface Props {
 export default function PostItem({ post }: Props, props: Props) {
   const tags: ITagContent[] = !post.tags
     ? []
-    : post.tags.map((tag) => ({
+    : post.tags.map(tag => ({
         name: tag,
         slug: tag,
       }));
@@ -35,9 +36,13 @@ export default function PostItem({ post }: Props, props: Props) {
         )}
       </p>
       <div className="post-list-metadata">
-        {/* <Link href={'/posts/' + post.slug} className="post-list-date"> */}
-        <p>{post.author}</p>
-        <Date date={moment(post.publishdate).toDate()} />
+        {/* <Link href={'/posts/' + post.slug} className="post-list-date">Read more<Link> */}
+        <p>
+          <Date date={moment(post.publishdate).toDate()} />
+        </p>
+        <p>
+          <Author author={post.author} />
+        </p>
       </div>
       {tags.length ? (
         <div className={'tagList'}>

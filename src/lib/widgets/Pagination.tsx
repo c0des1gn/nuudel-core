@@ -14,21 +14,25 @@ export default function Pagination({ current, pages, link }: Props) {
   const pagination = generatePagination(current, pages);
   return (
     <ul className={'widget-pagination'}>
-      {pagination.map((it, i) => (
-        <li key={i}>
-          {it.excerpt ? (
-            '...'
-          ) : (
-            <Link href={link.href(it.page)} as={link.as(it.page)}>
-              <span
-              // className={it.page === current ? 'active' : null}
+      {pagination.map((it, i) => {
+        return (
+          <li key={i}>
+            {!it.excerpt ? (
+              <Link
+                href={link.href(it.page)}
+                as={link.as(it.page)}
+                className={
+                  it.page === current || it.current ? 'active' : undefined
+                }
               >
-                {it.page}
-              </span>
-            </Link>
-          )}
-        </li>
-      ))}
+                <span>{it.page}</span>
+              </Link>
+            ) : (
+              '...'
+            )}
+          </li>
+        );
+      })}
     </ul>
   );
 }
