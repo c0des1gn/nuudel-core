@@ -2,7 +2,7 @@ import React from 'react';
 import PostItem from './PostItem';
 import TagLink from './TagLink';
 import Pagination from './Pagination';
-import {ITagContent, IPostContent} from '../library/IBlog';
+import { ITagContent, IPostContent } from 'nuudel-core';
 import styles from './styles.module.scss';
 
 interface Props {
@@ -13,12 +13,12 @@ interface Props {
     pages: number;
   };
 }
-export default function PostList({posts, tags, pagination}: Props) {
+export default function PostList({ posts, tags, pagination }: Props) {
   console.log(
     'pagi current',
     pagination.current,
     'pagi pages',
-    pagination.pages,
+    pagination.pages
   );
   return (
     <div className={'widget-post-list-container'}>
@@ -34,8 +34,8 @@ export default function PostList({posts, tags, pagination}: Props) {
           current={pagination.current}
           pages={pagination.pages}
           link={{
-            href: page => (page === 1 ? '/posts' : '/posts/page/[page]'),
-            as: page => (page === 1 ? null : '/posts/page/' + page),
+            href: (page) => (page === 1 ? '/posts' : '/posts/page/[page]'),
+            as: (page) => (page === 1 ? null : '/posts/page/' + page),
           }}
         />
       </div>

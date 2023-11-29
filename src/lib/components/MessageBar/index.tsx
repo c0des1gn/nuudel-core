@@ -1,8 +1,7 @@
 import React, { FunctionComponent } from 'react';
 import { Alert, AlertTitle, AlertProps } from '@mui/material';
-import { Theme } from '@mui/material/styles';
 import { Collapse } from '@mui/material';
-import { createStyles, makeStyles } from '@mui/styles';
+import styles from './styles.module.scss';
 
 export type MessageBarType = 'error' | 'warning' | 'info' | 'success';
 
@@ -18,17 +17,6 @@ export interface INotificationMessages extends AlertProps {
   duration: number;
 }
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      width: '100%',
-      '& > * + *': {
-        marginTop: theme.spacing(2),
-      },
-    },
-  })
-);
-
 export const MessageBar: FunctionComponent<IMessageBarProps> = ({
   children,
   messageBarType,
@@ -36,10 +24,9 @@ export const MessageBar: FunctionComponent<IMessageBarProps> = ({
   onClose,
   ...props
 }) => {
-  const classes = useStyles();
   const [open, setOpen] = React.useState(true);
   return (
-    <div className={classes.root}>
+    <div className={styles.container}>
       <Collapse in={open}>
         <Alert
           {...props}

@@ -1,4 +1,4 @@
-import { IPostContent, ITagContent, IPageContent } from './IBlog';
+import { IPostContent, ITagContent, IPageContent } from './posttype';
 import { IPagination, generatePagination } from './pagination';
 
 export { generatePagination };

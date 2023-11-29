@@ -1,5 +1,5 @@
 import React from 'react';
-import {IPostContent, ITagContent} from '../library/IBlog';
+import { IPostContent, ITagContent } from 'nuudel-core';
 import PostItem from './PostItem';
 import Pagination from './Pagination';
 import styles from './styles.module.scss';
@@ -14,7 +14,7 @@ interface Props {
 }
 export default function TagPostList({
   posts = [],
-  tag = {name: '', slug: ''},
+  tag = { name: '', slug: '' },
   pagination = {
     current: 1,
     pages: 1,
@@ -37,7 +37,7 @@ export default function TagPostList({
         pages={pagination.pages}
         link={{
           href: () => '/posts/tags/[[...slug]]',
-          as: page =>
+          as: (page) =>
             page === 1
               ? '/posts/tags/' + tag.slug
               : `/posts/tags/${tag.slug}/${page}`,

@@ -4,20 +4,14 @@ import {
   CircularProgressProps,
   Backdrop,
 } from '@mui/material';
-import { Theme } from '@mui/material/styles';
-import { createStyles, makeStyles } from '@mui/styles';
+import { SxProps, Theme } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      display: 'flex',
-    },
-    backdrop: {
-      zIndex: theme.zIndex.drawer + 1,
-      color: '#fff',
-    },
-  })
-);
+export const sxstyle: Record<string, SxProps<Theme> | undefined> = {
+  backdrop: {
+    zIndex: (theme) => theme.zIndex.drawer + 1,
+    color: '#fff',
+  },
+};
 
 interface IProps extends CircularProgressProps {
   overflowHide?: boolean;
@@ -25,7 +19,6 @@ interface IProps extends CircularProgressProps {
 }
 
 const Spinner: FunctionComponent<IProps> = ({ overflowHide, ...props }) => {
-  const classes = useStyles();
   const { clickClose = false, size = 48 } = props;
   const [open, setOpen] = React.useState(true);
   const handleClose = () => {
@@ -53,7 +46,7 @@ const Spinner: FunctionComponent<IProps> = ({ overflowHide, ...props }) => {
     </div>
   ) : (
     <div>
-      <Backdrop className={classes.backdrop} open={open} onClick={handleClose}>
+      <Backdrop sx={sxstyle.backdrop} open={open} onClick={handleClose}>
         <CircularProgress {...props} />
       </Backdrop>
     </div>

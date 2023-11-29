@@ -1,5 +1,5 @@
 import { Link } from 'nuudel-core';
-import { ITagContent } from '../library/IBlog';
+import { ITagContent } from 'nuudel-core';
 
 interface Props {
   tag: ITagContent;

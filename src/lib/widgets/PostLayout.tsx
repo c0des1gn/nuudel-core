@@ -4,7 +4,7 @@ import Copyright from './Copyright';
 import Date from './Date';
 import { SocialList } from './SocialList';
 import TagButton from './TagButton';
-import { ITagContent } from '../library/IBlog';
+import { ITagContent } from 'nuudel-core';
 import { IImage } from '../../lib/common/Interfaces';
 import { ArticleJsonLd, NextSeo } from 'next-seo';
 import { MetaJson } from './meta/MetaJson';

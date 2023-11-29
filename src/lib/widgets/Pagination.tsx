@@ -1,5 +1,5 @@
-import {generatePagination} from '../library/pagination';
-import {Link} from 'nuudel-core';
+import { generatePagination } from 'nuudel-core';
+import { Link } from 'nuudel-core';
 import styles from './styles.module.scss';
 
 type Props = {
@@ -10,7 +10,7 @@ type Props = {
     as: (page: number) => string;
   };
 };
-export default function Pagination({current, pages, link}: Props) {
+export default function Pagination({ current, pages, link }: Props) {
   const pagination = generatePagination(current, pages);
   return (
     <ul className={'widget-pagination'}>

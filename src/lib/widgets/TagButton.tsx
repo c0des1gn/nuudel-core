@@ -1,11 +1,11 @@
-import {Link} from 'nuudel-core';
+import { Link } from 'nuudel-core';
 import styles from './styles.module.scss';
-import {ITagContent} from '../library/IBlog';
+import { ITagContent } from 'nuudel-core';
 
 interface Props {
   tag: ITagContent;
 }
-export default function TagButton({tag}: Props) {
+export default function TagButton({ tag }: Props) {
   const name = !tag ? '' : tag.name;
   const slug = !tag ? '' : tag.slug;
   return (

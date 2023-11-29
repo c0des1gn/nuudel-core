@@ -1,4 +1,4 @@
-import { IPostContent, ITagContent } from '../library/IBlog';
+import { IPostContent, ITagContent } from 'nuudel-core';
 import Date from './Date';
 import { Link, Text } from 'nuudel-core';
 import { titleShorter, decodeHTML } from 'nuudel-utils';
@@ -36,8 +36,8 @@ export default function PostItem({ post }: Props, props: Props) {
       </p>
       <div className="post-list-metadata">
         {/* <Link href={'/posts/' + post.slug} className="post-list-date"> */}
-        <p>{post._author}</p>
-        <Date date={moment(post.date).toDate()} />
+        <p>{post.author}</p>
+        <Date date={moment(post.publishdate).toDate()} />
       </div>
       {tags.length ? (
         <div className={'tagList'}>

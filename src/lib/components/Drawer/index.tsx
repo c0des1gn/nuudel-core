@@ -2,21 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import { SwipeableDrawer, SwipeableDrawerProps } from '@mui/material';
 import clsx from 'clsx';
 import { isIOS } from 'react-device-detect';
-import { Theme } from '@mui/material/styles';
-import { createStyles, makeStyles } from '@mui/styles';
-
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    list: {
-      width: 300,
-      overflowX: 'hidden',
-      height: '100%',
-    },
-    fullList: {
-      width: 'auto',
-    },
-  })
-);
+import styles from './styles.module.scss';
 
 type Anchor = 'top' | 'left' | 'bottom' | 'right';
 
@@ -27,7 +13,6 @@ interface IDrawerProps extends SwipeableDrawerProps {
 
 export const Drawer: React.FC<IDrawerProps> = ({ children, ...props }) => {
   const { anchor = 'right' } = props;
-  const classes = useStyles();
   const [open, setOpen] = React.useState(props.open === true);
 
   const toggleDrawer =
@@ -67,9 +52,12 @@ export const Drawer: React.FC<IDrawerProps> = ({ children, ...props }) => {
         disableDiscovery={isIOS}
       >
         <div
-          className={clsx(classes.list, {
-            [classes.fullList]: anchor === 'top' || anchor === 'bottom',
-          })}
+          className={clsx(
+            styles.list,
+            anchor === 'top' || anchor === 'bottom'
+              ? styles.fullList
+              : undefined
+          )}
         >
           {children}
         </div>

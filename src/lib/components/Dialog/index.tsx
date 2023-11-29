@@ -10,38 +10,30 @@ import { Button } from '../';
 import { t } from '../../loc/i18n';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { Theme } from '@mui/material/styles';
-import { createStyles, makeStyles } from '@mui/styles';
+import { SxProps, Theme } from '@mui/material';
 
-const useStyles = makeStyles((theme: Theme) =>
-  createStyles({
-    root: {
-      margin: 0,
-      padding: theme.spacing(2),
-    },
-    closeButton: {
-      //color: theme.palette.grey[500],
-    },
-    content: {
-      display: 'flex',
-      overflowY: 'auto',
-      justifyContent: 'center',
-    },
-    title: {
-      boxShadow:
-        '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-      backgroundColor: theme.palette.primary.main,
-      zIndex: 1,
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-      color: theme.palette.common.white,
-    },
-    dialogContent: {
-      padding: theme.spacing(1),
-    },
-  })
-);
+export const sxstyle: Record<string, SxProps<Theme> | undefined> = {
+  root: {
+    margin: 0,
+    padding: (theme) => theme.spacing(2),
+  },
+  closeButton: {
+    //color: theme.palette.grey[500],
+  },
+  title: {
+    boxShadow:
+      '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+    backgroundColor: (theme) => theme.palette.primary.main,
+    zIndex: 1,
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    color: (theme) => theme.palette.common.white,
+  },
+  dialogContent: {
+    padding: (theme) => theme.spacing(1),
+  },
+};
 
 export interface IDialogProps extends DialogProps {
   title: string;
@@ -56,7 +48,6 @@ export interface IDialogProps extends DialogProps {
 }
 
 const DialogBasic: FC<IDialogProps> = ({ children, ...props }) => {
-  const classes = useStyles();
   //const { show = false } = props;
   const [open, setOpen] = React.useState(false);
 
@@ -94,21 +85,26 @@ const DialogBasic: FC<IDialogProps> = ({ children, ...props }) => {
         fullWidth={props.fullWidth}
         fullScreen={props.fullScreen}
       >
-        <DialogTitle id="alert-dialog-title" className={classes.title}>
+        <DialogTitle id="alert-dialog-title" sx={sxstyle.title}>
           {props.title}
           <IconButton
             aria-label="close"
-            className={classes.closeButton}
+            sx={sxstyle.closeButton}
             onClick={handleClose}
           >
             <CloseIcon />
           </IconButton>
         </DialogTitle>
-        <DialogContent
-          id="alert-dialog-content"
-          className={classes.dialogContent}
-        >
-          <div className={classes.content}>{children}</div>
+        <DialogContent id="alert-dialog-content" sx={sxstyle.dialogContent}>
+          <div
+            style={{
+              display: 'flex',
+              overflowY: 'auto',
+              justifyContent: 'center',
+            }}
+          >
+            {children}
+          </div>
         </DialogContent>
         {!!props.onSubmit && (
           <DialogActions>

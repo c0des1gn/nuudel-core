@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid } from '@mui/material';
 import { useDropzone, DropzoneOptions, Accept } from 'react-dropzone';
-import { useStyles } from './Style';
 import { t } from '../../loc/i18n';
 import axios from 'axios';
 import UI from '../../common/UI';
@@ -43,7 +42,6 @@ const Upload: React.FC<IUploadProps> = ({
   },
   ...props
 }) => {
-  const classes = useStyles();
   interface ImageProperties {
     uri: string;
     height?: number;
@@ -249,8 +247,14 @@ const Upload: React.FC<IUploadProps> = ({
             <></>
           ) : (
             <section
-              className={classes.FileContainer}
-              style={{ maxHeight: width }}
+              style={{
+                display: 'flex',
+                flex: '1',
+                flexDirection: 'column',
+                fontFamily: 'sans-serif',
+                position: 'relative',
+                maxHeight: width,
+              }}
             >
               {/* DROPZONE */}
               <div
