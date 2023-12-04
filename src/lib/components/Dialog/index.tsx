@@ -12,27 +12,27 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import { SxProps, Theme } from '@mui/material';
 
-export const sxstyle: Record<string, SxProps<Theme> | undefined> = {
-  root: {
+const sxstyle: Record<string, SxProps<Theme> | undefined> = {
+  root: (theme) => ({
     margin: 0,
-    padding: (theme) => theme.spacing(2),
-  },
+    padding: theme.spacing(2),
+  }),
   closeButton: {
     //color: theme.palette.grey[500],
   },
-  title: {
+  title: (theme) => ({
     boxShadow:
       '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
-    backgroundColor: (theme) => theme.palette.primary.main,
+    backgroundColor: theme.palette.primary.main,
     zIndex: 1,
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    color: (theme) => theme.palette.common.white,
-  },
-  dialogContent: {
-    padding: (theme) => theme.spacing(1),
-  },
+    color: theme.palette.common.white,
+  }),
+  dialogContent: (theme) => ({
+    padding: theme.spacing(1),
+  }),
 };
 
 export interface IDialogProps extends DialogProps {

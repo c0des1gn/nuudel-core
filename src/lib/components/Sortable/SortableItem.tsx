@@ -76,7 +76,9 @@ export function RemoveItem<IRemoveProp>(prop: IRemoveProps) {
   const { onRemove = undefined } = useContext(SortableItemContext);
   return (
     <button
-      className={clsx(styles.removeItem, DeviceId.isMobile && styles.onmobile)}
+      className={clsx(styles.removeItem, {
+        [styles.onmobile]: DeviceId.isMobile,
+      })}
       type="button"
       onClick={(e) => {
         if (onRemove && prop?.id) {

@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import { useRouter } from 'next/router';
 import NextLink from 'next/link';
-import { Link as MuiLink, LinkProps } from '@mui/material';
+import { Link as MuiLink, LinkProps, SxProps, Theme } from '@mui/material';
 import clsx from 'clsx';
 
 interface INextLinkProps extends LinkProps {
@@ -70,7 +70,8 @@ interface ILinkProps {
   onClick?(e: any);
   color?: string | any;
   children?: any;
-  style?: React.CSSProperties;
+  style?: CSSProperties;
+  sx?: SxProps<Theme>;
   id?: string;
   disabled?: boolean;
 }
@@ -90,6 +91,7 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
       href,
       noLinkStyle,
       role, // Link don't have roles.
+      sx,
       ...props
     },
     ref
@@ -120,7 +122,7 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
       }
 
       return (
-        <MuiLink className={className} href={href} ref={ref} {...props}>
+        <MuiLink className={className} href={href} ref={ref} sx={sx} {...props}>
           {children}
         </MuiLink>
       );

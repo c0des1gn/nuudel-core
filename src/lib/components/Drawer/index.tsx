@@ -52,12 +52,9 @@ export const Drawer: React.FC<IDrawerProps> = ({ children, ...props }) => {
         disableDiscovery={isIOS}
       >
         <div
-          className={clsx(
-            styles.list,
-            anchor === 'top' || anchor === 'bottom'
-              ? styles.fullList
-              : undefined
-          )}
+          className={clsx(styles.list, {
+            [styles.fullList]: anchor === 'top' || anchor === 'bottom',
+          })}
         >
           {children}
         </div>
