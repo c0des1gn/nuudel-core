@@ -24,3 +24,12 @@ git config --global push.default current
 yarn
 yarn build
 npm publish --tag latest
+
+# error fix
+
+cd node_modules/node-sass
+npm rebuild node-sass
+
+# copy cli
+
+npm install --global cpy-cli

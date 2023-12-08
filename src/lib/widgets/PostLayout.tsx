@@ -9,6 +9,8 @@ import { IImage } from 'nuudel-core';
 import { ArticleJsonLd, NextSeo } from 'next-seo';
 import { MetaJson } from './meta/MetaJson';
 import styles from './styles.module.scss';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PersonIcon from '@mui/icons-material/Person';
 
 type Props = {
   title: string;
@@ -75,30 +77,34 @@ export default function PostLayout({
           <header>
             <h1 className="post-title">{title}</h1>
             <div className={'widget-post-metadata'}>
-              <p>
+              <CalendarMonthIcon fontSize="inherit" />
+              <span>
                 <Date date={date} />
-              </p>
-              <p>
+              </span>
+              <PersonIcon fontSize="inherit" />
+              <span>
                 <Author author={authorName} />
-              </p>
+              </span>
             </div>
           </header>
           <div className={'widget-post-content'}>{children}</div>
-          <div className={'tagList'}>
-            {tags.map((it, i) => (
-              <TagButton key={i} tag={it} />
-            ))}
-          </div>
         </article>
         <footer>
-          <div className={'social-list'}>
-            <SocialList
-              items={[
-                { name: 'facebook', link: '#' },
-                { name: 'twitter', link: '#' },
-                { name: 'instagram', link: '#' },
-              ]}
-            />
+          <div className={'footer-lists'}>
+            <div className={'social-list'}>
+              <SocialList
+                items={[
+                  { name: 'facebook', link: '#' },
+                  { name: 'twitter', link: '#' },
+                  { name: 'instagram', link: '#' },
+                ]}
+              />
+            </div>
+            <div className={'tagList'}>
+              {tags.map((it, i) => (
+                <TagButton key={i} tag={it} />
+              ))}
+            </div>
           </div>
           {!!withCopyright && <Copyright />}
         </footer>

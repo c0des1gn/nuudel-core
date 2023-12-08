@@ -7,6 +7,8 @@ import styles from './styles.module.scss';
 import { getTextFromHtml } from 'nuudel-core';
 import TagButton from './TagButton';
 import Author from './Author';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import PersonIcon from '@mui/icons-material/Person';
 
 interface Props {
   post: IPostContent;
@@ -26,6 +28,17 @@ export default function PostItem({ post }: Props, props: Props) {
       <Link noLinkStyle href={'/post/' + post.slug}>
         <h2 className="post-list-title">{post.title}</h2>
       </Link>
+      <div className="post-list-metadata">
+        {/* <Link href={'/posts/' + post.slug} className="post-list-date">Read more<Link> */}
+        <CalendarMonthIcon fontSize="inherit" />
+        <span>
+          <Date date={moment(post.publishdate).toDate()} />
+        </span>
+        <PersonIcon fontSize="inherit" />
+        <span>
+          <Author author={post.author} />
+        </span>
+      </div>
       <p className="post-list-excerpt">
         {post['excerpt'] ? (
           titleShorter(post['excerpt'], 512)
@@ -35,15 +48,6 @@ export default function PostItem({ post }: Props, props: Props) {
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
         )}
       </p>
-      <div className="post-list-metadata">
-        {/* <Link href={'/posts/' + post.slug} className="post-list-date">Read more<Link> */}
-        <p>
-          <Date date={moment(post.publishdate).toDate()} />
-        </p>
-        <p>
-          <Author author={post.author} />
-        </p>
-      </div>
       {tags.length ? (
         <div className={'tagList'}>
           {tags.map((it, i) => (

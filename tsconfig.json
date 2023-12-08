@@ -53,7 +53,7 @@
       //"@Components": ["src/lib/components"],
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "src/types/declaration.d.ts", "src/**/*.scss"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "src/types/declaration.d.ts", "src/**/*.scss", "src/**/*.json"],
   "exclude": ["node_modules/**", "build", "dist"],
   "compileOnSave": false
 }

@@ -42,6 +42,8 @@ export const SocialList: FC<IProps> = ({ items = [], ...props }) => {
           const Component = components[name];
           return (
             <IconButton
+              color="primary"
+              sx={{ fontSize: theme => theme.typography.body2 }}
               href={item.link}
               title={item.name}
               target="_blank"

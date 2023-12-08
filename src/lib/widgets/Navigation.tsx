@@ -1,11 +1,16 @@
 import { useState } from 'react';
-import { Link } from 'nuudel-core';
+import { Link, Text } from 'nuudel-core';
 import { useRouter } from 'next/router';
 import TagLink from './TagLink';
 import { t } from '../loc/i18n';
 import Burger from './Burger';
 import { ITagContent } from 'nuudel-core';
 import styles from './styles.module.scss';
+
+const testTags = [
+  { name: 'test', slug: 'test' },
+  { name: 'tags', slug: 'tags' },
+];
 
 export interface ICategory {
   name: string;
@@ -23,10 +28,11 @@ type Props = {
 export default function Navigation({ category, tags = [] }: Props) {
   const router = useRouter();
   // const [active, setActive] = useState(false);
+  const { slug, page } = router.query;
+  let _slug: string = slug instanceof Array ? slug.join('/') : slug;
 
   return (
     <>
-      <div>{t('Category')} </div>
       <nav>
         {/* <Burger active={active} onClick={() => setActive(!active)} /> */}
         <div
@@ -35,41 +41,70 @@ export default function Navigation({ category, tags = [] }: Props) {
             // + (active ? 'widget-navigation-active' : '')
           }
         >
+          <Text fontWeight={700} gutterBottom>
+            {t('Category')}{' '}
+          </Text>
           <ul>
             {category ? (
               category
                 .filter((cat) => cat['parent_id'] === null)
-                .map((cat, i) => (
-                  <li key={i}>
+                .map((cat, ind) => (
+                  <li key={ind}>
                     <Link href={`/posts/category/${cat['cid']}`}>
                       <span
-                        className={
-                          router.pathname === '/'
-                            ? 'widget-navigation-active'
-                            : undefined
-                        }
+                        className={_slug === cat['cid'] ? 'active' : undefined}
                       >
                         {cat['name']}
                       </span>
                     </Link>
+                    {console.log('cat.cid', cat['cid'])}
+                    {category.filter((c) => c['parent_id'] === cat['cid'])
+                      .length ? (
+                      <ul
+                        style={{
+                          paddingLeft: '16px',
+                          paddingTop: '8px',
+                          marginBottom: '0',
+                        }}
+                      >
+                        {category
+                          .filter((c) => c['parent_id'] === cat.cid)
+                          .map((c, i) => (
+                            <li key={i}>
+                              {console.log('c.cid', c['cid'])}
+                              <Link href={`/posts/category/${c['cid']}`}>
+                                <span
+                                  className={
+                                    _slug === c['cid'] ? 'active' : undefined
+                                  }
+                                >
+                                  {c['name']}
+                                </span>
+                              </Link>
+                            </li>
+                          ))}
+                      </ul>
+                    ) : (
+                      <></>
+                    )}
                   </li>
                 ))
             ) : (
               <></>
             )}
           </ul>
+          <Text fontWeight={700} gutterBottom>
+            {t('Tag')}{' '}
+          </Text>
+          <ul className={'widget-post-categories'}>
+            {testTags.map((it, i) => (
+              <li key={i}>
+                <TagLink tag={it} />
+              </li>
+            ))}
+          </ul>
         </div>
       </nav>
-      <>
-        <div>{t('Tag')} </div>
-        <ul className={'widget-post-categories'}>
-          {tags.map((it, i) => (
-            <li key={i}>
-              <TagLink tag={it} />
-            </li>
-          ))}
-        </ul>
-      </>
     </>
   );
 }

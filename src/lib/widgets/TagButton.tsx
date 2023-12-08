@@ -12,7 +12,7 @@ export default function TagButton({ tag }: Props) {
     <>
       <Link href={'/posts/tags/[[...slug]]'} as={`/posts/tags/${slug}`}>
         <span className={'widget-tag-button'} title={slug}>
-          {name}
+          {name.length > 22 ? name.substring(0, 22) + '...' : name}
         </span>
       </Link>
     </>
