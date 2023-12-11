@@ -4,18 +4,21 @@
 .datetime {
   color: $text;
 }
+
 .container {
   flex: 1;
-  justify-content: 'center';
-  align-items: 'center';
+  justify-content: center;
+  align-items: center;
   background-color: $background-light;
 }
+
 .formfield {
   border-bottom-color: $border-light;
   border-bottom-width: $border-width;
   margin-bottom: 0;
   flex-direction: column;
   margin-top: $padding;
+
   p {
     padding-bottom: 5px;
   }
@@ -24,68 +27,89 @@
 .formfield:last-child {
   margin-bottom: $padding;
 }
+
 .description {
-  font-style: 'italic';
+  font-style: italic;
   color: $placeholder;
   font-size: $font;
 }
+
 .display {
   color: $text;
 }
+
 .link {
   color: $text;
 }
+
 .text {
   color: $text;
 }
+
 .number {
   color: $text;
 }
+
 .url {
   color: $text;
 }
+
 .object {
   color: $text;
 }
+
 .lookup {
   color: $text;
 }
+
 .lookuptext {
-  background-color: 'transparent';
+  background-color: transparent;
 }
+
 .pickerview {
   background-color: $background-light;
 }
+
 .lookupplaceholder {
   color: $placeholder;
 }
+
 .image {
-  max-width: '100%';
+  max-width: 100%;
 }
+
 .picture {
-  flex-direction: 'row-reverse';
+  flex-direction: row-reverse;
 }
+
 .button {
   min-width: 150px;
 }
+
 .date {
   font-size: $h6;
 }
+
 .choice {
   color: $text;
 }
+
 .select {
   font-size: $h6;
 }
+
 .textarea {
-  width: '100%';
+  width: 100%;
 }
+
 .bool {
   height: 50px;
 }
+
 .toggle {
   flex: 1;
 }
+
 .hide {
-  display: 'none';
+  display: none;
 }
