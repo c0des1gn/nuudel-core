@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   OutlinedInput,
   InputLabel,
@@ -10,6 +10,7 @@ import {
 } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 import styles from '../../theme/styles/styles.module.scss';
+import { arraysEqual } from '../../common/helper';
 import { t } from '../../loc/i18n';
 
 type ValueField = 'id' | 'name';
@@ -47,6 +48,12 @@ export const MultiSelectField: React.FC<IMultiSelectProps> = React.forwardRef<
   const [selectedItems, setSelectedItems] = useState<any[]>(
     props.selectedItems || []
   );
+
+  useEffect(() => {
+    if (!arraysEqual(selectedItems, props.selectedItems)) {
+      setSelectedItems(props.selectedItems);
+    }
+  }, [props.selectedItems]);
 
   const onSelectedItemsChange = (event: SelectChangeEvent) => {
     const { options } = event.target as HTMLSelectElement;

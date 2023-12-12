@@ -13,6 +13,7 @@ import {
 import {
   Grid,
   Button,
+  Message,
   MessageBox,
   TextField,
   TOGGLE_SNACKBAR_MUTATION,
@@ -400,6 +401,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
 
   return (
     <>
+      <Message />
       {editorLoaded ? (
         <Grid container spacing={4}>
           <Grid item xs={12} sm={8} md={9}>
