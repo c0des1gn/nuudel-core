@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.2.109",
+  "version": "0.2.110",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -118,7 +118,6 @@
   "peerDependencies": {
     "@mui/icons-material": "^5.13.1",
     "@mui/material": "^5.13.1",
-    "@mui/styles": "^5.13.1",
     "graphql-tag": "^2.12.6",
     "next": "^11.1.4",
     "react": "*",
