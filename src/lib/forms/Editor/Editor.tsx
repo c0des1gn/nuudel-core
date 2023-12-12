@@ -9,6 +9,7 @@ import {
   Permission,
   closeDialog,
   dateToString,
+  ControlMode,
 } from 'nuudel-utils';
 import {
   Grid,
@@ -36,7 +37,7 @@ import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 //const SourceEditing = require('@ckeditor/ckeditor5-source-editing').SourceEditing;
 
-export interface IProps {
+export interface IEditorProps {
   id?: string;
   post_type?: string;
   editdata?: IPost;
@@ -45,6 +46,7 @@ export interface IProps {
   permission?: Permission;
   user?: ICurrentUser;
   IsDlg?: boolean;
+  formType?: ControlMode;
 }
 
 export interface IPost {
@@ -232,9 +234,13 @@ const custom_config = {
 };
 var _debounce: any = undefined;
 // https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/react.html
-const Editor: React.FC<IProps> = (props: IProps) => {
+const Editor: React.FC<IEditorProps> = ({
+  post_type = 'Post',
+  editdata = initialValues,
+  formType = ControlMode.New,
+  ...props
+}) => {
   const router = useRouter();
-  const { post_type = 'Post', editdata = initialValues } = props;
   const editorRef: any = useRef<any>();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -295,7 +301,7 @@ const Editor: React.FC<IProps> = (props: IProps) => {
 
   useEffect(() => {
     editorRef.current = require('@ckeditor/ckeditor5-build-classic');
-    if (props.id && !props.editdata) {
+    if (props.id && !editdata) {
       getItem({
         variables: {
           id: props.id,
@@ -338,7 +344,12 @@ const Editor: React.FC<IProps> = (props: IProps) => {
             closeDialog(true);
             return;
           }
-          router.push('/lists/' + post_type);
+
+          if (formType === ControlMode.New) {
+            router.push('/lists/' + post_type);
+          } else {
+            router.back();
+          }
         }, 500);
       },
     }

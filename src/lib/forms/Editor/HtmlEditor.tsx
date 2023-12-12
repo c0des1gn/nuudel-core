@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';
 import { t } from '../../loc/i18n';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 
-export interface IEditorProps {
+export interface IHtmlEditorProps {
   onChange?(data: string);
   disabled?: boolean;
   content?: string;
@@ -37,7 +37,7 @@ const editorConfiguration = {
 };
 var _debounce: any = undefined;
 // https://ckeditor.com/docs/ckeditor5/latest/builds/guides/integration/frameworks/react.html
-const HtmlEditor: React.FC<IEditorProps> = (props: IEditorProps) => {
+const HtmlEditor: React.FC<IHtmlEditorProps> = (props: IHtmlEditorProps) => {
   const editorRef: any = useRef<any>();
   const [loaded, setLoaded] = useState<Boolean>(false);
   const [html, setHtml] = useState(props.content || '');

@@ -1,16 +1,21 @@
 import dynamic from 'next/dynamic';
-import { IProps } from './Editor';
-import { IEditorProps } from './HtmlEditor';
+import { IEditorProps } from './Editor';
+import { IHtmlEditorProps } from './HtmlEditor';
 import Spinner from '../../components/Spinner';
 
-const DynamicEditor = dynamic<IProps>(() => import('./Editor'), {
+export type { IEditorProps };
+
+const DynamicEditor = dynamic<IEditorProps>(() => import('./Editor'), {
   ssr: false,
   loading: () => <Spinner />,
 });
 
-export const HtmlEditor = dynamic<IEditorProps>(() => import('./HtmlEditor'), {
-  ssr: false,
-  loading: () => <Spinner />,
-});
+export const HtmlEditor = dynamic<IHtmlEditorProps>(
+  () => import('./HtmlEditor'),
+  {
+    ssr: false,
+    loading: () => <Spinner />,
+  }
+);
 
 export default DynamicEditor;
