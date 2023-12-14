@@ -1,5 +1,5 @@
 import React, { CSSProperties } from 'react';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import NextLink from 'next/link';
 import { Link as MuiLink, LinkProps, SxProps, Theme } from '@mui/material';
 import clsx from 'clsx';
@@ -96,7 +96,6 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
     },
     ref
   ) => {
-    const router = useRouter();
     const pathname =
       typeof href === 'string'
         ? href
@@ -104,7 +103,7 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
         ? href.pathname
         : '';
     const className = clsx(classNameProps, {
-      [activeClassName]: router.pathname === pathname && activeClassName,
+      [activeClassName]: Router.pathname === pathname && activeClassName,
     });
 
     const isExternal =

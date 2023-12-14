@@ -29,7 +29,7 @@ import {
 } from '../../components';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { IImage, ICurrentUser } from '../../common/Interfaces';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
@@ -240,7 +240,6 @@ const Editor: React.FC<IEditorProps> = ({
   formType = ControlMode.New,
   ...props
 }) => {
-  const router = useRouter();
   const editorRef: any = useRef<any>();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -346,9 +345,9 @@ const Editor: React.FC<IEditorProps> = ({
           }
 
           if (formType === ControlMode.New) {
-            router.push('/lists/' + post_type);
+            Router.push('/lists/' + post_type);
           } else {
-            router.back();
+            Router.back();
           }
         }, 500);
       },
@@ -406,35 +405,35 @@ const Editor: React.FC<IEditorProps> = ({
     } else if (props.IsDlg === true) {
       closeDialog(refresh);
     } else {
-      router.back();
+      Router.back();
     }
   };
 
   return (
-    <>
-      <Message />
+    <div style={{ padding: 8 }}>
       {editorLoaded ? (
         <Grid container spacing={4}>
+          <Message />
+          <MessageBox
+            title={t('Delete')}
+            description={t('AreYouSureToRemove')}
+            show={alert}
+            onSubmit={() => {
+              setAlert(false);
+              setLoading(true);
+              try {
+                deletePostMutation({
+                  variables: { id: props.id },
+                });
+              } catch {}
+              setLoading(false);
+              doClose(true);
+            }}
+            onClose={() => {
+              setAlert(false);
+            }}
+          />
           <Grid item xs={12} sm={8} md={9}>
-            <MessageBox
-              title={t('Delete')}
-              description={t('AreYouSureToRemove')}
-              show={alert}
-              onSubmit={() => {
-                setAlert(false);
-                setLoading(true);
-                try {
-                  deletePostMutation({
-                    variables: { id: props.id },
-                  });
-                } catch {}
-                setLoading(false);
-                doClose(true);
-              }}
-              onClose={() => {
-                setAlert(false);
-              }}
-            />
             <TextField
               label={t('Title')}
               placeholder={t('Title')}
@@ -638,7 +637,7 @@ const Editor: React.FC<IEditorProps> = ({
       ) : (
         <p>{t('Loading')}</p>
       )}
-    </>
+    </div>
   );
 };
 

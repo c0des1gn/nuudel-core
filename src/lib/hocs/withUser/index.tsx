@@ -65,11 +65,12 @@ export const withUser =
 
     if (token && error && error.message?.includes('not logged')) {
       const redir: any = getRedirectTo();
-      Router.replace(
-        `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`,
-        '/admin/login',
-        { shallow: true }
-      );
+      try {
+        Router.replace(
+          `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`,
+          '/admin/login'
+        );
+      } catch {}
     }
 
     useEffect(() => {

@@ -16,7 +16,7 @@ import UI from '../common/UI';
 import { t } from '../loc/i18n';
 
 var debounce: any = null;
-export const signOut = (router?: any, option: any = { shallow: true }) => {
+export const signOut = (router?: any, option: any = { scroll: false }) => {
   let re: boolean = true;
   try {
     const token = UI.getItem(USER_TOKEN);
@@ -28,7 +28,7 @@ export const signOut = (router?: any, option: any = { shallow: true }) => {
       clearTimeout(debounce);
       debounce = setTimeout(() => {
         if (router?.push) {
-          router.push('/admin/login', undefined, option);
+          router.push('/admin/login');
         } else if (!isServer) {
           window.location.href = '/admin/login';
         }

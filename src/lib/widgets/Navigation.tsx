@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Text } from 'nuudel-core';
-import { useRouter } from 'next/router';
+import Router from 'next/router';
 import TagLink from './TagLink';
 import { t } from '../loc/i18n';
 import Burger from './Burger';
@@ -26,10 +26,13 @@ type Props = {
 };
 
 export default function Navigation({ category, tags = [] }: Props) {
-  const router = useRouter();
   // const [active, setActive] = useState(false);
-  const { slug, page } = router.query;
+  const { slug, page } = Router.query;
   let _slug: string = slug instanceof Array ? slug.join('/') : slug;
+
+  if (!Router.isReady) {
+    return <></>;
+  }
 
   return (
     <>
