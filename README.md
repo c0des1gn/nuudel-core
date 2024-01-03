@@ -27,8 +27,7 @@ npm publish --tag latest
 
 # error fix
 
-cd node_modules/node-sass
-npm rebuild node-sass
+cd node_modules/node-sass && npm rebuild node-sass && cd ../..
 
 # copy cli
 

@@ -10,7 +10,7 @@ export const fetcher = async (
   headers: any = {}
 ) =>
   axios({
-    url: `${process?.env?.WEB || ''}/${pathname}`,
+    url: `${process?.env?.NEXT_PUBLIC_WEB || ''}/${pathname}`,
     method: 'post',
     data: {
       query: query,

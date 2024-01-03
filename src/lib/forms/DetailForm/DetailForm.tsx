@@ -34,7 +34,8 @@ import {
 import { closeDialog } from 'nuudel-utils';
 import { onError } from '../../common/helper';
 import { width, height } from '../../common/UI';
-import Router from 'next/router';
+//import Router from 'next/router';
+const Router = require('next/router');
 
 export interface IFormState extends ICoreState {
   loading: boolean;
@@ -166,9 +167,9 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
                     disabled={false}
                     color="primary"
                     onClick={() => {
-                      Router.push({
-                        pathname: `/forms/${this.props.listname}/${this.props.id}`,
-                      });
+                      Router?.push(
+                        `/forms/${this.props.listname}/${this.props.id}`
+                      );
                     }}
                   >
                     {t('Edit')}
@@ -197,7 +198,7 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
                     } else if (this.props.IsDlg === true) {
                       closeDialog(this.state.itemSaved);
                     } else {
-                      Router.back();
+                      Router?.back();
                     }
                   }}
                 >

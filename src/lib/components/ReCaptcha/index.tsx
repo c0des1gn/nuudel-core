@@ -1,6 +1,6 @@
 import React from 'react';
-import {GoogleReCaptchaProvider} from 'react-google-recaptcha-v3';
-import {Recaptcha} from './Recaptcha';
+import { GoogleReCaptchaProvider } from 'react-google-recaptcha-v3';
+import { Recaptcha } from './Recaptcha';
 //import {HttpClient} from 'nuudel-utils';
 
 export interface IProps {
@@ -16,8 +16,8 @@ export const verifyRecaptcha = async (
 ): Promise<boolean> => {
   let re = false;
   let uri: string =
-    typeof window?.location === 'undefined' || process?.env?.WEB
-      ? process?.env?.WEB || ''
+    typeof window?.location === 'undefined' || process?.env?.NEXT_PUBLIC_WEB
+      ? process?.env?.NEXT_PUBLIC_WEB || ''
       : window.location.protocol +
         '//' +
         window.location.hostname +
@@ -48,7 +48,8 @@ const ReCaptcha: React.FC<IProps> = ({
     <GoogleReCaptchaProvider
       useRecaptchaNet
       reCaptchaKey={siteKey}
-      scriptProps={{async: true, defer: true, appendTo: 'body'}}>
+      scriptProps={{ async: true, defer: true, appendTo: 'body' }}
+    >
       <Recaptcha {...props} captchaDomain={''} />
     </GoogleReCaptchaProvider>
   );

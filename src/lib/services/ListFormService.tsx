@@ -7,6 +7,7 @@ import {
   graphqlSync,
   getIntrospectionQuery,
   IntrospectionQuery,
+  introspectionFromSchema,
   GraphQLSchema,
   GraphQLError,
 } from 'graphql';
@@ -130,7 +131,7 @@ const getFieldSchemasForForm = (
 
 const get_enum = (obj: any) => {
   let choices: any[] = [];
-  if (obj.anyOf) {
+  if (obj?.anyOf) {
     obj.anyOf.forEach((item) => {
       choices.push({
         id: item.title, //item.title.enum[0]
@@ -156,14 +157,15 @@ const get_columns = async (
       return columns;
     }
   }
-  const introspection = graphqlSync(
+  const introspection: any = graphqlSync({
     schema,
-    getIntrospectionQuery() // introspectionQuery
-  ).data as IntrospectionQuery;
-
+    source: getIntrospectionQuery(),
+  }).data;
+  //const introspection: IntrospectionQuery = introspectionFromSchema(schema);
   const types: any = fromIntrospectionQuery(introspection, {
     //ignoreInternals: true,
     //nullableArrayItems: true,
+    //idTypeMapping: 'string',
   });
   let obj: any = undefined;
   if (formType === ControlMode.Edit) {
@@ -182,8 +184,8 @@ const get_columns = async (
     window.location.href = '/404';
     return columns;
   }
-  let fields = obj.properties;
-  let flds: string[] = Object.keys(fields);
+  let fields = obj?.properties;
+  let flds: string[] = Object.keys(fields || {});
   for (let i = 0; i < flds.length; i++) {
     let key = flds[i];
     let Type = 'object',
@@ -214,6 +216,7 @@ const get_columns = async (
         json = JSON.parse(arr[0].replace(/\'/g, '"'));
       }
     }
+
     if (fields[key].type) {
       Type = fields[key].type;
       switch (Type) {
@@ -262,6 +265,7 @@ const get_columns = async (
         FieldType = 'Boolean';
         break;
       case '#/definitions/DateTime':
+      case '#/definitions/DateTimeISO':
         Type = 'date';
         FieldType = 'DateTime';
         break;
@@ -285,21 +289,22 @@ const get_columns = async (
         //columns.push(...objs);
         break;
       default:
+        let fieldKey = fields[key]?.properties?.return || fields[key];
         if (fields[key].type === 'array') {
           IsArray = true;
           Type = 'array';
-          if (fields[key].items.$ref === '#/definitions/Lookup') {
+          if (fieldKey.items.$ref === '#/definitions/Lookup') {
             FieldType = 'LookupMulti';
-          } else if (fields[key].items.$ref.startsWith('#/definitions/Image')) {
+          } else if (fieldKey.items.$ref.startsWith('#/definitions/Image')) {
             FieldType = 'Image';
-          } else if (fields[key].items.$ref.startsWith('#/definitions/')) {
-            let enumName: string =
-              types.definitions[listname].properties[key].items.$ref.substring(
-                14
-              );
+          } else if (fieldKey.items.$ref.startsWith('#/definitions/')) {
+            let enumName: string = (
+              types.definitions[listname].properties[key]?.properties?.return ||
+              types.definitions[listname].properties[key]
+            ).items?.$ref?.substring(14);
             if ('ObjectId' === enumName) {
               FieldType = !!json && !!json.list ? 'LookupMulti' : 'Text';
-            } else if (types.definitions[enumName].type === 'object') {
+            } else if (types.definitions[enumName]?.type === 'object') {
               Type = 'object';
               FieldType = 'Object';
               Children = await getFieldSchemasForForm(
@@ -312,9 +317,14 @@ const get_columns = async (
               FieldType = 'MultiChoice';
             }
           }
-        } else if (fields[key].$ref.startsWith('#/definitions/')) {
-          let enumName: string = fields[key].$ref.substring(14);
-          if (types.definitions[enumName].type === 'object') {
+        } else if (fieldKey.$ref?.startsWith('#/definitions/')) {
+          let enumName: string = fieldKey.$ref?.substring(14);
+          if (
+            types.definitions[enumName].type === 'object' &&
+            !['ObjectId', 'DateTimeISO', 'Link', 'Note'].includes(
+              types.definitions[enumName].title
+            )
+          ) {
             Type = 'object';
             FieldType = '';
             let objs: any[] = await get_columns(

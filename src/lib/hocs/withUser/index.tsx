@@ -12,14 +12,13 @@ import { ICurrentUser } from '../../common/Interfaces';
 import { currentUserQuery } from './Query';
 import { USER_TOKEN, tokenObj } from 'nuudel-utils';
 import useSWR from 'swr';
-//*
-import Router from 'next/router';
+
 function getRedirectTo() {
   if (typeof window !== 'undefined' && window?.location) {
     return window.location;
   }
   return {};
-} // */
+}
 
 // Declaring the state object globally.
 var initialState: any = {};
@@ -66,9 +65,8 @@ export const withUser =
     if (token && error && error.message?.includes('not logged')) {
       const redir: any = getRedirectTo();
       try {
-        Router.replace(
-          `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`,
-          '/admin/login'
+        require('next/router')?.replace(
+          `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`
         );
       } catch {}
     }

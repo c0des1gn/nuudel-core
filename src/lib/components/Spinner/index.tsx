@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import {
   CircularProgress,
   CircularProgressProps,
@@ -10,18 +10,23 @@ interface IProps extends CircularProgressProps {
   clickClose?: boolean;
 }
 
-const Spinner: FunctionComponent<IProps> = ({ overflowHide, ...props }) => {
+const Spinner: FC<IProps> = ({ overflowHide, ...props }) => {
   const { clickClose = false, size = 48 } = props;
   const [open, setOpen] = React.useState(true);
+  const [isSSR, setIsSSR] = React.useState(true);
   const handleClose = () => {
     if (clickClose) setOpen(false);
   };
+
+  React.useEffect(() => {
+    setIsSSR(false);
+  }, []);
 
   const handleToggle = () => {
     setOpen(!open);
   };
 
-  return !overflowHide ? (
+  return isSSR ? null : !overflowHide ? (
     <div
       style={{
         position: 'absolute',

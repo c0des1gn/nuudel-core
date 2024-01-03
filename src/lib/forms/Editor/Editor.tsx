@@ -29,13 +29,15 @@ import {
 } from '../../components';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { IImage, ICurrentUser } from '../../common/Interfaces';
-import Router from 'next/router';
+
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 //const SourceEditing = require('@ckeditor/ckeditor5-source-editing').SourceEditing;
+//import Router from 'next/router';
+const Router = require('next/router');
 
 export interface IEditorProps {
   id?: string;
@@ -345,9 +347,9 @@ const Editor: React.FC<IEditorProps> = ({
           }
 
           if (formType === ControlMode.New) {
-            Router.push('/lists/' + post_type);
+            Router?.push('/lists/' + post_type);
           } else {
-            Router.back();
+            Router?.back();
           }
         }, 500);
       },
@@ -405,7 +407,7 @@ const Editor: React.FC<IEditorProps> = ({
     } else if (props.IsDlg === true) {
       closeDialog(refresh);
     } else {
-      Router.back();
+      Router?.back();
     }
   };
 
@@ -544,8 +546,9 @@ const Editor: React.FC<IEditorProps> = ({
                   target="_blank"
                   href={`/${post_type?.toLowerCase()}/` + formValues.slug}
                 >
-                  {`${process?.env?.DOMAIN}/${post_type?.toLowerCase()}/` +
-                    formValues.slug}
+                  {`${
+                    process?.env?.NEXT_PUBLIC_WEB
+                  }/${post_type?.toLowerCase()}/` + formValues.slug}
                 </Link>
               </Grid>
               {post_type === 'Post' && (

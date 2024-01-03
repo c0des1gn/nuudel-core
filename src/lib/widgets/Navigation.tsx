@@ -23,16 +23,13 @@ export interface ICategory {
 type Props = {
   category: ICategory[];
   tags?: ITagContent[];
+  query?: any;
 };
 
-export default function Navigation({ category, tags = [] }: Props) {
+export default function Navigation({ category, tags = [], query }: Props) {
   // const [active, setActive] = useState(false);
-  const { slug, page } = Router.query;
+  const { slug, page } = query || require('next/router')?.query;
   let _slug: string = slug instanceof Array ? slug.join('/') : slug;
-
-  if (!Router.isReady) {
-    return <></>;
-  }
 
   return (
     <>

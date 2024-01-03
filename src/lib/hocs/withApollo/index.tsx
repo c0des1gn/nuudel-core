@@ -31,13 +31,14 @@ cache.writeQuery({
 const { NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
 
 export const getURL = (): string => {
-  return process?.env?.ENV === 'development'
-    ? `http://localhost:${process?.env?.PORT || '8080'}/${pathname}`
-    : `${process?.env?.WEB || ''}/${pathname}`;
+  return process?.env?.NEXT_PUBLIC_ENV === 'development'
+    ? `http://${process?.env?.HOST || 'localhost'}:${
+        process?.env?.PORT || '8080'
+      }/${pathname}`
+    : `${process?.env?.NEXT_PUBLIC_WEB || ''}/${pathname}`;
 };
 
 const wsLink =
-  //!isServer && process?.env?.NODE_ENV === 'development'
   !isServer && NEXT_PUBLIC_WS_SUBSCRIPTION === 'true'
     ? new WebSocketLink({
         // if you instantiate in the server, the error will be thrown
@@ -76,6 +77,7 @@ const errorLink = onError(({ networkError, graphQLErrors }) => {
         window.location?.pathname !== '/admin/login' &&
         //(!!message && message.toLowerCase().indexOf('access denied') >= 0) ||
         !!extensions &&
+        typeof extensions.code === 'string' &&
         extensions.code?.toUpperCase() === 'UNAUTHENTICATED'
       ) {
         window.location.href = '/admin/login';
