@@ -14,7 +14,12 @@ import {
 import { fromIntrospectionQuery } from 'graphql-2-json-schema';
 import { createClient, getURL } from '../hocs/withApollo';
 import { GetSchema } from '../services/graphqlSchema';
-import { traverse, getPlural, capitalizeFirstLetter } from 'nuudel-utils';
+import {
+  traverse,
+  getPlural,
+  capitalizeFirstLetter,
+  dateToISOString,
+} from 'nuudel-utils';
 import { onError, onErrors, clientError } from '../common/helper';
 
 export interface MutationVariables {
@@ -232,6 +237,9 @@ const get_columns = async (
         case 'array':
           FieldType = 'MultiChoice';
           break;
+        //case 'date':
+        //  FieldType = 'DateTime';
+        //  break;
         default:
           break;
       }
@@ -332,7 +340,9 @@ const get_columns = async (
               enumName,
               !!ParentObject ? ParentObject + '.' + key : key
             );
-            objs = objs.filter((c) => !c.Title.startsWith('_'));
+            objs = objs.filter(
+              (c) => !c.Title.startsWith('_') && !!c.FieldType
+            );
             columns.push(...objs);
           } else {
             Choices = get_enum(types.definitions[enumName]);
@@ -342,20 +352,22 @@ const get_columns = async (
         }
         break;
     }
-    columns.push({
-      key: !!ParentObject ? ParentObject + '.' + key : key,
-      Title: key,
-      Type,
-      FieldType,
-      Required,
-      Description,
-      keyboardType,
-      Choices,
-      json,
-      ParentObject,
-      IsArray,
-      Children,
-    });
+    if (FieldType) {
+      columns.push({
+        key: !!ParentObject ? ParentObject + '.' + key : key,
+        Title: key,
+        Type,
+        FieldType,
+        Required,
+        Description,
+        keyboardType,
+        Choices,
+        json,
+        ParentObject,
+        IsArray,
+        Children,
+      });
+    }
   }
 
   return columns;
@@ -810,6 +822,9 @@ const GetArrayValues = (
         typeof originalData[field.InternalName] !== 'undefined'
           ? originalData[field.InternalName]
           : data[field.InternalName];
+      if (field.FieldType === 'DateTime' && val) {
+        val = dateToISOString(val);
+      }
       if (IsUpdate) {
         if (field.FieldType === 'MultiChoice' && field.Choices.length > 0) {
           val = '{[' + val.toString() + ']}';

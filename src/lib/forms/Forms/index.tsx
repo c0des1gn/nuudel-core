@@ -14,7 +14,11 @@ export const Forms: React.FC<IFormProps> = ({ ...props }) => {
   const { IsDlg } = props; // || Router?.query;
   //if (!Router.isReady) { return <></>; }
   return (
-    <DynamicComponent {...props} IsDlg={IsDlg === '1'} lfs={ListFormService} />
+    <DynamicComponent
+      {...props}
+      IsDlg={IsDlg === '1' || IsDlg === true}
+      lfs={ListFormService}
+    />
   );
 };
 
