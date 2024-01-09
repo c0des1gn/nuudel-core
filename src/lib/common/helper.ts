@@ -136,7 +136,7 @@ export const clientError = async ({ errors }) => {
     errors.filter(
       (e) =>
         //(!!e.message && e.message.toLowerCase().indexOf('access denied') >= 0) ||
-        !!e.extensions && e.extensions.code.toUpperCase() === 'UNAUTHENTICATED'
+        !!e.extensions && e.extensions.code?.toUpperCase() === 'UNAUTHENTICATED'
     ).length > 0
   ) {
     signOut();

@@ -74,13 +74,14 @@ const errorLink = onError(({ networkError, graphQLErrors }) => {
     graphQLErrors.forEach(({ message, locations, path, extensions }) => {
       if (
         !isServer &&
-        window.location?.pathname !== '/admin/login' &&
+        !window.location?.pathname?.startsWith('/admin/login') &&
         //(!!message && message.toLowerCase().indexOf('access denied') >= 0) ||
         !!extensions &&
         typeof extensions.code === 'string' &&
-        extensions.code?.toUpperCase() === 'UNAUTHENTICATED'
+        extensions.code?.toUpperCase() === 'FORBIDDEN' // UNAUTHENTICATED
       ) {
-        window.location.href = '/admin/login';
+        window.location.href =
+          '/admin/login?message=' + encodeURIComponent(message || '');
       }
       // eslint-disable-next-line no-console
       console.log(

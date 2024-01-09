@@ -66,7 +66,9 @@ export const withUser =
       const redir: any = getRedirectTo();
       try {
         require('next/router')?.replace(
-          `/admin/login?r=${redir.pathname + encodeURIComponent(redir.search)}`
+          `/admin/login?referrer=${
+            redir.pathname + encodeURIComponent(redir.search)
+          }`
         );
       } catch {}
     }

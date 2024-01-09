@@ -240,12 +240,19 @@ const get_columns = async (
         //case 'date':
         //  FieldType = 'DateTime';
         //  break;
+        //case 'object':
+        //  FieldType = 'Object';
+        //  break;
         default:
           break;
       }
     }
 
-    switch (fields[key].$ref) {
+    switch (
+      fields[key]?.properties?.return?.$ref ||
+      fields[key]?.properties?.return?.items?.$ref ||
+      fields[key]?.$ref
+    ) {
       case '#/definitions/String':
         Type = 'string';
         FieldType = 'Text';
@@ -298,7 +305,7 @@ const get_columns = async (
         break;
       default:
         let fieldKey = fields[key]?.properties?.return || fields[key];
-        if (fields[key].type === 'array') {
+        if (fieldKey.type === 'array') {
           IsArray = true;
           Type = 'array';
           if (fieldKey.items.$ref === '#/definitions/Lookup') {
@@ -327,11 +334,17 @@ const get_columns = async (
           }
         } else if (fieldKey.$ref?.startsWith('#/definitions/')) {
           let enumName: string = fieldKey.$ref?.substring(14);
+
           if (
             types.definitions[enumName].type === 'object' &&
-            !['ObjectId', 'DateTimeISO', 'Link', 'Note'].includes(
-              types.definitions[enumName].title
-            )
+            ![
+              'ObjectId',
+              'DateTimeISO',
+              'Link',
+              'Note',
+              'Lookup',
+              'Image',
+            ].includes(types.definitions[enumName].title)
           ) {
             Type = 'object';
             FieldType = '';

@@ -40,7 +40,7 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
     },
     ref
   ) => {
-    return legacyBehavior === false ? (
+    return !legacyBehavior ? (
       <NextLink
         href={to}
         prefetch={prefetch}
@@ -93,6 +93,7 @@ interface ILinkProps {
   sx?: SxProps<Theme>;
   id?: string;
   disabled?: boolean;
+  legacyBehavior?: boolean;
 }
 
 // A styled version of the Next.js Link component:

@@ -68,8 +68,9 @@ export const ColorPicker: React.FC<IProps> = ({
             )}
             {!!presetColors && presetColors.length > 0 && (
               <div className={styles.pickerSwatches}>
-                {presetColors.map(presetColor => (
+                {presetColors.map((presetColor) => (
                   <button
+                    type="button"
                     key={presetColor}
                     className={styles.pickerSwatch}
                     style={{ background: presetColor }}
