@@ -177,13 +177,14 @@ const Upload: React.FC<IUploadProps> = ({
 
   const didMountRef = useRef(false);
   useEffect(() => {
-    if (!didMountRef.current) {
+    if (didMountRef.current) {
       let upd =
         uploaded instanceof Array ? uploaded : !uploaded ? [] : [uploaded];
       if (!arraysEqual(alreadyUploadedImages, upd)) {
         setAlreadyUploadedImages(upd);
       }
-    } else {
+    }
+    if (!didMountRef.current) {
       didMountRef.current = true;
     }
   }, [uploaded]);

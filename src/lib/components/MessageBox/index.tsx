@@ -47,7 +47,10 @@ const MessageBox: FunctionComponent<IDialogProps> = ({ ...props }) => {
   useEffect(() => {
     if (didMountRef.current && show && !open) {
       handleClickOpen();
-    } else didMountRef.current = true;
+    }
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+    }
   }, [show]);
 
   return (

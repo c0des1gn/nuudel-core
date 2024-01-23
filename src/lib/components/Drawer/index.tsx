@@ -37,7 +37,10 @@ export const Drawer: React.FC<IDrawerProps> = ({ children, ...props }) => {
   useEffect(() => {
     if (didMountRef.current && props.open !== open) {
       setOpen(!open);
-    } else didMountRef.current = true;
+    }
+    if (!didMountRef.current) {
+      didMountRef.current = true;
+    }
   }, [props.open]);
 
   return (
