@@ -2401,10 +2401,10 @@ cross-spawn@^7.0.0, cross-spawn@^7.0.2, cross-spawn@^7.0.3:
     shebang-command "^2.0.0"
     which "^2.0.1"
 
-crypto-js@3.1.9-1:
-  version "3.1.9-1"
-  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-3.1.9-1.tgz#fda19e761fc077e01ffbfdc6e9fdfc59e8806cd8"
-  integrity sha1-/aGedh/Ad+Af+/3G6f38WeiAbNg=
+crypto-js@^4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/crypto-js/-/crypto-js-4.2.0.tgz#4d931639ecdfd12ff80e8186dba6af2c2e856631"
+  integrity sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==
 
 crypto-random-string@^2.0.0:
   version "2.0.0"
@@ -4894,13 +4894,13 @@ null-check@^1.0.0:
   resolved "https://registry.yarnpkg.com/null-check/-/null-check-1.0.0.tgz#977dffd7176012b9ec30d2a39db5cf72a0439edd"
   integrity sha1-l33/1xdgErnsMNKjnbXPcqBDnt0=
 
-nuudel-utils@^0.1.81:
-  version "0.1.81"
-  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.81.tgz#0da6b6508c13bcfffb0feee6908253e5d119dbc4"
-  integrity sha512-j/05vYuCvzx3Xb7yF3F0uk5mtmoN0Wzi5IrhSSNqK69av7NZmxYjbXUMJP1Ophb8lErswL5iap56UbQb3NB2+A==
+nuudel-utils@^0.1.83:
+  version "0.1.83"
+  resolved "https://registry.yarnpkg.com/nuudel-utils/-/nuudel-utils-0.1.83.tgz#bf33ee88a4f7b764e01a985d29d19e4da0b1277d"
+  integrity sha512-SNQAMreS6CJW9eymrAYYqe28HQgwXKAL0iotH+odLuWMi5J0Z1oSijqtzewhOpWBJu0UMiWfr4qS0H0fQIw6ZQ==
   dependencies:
     axios "0.27.2"
-    crypto-js "3.1.9-1"
+    crypto-js "^4.2.0"
     graphql-tag "^2.12.6"
     moment "^2.29.4"
 
@@ -5484,10 +5484,10 @@ react-is@^18.2.0:
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.2.0.tgz#199431eeaaa2e09f86427efbb4f1473edb47609b"
   integrity sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==
 
-react-number-format@^5.2.2:
-  version "5.2.2"
-  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-5.2.2.tgz#60ee1152b33fee9e522e13846da9c9bf30993404"
-  integrity sha512-wCh64Z1HCwXcO2dbgkeYIaB+Rmp/fcsH8kAeRtUkc46dv1pIrgDjie2WkOqKBw8YqyqhwNdYgNFNQuuY+iGJ/g==
+react-number-format@^5.3.1:
+  version "5.3.1"
+  resolved "https://registry.yarnpkg.com/react-number-format/-/react-number-format-5.3.1.tgz#840c257da9cb4b248990d8db46e4d23e8bac67ff"
+  integrity sha512-qpYcQLauIeEhCZUZY9jXZnnroOtdy3jYaS1zQ3M1Sr6r/KMOBEIGNIb7eKT19g2N1wbYgFgvDzs19hw5TrB8XQ==
   dependencies:
     prop-types "^15.7.2"
 

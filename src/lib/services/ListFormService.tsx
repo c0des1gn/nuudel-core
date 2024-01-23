@@ -189,7 +189,7 @@ const get_columns = async (
     window.location.href = '/404';
     return columns;
   }
-  let fields = obj?.properties;
+  let fields = obj?.properties || [];
   let flds: string[] = Object.keys(fields || {});
   for (let i = 0; i < flds.length; i++) {
     let key = flds[i];
@@ -201,7 +201,8 @@ const get_columns = async (
       json: any = undefined,
       IsArray = false,
       keyboardType = 'default',
-      Required = false;
+      Required = false,
+      DefaultValue: any = undefined;
     if (
       obj.required &&
       (obj.required instanceof Array || Array.isArray(obj.required))
@@ -218,7 +219,9 @@ const get_columns = async (
       Description = Description.replace(/\{[^{}]*\}/gm, ''); //remove lookup config from description
 
       if (arr !== null && arr.length > 0) {
-        json = JSON.parse(arr[0].replace(/\'/g, '"'));
+        try {
+          json = JSON.parse(arr[0].replace(/\'/g, '"'));
+        } catch {}
       }
     }
 
@@ -248,11 +251,15 @@ const get_columns = async (
       }
     }
 
-    switch (
-      fields[key]?.properties?.return?.$ref ||
-      fields[key]?.properties?.return?.items?.$ref ||
-      fields[key]?.$ref
-    ) {
+    let fieldKey = fields[key]?.properties?.return || fields[key];
+    if (fieldKey?.default) {
+      if (fieldKey.default === 'null') {
+        DefaultValue = null;
+      } else {
+        DefaultValue = fieldKey.default;
+      }
+    }
+    switch (fieldKey?.$ref || fieldKey?.items?.$ref) {
       case '#/definitions/String':
         Type = 'string';
         FieldType = 'Text';
@@ -263,7 +270,7 @@ const get_columns = async (
         break;
       case '#/definitions/ObjectId':
         Type = 'objectId';
-        FieldType = !!json && !!json.list ? 'Lookup' : 'Text';
+        FieldType = !json?.list ? 'Text' : 'Lookup';
         break;
       case '#/definitions/Float':
         Type = 'number';
@@ -304,7 +311,6 @@ const get_columns = async (
         //columns.push(...objs);
         break;
       default:
-        let fieldKey = fields[key]?.properties?.return || fields[key];
         if (fieldKey.type === 'array') {
           IsArray = true;
           Type = 'array';
@@ -318,7 +324,7 @@ const get_columns = async (
               types.definitions[listname].properties[key]
             ).items?.$ref?.substring(14);
             if ('ObjectId' === enumName) {
-              FieldType = !!json && !!json.list ? 'LookupMulti' : 'Text';
+              FieldType = !json?.list ? 'Text' : 'LookupMulti';
             } else if (types.definitions[enumName]?.type === 'object') {
               Type = 'object';
               FieldType = 'Object';
@@ -379,6 +385,7 @@ const get_columns = async (
         ParentObject,
         IsArray,
         Children,
+        DefaultValue,
       });
     }
   }
