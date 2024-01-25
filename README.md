@@ -21,6 +21,9 @@ git fetch origin <branch>
 
 git config --global push.default current
 
+# npm
+
+npm login --registry=https://npm.pkg.github.com --scope=c0des1gn
 yarn
 yarn build
 npm publish --tag latest
