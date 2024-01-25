@@ -17,3 +17,5 @@ compiled
 docs
 # Styles Generated Code
 *.scss.d.ts
+_npmrc
+.env

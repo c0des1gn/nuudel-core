@@ -23,7 +23,9 @@ git config --global push.default current
 
 # npm
 
+export NODE_AUTH_TOKEN=
 npm login --registry=https://npm.pkg.github.com --scope=c0des1gn
+npm login --registry=registry.npmjs.org
 yarn
 yarn build
 npm publish --tag latest
