@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, ElementType } from 'react';
 import { Typography, TypographyProps } from '@mui/material';
 
 interface ITextProps extends TypographyProps {
-  component?: string;
+  component?: ElementType<any>;
   //children?: React.ReactNode;
   style?: any;
 }
