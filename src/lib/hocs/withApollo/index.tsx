@@ -11,11 +11,11 @@ import {
 import { setContext } from '@apollo/client/link/context';
 import { ApolloProvider } from '@apollo/react-hooks';
 import { onError } from '@apollo/client/link/error';
-//import { createUploadLink } from 'apollo-upload-client';
 import UI from '../../common/UI';
 import { isServer } from 'nuudel-utils';
 import { onErrors } from '../../common/helper';
 import withApollo from 'next-with-apollo';
+//import { registerApolloClient } from '@apollo/experimental-nextjs-app-support/rsc'; // apollo-client-nextjs
 import { resolvers, typeDefs, QUERY, initData } from './resolvers';
 import { getMainDefinition } from '@apollo/client/utilities';
 import { WebSocketLink } from '@apollo/client/link/ws';
