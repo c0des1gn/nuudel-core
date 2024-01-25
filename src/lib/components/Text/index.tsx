@@ -1,4 +1,4 @@
-import React, { FunctionComponent, ElementType } from 'react';
+import React, { FC, ElementType } from 'react';
 import { Typography, TypographyProps } from '@mui/material';
 
 interface ITextProps extends TypographyProps {
@@ -7,22 +7,19 @@ interface ITextProps extends TypographyProps {
   style?: any;
 }
 
-export const Text: FunctionComponent<ITextProps> = ({ children, ...props }) => (
+export const Text: FC<ITextProps> = ({ children, ...props }) => (
   <Typography {...props} style={props.style}>
     {children}
   </Typography>
 );
 
-export const H1: FunctionComponent<ITextProps> = ({ children, ...props }) => (
+export const H1: FC<ITextProps> = ({ children, ...props }) => (
   <Typography {...props} style={props.style}>
     {children}
   </Typography>
 );
 
-export const Label: FunctionComponent<ITextProps> = ({
-  children,
-  ...props
-}) => (
+export const Label: FC<ITextProps> = ({ children, ...props }) => (
   <Typography {...props} style={props.style}>
     {children}
   </Typography>

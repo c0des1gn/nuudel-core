@@ -1,7 +1,7 @@
 import React, { CSSProperties } from 'react';
+import { useRouter } from 'next/router';
 import NextLink from 'next/link';
 import { Link as MuiLink, LinkProps, SxProps, Theme } from '@mui/material';
-import { isServer } from 'nuudel-utils';
 import clsx from 'clsx';
 
 interface INextLinkProps extends LinkProps {
@@ -15,7 +15,6 @@ interface INextLinkProps extends LinkProps {
   shallow?: boolean;
   to: object | string;
   children?: any;
-  legacyBehavior?: boolean;
 }
 
 const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
@@ -35,12 +34,11 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
       prefetch,
       locale,
       underline = 'hover',
-      legacyBehavior,
       ...props
     },
     ref
   ) => {
-    return !legacyBehavior ? (
+    return (
       <NextLink
         href={to}
         prefetch={prefetch}
@@ -50,23 +48,6 @@ const NextLinkComposed: React.FC<INextLinkProps> = React.forwardRef<
         shallow={shallow}
         passHref={passHref}
         locale={locale}
-        ref={ref}
-        underline={underline}
-        {...(props as any)}
-      >
-        {children}
-      </NextLink>
-    ) : (
-      <NextLink
-        href={to}
-        prefetch={prefetch}
-        as={linkAs}
-        replace={replace}
-        scroll={scroll}
-        shallow={shallow}
-        passHref={passHref}
-        locale={locale}
-        legacyBehavior
       >
         <a ref={ref} underline={underline} {...(props as any)}>
           {children}
@@ -93,7 +74,6 @@ interface ILinkProps {
   sx?: SxProps<Theme>;
   id?: string;
   disabled?: boolean;
-  legacyBehavior?: boolean;
 }
 
 // A styled version of the Next.js Link component:
@@ -116,13 +96,15 @@ const Link: React.FC<ILinkProps> = React.forwardRef<
     },
     ref
   ) => {
+    const router = useRouter();
     const pathname =
-      typeof href === 'string' ? href : href?.pathname ? href.pathname : '';
+      typeof href === 'string'
+        ? href
+        : href && href.pathname
+        ? href.pathname
+        : '';
     const className = clsx(classNameProps, {
-      [activeClassName]:
-        !!activeClassName &&
-        !isServer &&
-        require('next/router')?.pathname === pathname,
+      [activeClassName]: router.pathname === pathname && activeClassName,
     });
 
     const isExternal =

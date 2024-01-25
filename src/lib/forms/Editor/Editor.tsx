@@ -29,15 +29,13 @@ import {
 } from '../../components';
 import { useMutation, useLazyQuery } from '@apollo/react-hooks';
 import { IImage, ICurrentUser } from '../../common/Interfaces';
-
+import { useRouter } from 'next/router';
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 //import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 //import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 //const SourceEditing = require('@ckeditor/ckeditor5-source-editing').SourceEditing;
-//import Router from 'next/router';
-const Router = require('next/router');
 
 export interface IEditorProps {
   id?: string;
@@ -242,6 +240,7 @@ const Editor: React.FC<IEditorProps> = ({
   formType = ControlMode.New,
   ...props
 }) => {
+  const router = useRouter();
   const editorRef: any = useRef<any>();
   const [editorLoaded, setEditorLoaded] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -347,9 +346,9 @@ const Editor: React.FC<IEditorProps> = ({
           }
 
           if (formType === ControlMode.New) {
-            Router?.push('/lists/' + post_type);
+            router.push('/lists/' + post_type);
           } else {
-            Router?.back();
+            router.back();
           }
         }, 500);
       },
@@ -407,35 +406,35 @@ const Editor: React.FC<IEditorProps> = ({
     } else if (props.IsDlg === true) {
       closeDialog(refresh);
     } else {
-      Router?.back();
+      router.back();
     }
   };
 
   return (
-    <div style={{ padding: 8 }}>
+    <>
+      <Message />
       {editorLoaded ? (
         <Grid container spacing={4}>
-          <Message />
-          <MessageBox
-            title={t('Delete')}
-            description={t('AreYouSureToRemove')}
-            show={alert}
-            onSubmit={() => {
-              setAlert(false);
-              setLoading(true);
-              try {
-                deletePostMutation({
-                  variables: { id: props.id },
-                });
-              } catch {}
-              setLoading(false);
-              doClose(true);
-            }}
-            onClose={() => {
-              setAlert(false);
-            }}
-          />
           <Grid item xs={12} sm={8} md={9}>
+            <MessageBox
+              title={t('Delete')}
+              description={t('AreYouSureToRemove')}
+              show={alert}
+              onSubmit={() => {
+                setAlert(false);
+                setLoading(true);
+                try {
+                  deletePostMutation({
+                    variables: { id: props.id },
+                  });
+                } catch {}
+                setLoading(false);
+                doClose(true);
+              }}
+              onClose={() => {
+                setAlert(false);
+              }}
+            />
             <TextField
               label={t('Title')}
               placeholder={t('Title')}
@@ -546,9 +545,8 @@ const Editor: React.FC<IEditorProps> = ({
                   target="_blank"
                   href={`/${post_type?.toLowerCase()}/` + formValues.slug}
                 >
-                  {`${
-                    process?.env?.NEXT_PUBLIC_WEB
-                  }/${post_type?.toLowerCase()}/` + formValues.slug}
+                  {`${process?.env?.DOMAIN}/${post_type?.toLowerCase()}/` +
+                    formValues.slug}
                 </Link>
               </Grid>
               {post_type === 'Post' && (
@@ -640,7 +638,7 @@ const Editor: React.FC<IEditorProps> = ({
       ) : (
         <p>{t('Loading')}</p>
       )}
-    </div>
+    </>
   );
 };
 

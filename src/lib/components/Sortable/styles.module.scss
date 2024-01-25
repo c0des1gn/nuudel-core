@@ -100,9 +100,9 @@
         display: inline-block;
     }
 
-    li:first-child>div {
+    li:first-child {
         //border: 2px solid $warning;
-        border-radius: 2px !important;
-        box-shadow: 0px 0px 0px 4px rgba(0, 0, 0, 0.3) !important;
+        border-radius: 2px;
+        box-shadow: 0px 0px 0px 4px rgba(0, 0, 0, 0.3);
     }
 }

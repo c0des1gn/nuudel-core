@@ -7,19 +7,13 @@ import {
   graphqlSync,
   getIntrospectionQuery,
   IntrospectionQuery,
-  introspectionFromSchema,
   GraphQLSchema,
   GraphQLError,
 } from 'graphql';
 import { fromIntrospectionQuery } from 'graphql-2-json-schema';
 import { createClient, getURL } from '../hocs/withApollo';
 import { GetSchema } from '../services/graphqlSchema';
-import {
-  traverse,
-  getPlural,
-  capitalizeFirstLetter,
-  dateToISOString,
-} from 'nuudel-utils';
+import { traverse, getPlural, capitalizeFirstLetter } from 'nuudel-utils';
 import { onError, onErrors, clientError } from '../common/helper';
 
 export interface MutationVariables {
@@ -136,7 +130,7 @@ const getFieldSchemasForForm = (
 
 const get_enum = (obj: any) => {
   let choices: any[] = [];
-  if (obj?.anyOf) {
+  if (obj.anyOf) {
     obj.anyOf.forEach((item) => {
       choices.push({
         id: item.title, //item.title.enum[0]
@@ -162,15 +156,14 @@ const get_columns = async (
       return columns;
     }
   }
-  const introspection: any = graphqlSync({
+  const introspection = graphqlSync(
     schema,
-    source: getIntrospectionQuery(),
-  }).data;
-  //const introspection: IntrospectionQuery = introspectionFromSchema(schema);
+    getIntrospectionQuery() // introspectionQuery
+  ).data as IntrospectionQuery;
+
   const types: any = fromIntrospectionQuery(introspection, {
     //ignoreInternals: true,
     //nullableArrayItems: true,
-    //idTypeMapping: 'string',
   });
   let obj: any = undefined;
   if (formType === ControlMode.Edit) {
@@ -189,8 +182,8 @@ const get_columns = async (
     window.location.href = '/404';
     return columns;
   }
-  let fields = obj?.properties || [];
-  let flds: string[] = Object.keys(fields || {});
+  let fields = obj.properties;
+  let flds: string[] = Object.keys(fields);
   for (let i = 0; i < flds.length; i++) {
     let key = flds[i];
     let Type = 'object',
@@ -201,8 +194,7 @@ const get_columns = async (
       json: any = undefined,
       IsArray = false,
       keyboardType = 'default',
-      Required = false,
-      DefaultValue: any = undefined;
+      Required = false;
     if (
       obj.required &&
       (obj.required instanceof Array || Array.isArray(obj.required))
@@ -240,26 +232,12 @@ const get_columns = async (
         case 'array':
           FieldType = 'MultiChoice';
           break;
-        //case 'date':
-        //  FieldType = 'DateTime';
-        //  break;
-        //case 'object':
-        //  FieldType = 'Object';
-        //  break;
         default:
           break;
       }
     }
 
-    let fieldKey = fields[key]?.properties?.return || fields[key];
-    if (fieldKey?.default) {
-      if (fieldKey.default === 'null') {
-        DefaultValue = null;
-      } else {
-        DefaultValue = fieldKey.default;
-      }
-    }
-    switch (fieldKey?.$ref || fieldKey?.items?.$ref) {
+    switch (fields[key].$ref) {
       case '#/definitions/String':
         Type = 'string';
         FieldType = 'Text';
@@ -270,7 +248,7 @@ const get_columns = async (
         break;
       case '#/definitions/ObjectId':
         Type = 'objectId';
-        FieldType = !json?.list ? 'Text' : 'Lookup';
+        FieldType = !!json && !!json.list ? 'Lookup' : 'Text';
         break;
       case '#/definitions/Float':
         Type = 'number';
@@ -287,7 +265,6 @@ const get_columns = async (
         FieldType = 'Boolean';
         break;
       case '#/definitions/DateTime':
-      case '#/definitions/DateTimeISO':
         Type = 'date';
         FieldType = 'DateTime';
         break;
@@ -311,21 +288,21 @@ const get_columns = async (
         //columns.push(...objs);
         break;
       default:
-        if (fieldKey.type === 'array') {
+        if (fields[key].type === 'array') {
           IsArray = true;
           Type = 'array';
-          if (fieldKey.items.$ref === '#/definitions/Lookup') {
+          if (fields[key].items.$ref === '#/definitions/Lookup') {
             FieldType = 'LookupMulti';
-          } else if (fieldKey.items.$ref.startsWith('#/definitions/Image')) {
+          } else if (fields[key].items.$ref.startsWith('#/definitions/Image')) {
             FieldType = 'Image';
-          } else if (fieldKey.items.$ref.startsWith('#/definitions/')) {
-            let enumName: string = (
-              types.definitions[listname].properties[key]?.properties?.return ||
-              types.definitions[listname].properties[key]
-            ).items?.$ref?.substring(14);
+          } else if (fields[key].items.$ref.startsWith('#/definitions/')) {
+            let enumName: string =
+              types.definitions[listname].properties[key].items.$ref.substring(
+                14
+              );
             if ('ObjectId' === enumName) {
-              FieldType = !json?.list ? 'Text' : 'LookupMulti';
-            } else if (types.definitions[enumName]?.type === 'object') {
+              FieldType = !!json && !!json.list ? 'LookupMulti' : 'Text';
+            } else if (types.definitions[enumName].type === 'object') {
               Type = 'object';
               FieldType = 'Object';
               Children = await getFieldSchemasForForm(
@@ -338,20 +315,9 @@ const get_columns = async (
               FieldType = 'MultiChoice';
             }
           }
-        } else if (fieldKey.$ref?.startsWith('#/definitions/')) {
-          let enumName: string = fieldKey.$ref?.substring(14);
-
-          if (
-            types.definitions[enumName].type === 'object' &&
-            ![
-              'ObjectId',
-              'DateTimeISO',
-              'Link',
-              'Note',
-              'Lookup',
-              'Image',
-            ].includes(types.definitions[enumName].title)
-          ) {
+        } else if (fields[key].$ref.startsWith('#/definitions/')) {
+          let enumName: string = fields[key].$ref.substring(14);
+          if (types.definitions[enumName].type === 'object') {
             Type = 'object';
             FieldType = '';
             let objs: any[] = await get_columns(
@@ -359,9 +325,7 @@ const get_columns = async (
               enumName,
               !!ParentObject ? ParentObject + '.' + key : key
             );
-            objs = objs.filter(
-              (c) => !c.Title.startsWith('_') && !!c.FieldType
-            );
+            objs = objs.filter((c) => !c.Title.startsWith('_'));
             columns.push(...objs);
           } else {
             Choices = get_enum(types.definitions[enumName]);
@@ -371,23 +335,20 @@ const get_columns = async (
         }
         break;
     }
-    if (FieldType) {
-      columns.push({
-        key: !!ParentObject ? ParentObject + '.' + key : key,
-        Title: key,
-        Type,
-        FieldType,
-        Required,
-        Description,
-        keyboardType,
-        Choices,
-        json,
-        ParentObject,
-        IsArray,
-        Children,
-        DefaultValue,
-      });
-    }
+    columns.push({
+      key: !!ParentObject ? ParentObject + '.' + key : key,
+      Title: key,
+      Type,
+      FieldType,
+      Required,
+      Description,
+      keyboardType,
+      Choices,
+      json,
+      ParentObject,
+      IsArray,
+      Children,
+    });
   }
 
   return columns;
@@ -842,9 +803,6 @@ const GetArrayValues = (
         typeof originalData[field.InternalName] !== 'undefined'
           ? originalData[field.InternalName]
           : data[field.InternalName];
-      if (field.FieldType === 'DateTime' && val) {
-        val = dateToISOString(val);
-      }
       if (IsUpdate) {
         if (field.FieldType === 'MultiChoice' && field.Choices.length > 0) {
           val = '{[' + val.toString() + ']}';

@@ -35,7 +35,7 @@ export default function PostLayout({
   image,
 }: Props) {
   tags = !tags ? [] : tags;
-  const keywords = tags.map((it) => it.name);
+  const keywords = tags.map(it => it.name);
   const authorName = author;
   const meta = MetaJson({
     url: `/post/${slug}`,
@@ -65,7 +65,7 @@ export default function PostLayout({
         url={meta.url}
         title={meta.title}
         images={[typeof image === 'string' ? image : image?.uri].filter(
-          Boolean
+          Boolean,
         )}
         datePublished={date.toISOString()}
         dateModified={date.toISOString()}

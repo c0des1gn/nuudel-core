@@ -49,20 +49,20 @@ export interface IDialogProps extends DialogProps {
 
 const DialogBasic: FC<IDialogProps> = ({ children, ...props }) => {
   //const { show = false } = props;
-  const [open, setOpen] = React.useState<boolean>(props.open || false);
+  const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
     if (props.onOpen) {
       props.onOpen();
     }
+    setOpen(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
     if (props.onClose) {
       props.onClose();
     }
+    setOpen(false);
   };
 
   const didMountRef = useRef<boolean>(false);
@@ -111,7 +111,7 @@ const DialogBasic: FC<IDialogProps> = ({ children, ...props }) => {
         </DialogContent>
         {!!props.onSubmit && (
           <DialogActions>
-            <Button onClick={props!.onSubmit} color="primary">
+            <Button onClick={props.onSubmit} color="primary">
               {t('Done')}
             </Button>
           </DialogActions>

@@ -2,8 +2,8 @@ import React from 'react';
 import dynamic from 'next/dynamic';
 import { IFormProps } from '../DetailForm/IFormProps';
 import { ListFormService } from '../../services/ListFormService';
+import { useRouter } from 'next/router';
 import Spinner from '../../components/Spinner';
-//import Router from 'next/router';
 
 const DynamicComponent = dynamic(() => import('../DetailForm/DetailForm'), {
   ssr: false,
@@ -11,12 +11,12 @@ const DynamicComponent = dynamic(() => import('../DetailForm/DetailForm'), {
 });
 
 export const Forms: React.FC<IFormProps> = ({ ...props }) => {
-  const { IsDlg } = props; // || Router?.query;
-  //if (!Router.isReady) { return <></>; }
+  const router = useRouter();
+  const { IsDlg } = router.query;
   return (
     <DynamicComponent
       {...props}
-      IsDlg={IsDlg === '1' || IsDlg === true}
+      IsDlg={props.IsDlg === '1' || IsDlg === '1'}
       lfs={ListFormService}
     />
   );

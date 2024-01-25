@@ -30,7 +30,6 @@ import {
 } from './lib/common/IListBaseState';
 
 import { createClient } from './lib/hocs/withApollo';
-import RNFormField from './lib/controls/formFields/RNFormField';
 
 // Core
 export {
@@ -55,7 +54,6 @@ export {
   DataProvider,
   ListProvider,
   createClient,
-  RNFormField,
 };
 
 //forms

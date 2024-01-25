@@ -16,7 +16,7 @@ import UI from '../common/UI';
 import { t } from '../loc/i18n';
 
 var debounce: any = null;
-export const signOut = (router?: any, option: any = { scroll: false }) => {
+export const signOut = (router?: any, option: any = { shallow: true }) => {
   let re: boolean = true;
   try {
     const token = UI.getItem(USER_TOKEN);
@@ -28,7 +28,7 @@ export const signOut = (router?: any, option: any = { scroll: false }) => {
       clearTimeout(debounce);
       debounce = setTimeout(() => {
         if (router?.push) {
-          router.push('/admin/login');
+          router.push('/admin/login', undefined, option);
         } else if (!isServer) {
           window.location.href = '/admin/login';
         }
@@ -136,7 +136,7 @@ export const clientError = async ({ errors }) => {
     errors.filter(
       (e) =>
         //(!!e.message && e.message.toLowerCase().indexOf('access denied') >= 0) ||
-        !!e.extensions && e.extensions.code?.toUpperCase() === 'UNAUTHENTICATED'
+        !!e.extensions && e.extensions.code.toUpperCase() === 'UNAUTHENTICATED'
     ).length > 0
   ) {
     signOut();

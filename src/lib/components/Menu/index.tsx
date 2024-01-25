@@ -17,20 +17,13 @@ interface IMenuItem {
   label: string;
   icon?: any;
   disabled?: boolean;
-  color?: string;
 }
 
-export const Menu: React.FC<IMenuProps> = ({
-  items,
-  selected,
-  color,
-  ...props
-}) => (
+export const Menu: React.FC<IMenuProps> = ({ items, selected, ...props }) => (
   <Navegation {...props}>
     {items.map((option: IMenuItem, index: number) => (
       <MenuItem
         key={index}
-        color={color}
         disabled={option.disabled === true}
         onClick={option.onClick}
         value={option.value}

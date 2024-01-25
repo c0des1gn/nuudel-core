@@ -34,8 +34,7 @@ import {
 import { closeDialog } from 'nuudel-utils';
 import { onError } from '../../common/helper';
 import { width, height } from '../../common/UI';
-//import Router from 'next/router';
-const Router = require('next/router');
+import Router from 'next/router';
 
 export interface IFormState extends ICoreState {
   loading: boolean;
@@ -167,9 +166,9 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
                     disabled={false}
                     color="primary"
                     onClick={() => {
-                      Router?.push(
-                        `/forms/${this.props.listname}/${this.props.id}`
-                      );
+                      Router.push({
+                        pathname: `/forms/${this.props.listname}/${this.props.id}`,
+                      });
                     }}
                   >
                     {t('Edit')}
@@ -198,7 +197,7 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
                     } else if (this.props.IsDlg === true) {
                       closeDialog(this.state.itemSaved);
                     } else {
-                      Router?.back();
+                      Router.back();
                     }
                   }}
                 >
@@ -487,6 +486,7 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
   //@override
   protected valueChanged = (fieldName: string, newValue: any) => {
     this.customActions(fieldName, newValue);
+    //console.warn(newValue);
     this.setState((prevState, props) => {
       const fld = prevState.fieldsSchema.filter(
         (item) => item.InternalName === fieldName
@@ -521,6 +521,7 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
         this.state.fieldsSchema,
         this.props.id ? this.props.id : ''
       );
+
       let hadErrors = false;
       let errorText = t('FieldsErrorOnSaving');
       if (updatedValues.length === 0) {
@@ -548,6 +549,7 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
 
       let dataReloadNeeded = false;
       const newState: IFormState = { ...this.state, fieldErrors: {} };
+
       if (updatedValues instanceof Array) {
         updatedValues
           .filter((fieldVal) => fieldVal.HasException)
@@ -561,9 +563,10 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
       }
 
       if (hadErrors) {
-        console.warn('warnings:', newState.fieldErrors);
         if (this.props.onSubmitFailed) {
           this.props.onSubmitFailed(newState.fieldErrors);
+        } else {
+          this.showToast(errorText, 'error');
         }
       } else {
         let id = !!this.props.id ? this.props.id : 0;
@@ -581,19 +584,18 @@ export class DetailForm extends coreComponent<IFormProps, IFormState> {
           this.props.onSubmitSucceeded(id);
         }
         newState.itemSaved = true;
+        this.showToast(t('ItemSavedSuccessfully'), 'success', 5000);
         dataReloadNeeded = true;
       }
       newState.isSaving = false;
+      newState.notifications = this.state.notifications;
       this.setState(newState, () => {
         if (dataReloadNeeded) {
-          this.showToast(t('ItemSavedSuccessfully'), 'success', 5000);
           this.readData(
             this.props.listname,
             this.props.formType,
             this.props.id
           );
-        } else {
-          this.showToast(errorText, 'error');
         }
       });
     } catch (error) {

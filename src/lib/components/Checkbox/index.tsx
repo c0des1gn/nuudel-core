@@ -1,13 +1,11 @@
 import React from 'react';
 import { Checkbox as BaseCheckbox, CheckboxProps } from '@mui/material';
 
-interface ICheckboxProps extends CheckboxProps {
-  placeholder?: string;
-}
+interface ICheckboxProps extends CheckboxProps {}
 
 const Checkbox = React.forwardRef<HTMLButtonElement, ICheckboxProps>(
-  function Checkbox({ placeholder = '', ...props }, ref) {
-    return <BaseCheckbox ref={ref} placeholder={placeholder} {...props} />;
+  function Checkbox(props, ref) {
+    return <BaseCheckbox ref={ref} {...props} />;
   }
 );
 

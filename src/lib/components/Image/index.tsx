@@ -4,8 +4,8 @@ import NextImage, { ImageLoader } from 'next/image';
 interface IImageProps {
   src?: string | any;
   srcSet?: string;
-  width?: number | string | any;
-  height?: number | string | any;
+  width?: number | string;
+  height?: number | string;
   className?: string;
   style?: React.CSSProperties;
   children?: any;
@@ -63,7 +63,7 @@ const Image: React.FC<IImageProps> = React.forwardRef<
 
   return (
     <div className={className} style={{ position: 'relative' }}>
-      <NextImage {...props} alt={props.alt || ''} src={src} loader={loader}>
+      <NextImage {...props} src={src} loader={loader}>
         {children}
       </NextImage>
     </div>
