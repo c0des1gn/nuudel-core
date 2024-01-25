@@ -29,7 +29,7 @@ npm login --registry=https://npm.pkg.github.com --scope=c0des1gn
 npm login --registry=registry.npmjs.org
 yarn
 yarn build
-npm publish --tag latest
+npm publish --tag next11
 
 # error fix
 
