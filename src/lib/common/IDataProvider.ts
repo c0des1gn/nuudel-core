@@ -21,4 +21,5 @@ export default interface IDataProvider {
   setQuery?(query?: string, columns?: string): void;
   lfs?;
   category?: any;
+  callback?: Function;
 }

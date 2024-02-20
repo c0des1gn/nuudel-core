@@ -33,7 +33,7 @@ const { NEXT_PUBLIC_WS_SUBSCRIPTION = 'false' } = process?.env;
 export const getURL = (): string => {
   return process?.env?.NEXT_PUBLIC_ENV === 'development'
     ? `http://${process?.env?.HOST || 'localhost'}:${
-        process?.env?.PORT || '8080'
+        process?.env?.NEXT_PUBLIC_PORT || process?.env?.PORT || '8080'
       }/${pathname}`
     : `${process?.env?.NEXT_PUBLIC_WEB || ''}/${pathname}`;
 };

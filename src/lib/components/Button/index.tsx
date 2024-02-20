@@ -1,4 +1,4 @@
-import React, { FunctionComponent, useState, useEffect } from 'react';
+import React, { FC, useState, useEffect } from 'react';
 import { Button as BaseButton, ButtonProps } from '@mui/material';
 
 interface IProps extends ButtonProps {
@@ -8,7 +8,7 @@ interface IProps extends ButtonProps {
   onClick?(e?: any): void;
 }
 
-export const Button: FunctionComponent<IProps> = ({ children, ...props }) => {
+export const Button: FC<IProps> = ({ children, ...props }) => {
   const { timeout = 1200 } = props;
   //const [_debounce, setDebounce] = useState();
   let _debounce: any = undefined;
