@@ -186,7 +186,11 @@ const get_columns = async (
   }
   if (!obj) {
     // redirect to not found page when list does not exist
-    window.location.href = '/404';
+    if (listname !== 'Product') {
+      window.location.href = '/404?listname=' + listname;
+    } else {
+      console.warn('404', listname, formType);
+    }
     return columns;
   }
   let fields = obj?.properties || [];

@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Link, Text } from 'nuudel-core';
-import Router from 'next/router';
 import TagLink from './TagLink';
 import { t } from '../loc/i18n';
 import Burger from './Burger';

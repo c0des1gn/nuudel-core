@@ -14,7 +14,8 @@ import { FetchPolicy } from '@apollo/client';
 export default class DataProvider implements IDataProvider {
   private _lfs: IListFormService;
   private _query: string = '';
-  private readonly _listname: string = 'Product';
+  private readonly _listname: string =
+    process?.env?.NEXT_PUBLIC_PROVIDER_LISTNAME || 'Product';
   private _category: any = [];
   private readonly _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
 

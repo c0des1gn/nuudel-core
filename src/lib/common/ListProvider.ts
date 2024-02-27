@@ -32,21 +32,28 @@ function setQuery(query?: string, columns?: string) {
   }
 }
 
-const _listname: string = 'Product';
+const _listname: string =
+  process?.env?.NEXT_PUBLIC_PROVIDER_LISTNAME || 'Product';
 var category: any = [];
 const _fetchPolicy: FetchPolicy = 'no-cache'; //'network-only',
 
-const initCategory = (depth = 0) => {
-  GetBrowseNodes({ ID: '', columns: 'cid, name', depth }).then((r) => {
-    if (r) {
-      category = [{ cid: '', name: 'All Categories' }].concat(r);
-    }
-  });
+const initCategory = async (depth = 0) => {
+  let cat = [],
+    r: any = undefined;
+  try {
+    r = await GetBrowseNodes({ ID: '', columns: 'cid, name', depth });
+  } catch {}
+  if (r) {
+    cat = [{ cid: '', name: 'All Categories' }].concat(r);
+  }
+  return cat;
 };
 
-const _category = (depth?: number): any[] => {
+const _category = (depth?: number): Promise<any[]> => {
   if (lfs?.client && (!category || category?.length === 0)) {
-    initCategory();
+    initCategory(depth).then((r) => {
+      category = r;
+    });
   }
   return category;
 };
@@ -323,7 +330,7 @@ const GetBrowseNodes = async (param: IProviderBase): Promise<any> => {
     return Promise.resolve([]);
   }
 };
-_category();
+//_category();
 
 const GetVariations = async (param: IProviderBase): Promise<any> => {
   let { ID, columns, listname = 'Itemgroup' } = param;
