@@ -189,7 +189,12 @@ const get_columns = async (
     if (listname !== 'Product') {
       window.location.href = '/404?listname=' + listname;
     } else {
-      console.warn('404', listname, formType);
+      console.warn(
+        '404',
+        listname,
+        formType,
+        process?.env?.NEXT_PUBLIC_PROVIDER_LISTNAME
+      );
     }
     return columns;
   }
