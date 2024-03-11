@@ -1,10 +1,11 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ReactNode } from 'react';
 import { Select as BaseSelect, SelectProps, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
 interface ISelectProps extends SelectProps {
   options: ISelectItem[];
   onChange(e: any);
+  children?: ReactNode;
 }
 
 interface ISelectItem {
