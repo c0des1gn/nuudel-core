@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Select as BaseSelect, SelectProps, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-interface ISelectProps extends SelectProps {
+interface ISelectProps extends SelectProps<any> {
   options: ISelectItem[];
   onChange(e: any);
 }
@@ -17,7 +17,7 @@ interface ISelectItem {
 export const Select: React.FC<ISelectProps> = React.forwardRef<
   HTMLSelectElement,
   ISelectProps
->(({ options, onChange, ...props }, ref) => {
+>(({ options, onChange, ...props }: ISelectProps, ref) => {
   const handleChange = (event: SelectChangeEvent) => {
     let value: any = event?.target?.value;
     if (onChange) {
