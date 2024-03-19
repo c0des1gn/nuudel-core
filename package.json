@@ -1,6 +1,6 @@
 {
   "name": "nuudel-core",
-  "version": "0.3.69",
+  "version": "0.3.70",
   "description": "Web components for react with material UI",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
@@ -73,12 +73,12 @@
     "nuudel-utils": "^0.1.88",
     "pica": "^9.0.1",
     "react-colorful": "^5.6.1",
-    "react-device-detect": "^2.1.2",
+    "react-device-detect": "^2.2.3",
     "react-dropzone": "^14.2.3",
     "react-google-recaptcha-v3": "^1.10.1",
     "react-number-format": "^5.3.1",
-    "react-redux": "^7.2.6",
-    "redux": "^4.1.2"
+    "react-redux": "^7.2.9",
+    "redux": "^4.2.1"
   },
   "devDependencies": {
     "@ava/typescript": "^1.1.1",
@@ -110,13 +110,13 @@
     "nyc": "^15.1.0",
     "open-cli": "^6.0.1",
     "prettier": "^2.8.8",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-test-renderer": "^17.0.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-test-renderer": "^18.2.0",
     "standard-version": "^9.0.0",
     "swr": "^2.2.5",
     "typed-scss-modules": "^5.1.1",
-    "typedoc": "^0.22.11",
+    "typedoc": "^0.25.12",
     "typescript": "5.0.4"
   },
   "peerDependencies": {
