@@ -2,12 +2,11 @@ import React, { useEffect, ReactNode } from 'react';
 import { Select as BaseSelect, SelectProps, MenuItem } from '@mui/material';
 import { SelectChangeEvent } from '@mui/material/Select';
 
-interface ISelectProps extends SelectProps {
+type ISelectProps = SelectProps & {
   options: ISelectItem[];
-  onChange(e: any);
+  onChange?(e: any);
   children?: ReactNode;
-  //variant?: 'standard' | 'outlined' | 'filled';
-}
+};
 
 interface ISelectItem {
   value: string | any;
@@ -16,7 +15,7 @@ interface ISelectItem {
   disabled?: boolean;
 }
 
-export const Select: React.FC<ISelectProps & any> = React.forwardRef<
+export const Select: React.FC<ISelectProps> = React.forwardRef<
   HTMLSelectElement,
   ISelectProps
 >(({ options, onChange, children, ...props }: ISelectProps, ref) => {
