@@ -355,6 +355,7 @@ const get_columns = async (
             ![
               'ObjectId',
               'DateTimeISO',
+              'DateTime',
               'Link',
               'Note',
               'Lookup',
