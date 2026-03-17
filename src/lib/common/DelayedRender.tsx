@@ -5,7 +5,7 @@ import React from 'react';
  *
  * @public
  */
-export interface IDelayedRenderProps extends React.Props<{}> {
+export interface IDelayedRenderProps extends React.HTMLProps<HTMLBaseElement> {
   /**
    * Number of milliseconds to delay rendering children.
    */

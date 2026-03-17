@@ -36,3 +36,5 @@ const RNFieldBooleanEdit: React.FunctionComponent<IRNFormFieldProps> = (
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(RNFieldBooleanEdit);
+
+

@@ -16,7 +16,7 @@ export interface IRootAction {
   payload: any;
 }
 
-const rootReducer: Reducer<IRootState> = combineReducers<IRootState>({
+const rootReducer:Reducer<IRootState, IRootAction, Partial<IRootState>>= combineReducers({
   fields: fieldsReducer,
   user: userReducer,
   //  layout,

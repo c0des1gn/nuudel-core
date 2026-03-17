@@ -7,6 +7,7 @@ import styles from './styles.module.scss';
 import { t } from '../../loc/i18n';
 
 export interface IFormFieldProps {
+  children?: React.ReactNode;
   className?: string;
   controlMode: ControlMode;
   label?: string;

@@ -28,7 +28,6 @@ export const TagsInput: React.FC<ITagsProps & any> = React.forwardRef<
       variant,
       margin,
       disabled = false,
-      placeholder,
       onChange,
       ...props
     },
@@ -44,8 +43,6 @@ export const TagsInput: React.FC<ITagsProps & any> = React.forwardRef<
         freeSolo
         onChange={onChange}
         readOnly={disabled}
-        //disabled={disabled}
-        placeholder={placeholder}
         renderTags={(value, getTagProps) =>
           value.map((option, index) => (
             <Chip
@@ -64,7 +61,7 @@ export const TagsInput: React.FC<ITagsProps & any> = React.forwardRef<
             variant={variant}
             margin={margin}
             disabled={disabled}
-            placeholder={placeholder}
+            placeholder={props?.placeholder}
           />
         )}
       />

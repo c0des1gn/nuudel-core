@@ -6,8 +6,8 @@ interface ICheckboxProps extends CheckboxProps {
 }
 
 const Checkbox = React.forwardRef<HTMLButtonElement, ICheckboxProps>(
-  function Checkbox({ placeholder = '', ...props }, ref) {
-    return <BaseCheckbox ref={ref} placeholder={placeholder} {...props} />;
+  function Checkbox({ ...props }, ref) {
+    return <BaseCheckbox ref={ref} {...props} />;
   }
 );
 

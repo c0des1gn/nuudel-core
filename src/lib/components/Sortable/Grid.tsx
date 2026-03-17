@@ -7,6 +7,7 @@ type GridProps = {
   columns: number;
   gridGap?: number;
   maxCol?: number;
+  children?: React.ReactNode;
 };
 
 const Grid: React.FC<GridProps> = ({

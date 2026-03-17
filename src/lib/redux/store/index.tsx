@@ -1,6 +1,6 @@
 import {
   Store,
-  createStore as reduxCreateStore,
+  legacy_createStore,
   compose,
   applyMiddleware,
 } from 'redux';
@@ -18,9 +18,9 @@ export function createStore(initialState?: IRootState): Store<IRootState> {
     // thunk,
     // logger
   ];
-  return reduxCreateStore(
-    rootReducer,
-    initialState,
-    compose(applyMiddleware(...middlewares)),
+  return legacy_createStore( 
+    rootReducer, 
+    initialState, 
+    //compose(applyMiddleware(...middlewares))
   );
 }

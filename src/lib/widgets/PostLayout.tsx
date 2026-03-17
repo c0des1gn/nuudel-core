@@ -6,7 +6,7 @@ import { SocialList } from './SocialList';
 import TagButton from './TagButton';
 import { ITagContent } from 'nuudel-core';
 import { IImage } from 'nuudel-core';
-import { ArticleJsonLd, NextSeo } from 'next-seo';
+import { ArticleJsonLd } from 'next-seo';
 import { MetaJson } from './meta/MetaJson';
 import styles from './styles.module.scss';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
@@ -43,13 +43,9 @@ export default function PostLayout({
     description: description,
     image: image,
   });
-  return (
-    <>
-      <NextSeo
-        title={meta.title}
-        description={meta.description}
-        canonical={meta.url}
-        openGraph={{
+
+  /*
+          openGraph={{
           ...meta,
         }}
         twitter={{
@@ -57,19 +53,20 @@ export default function PostLayout({
           site: process?.env?.TWITTER_USERNAME,
           cardType: 'summary_large_image',
         }}
-      />
+  */
+  return (
+    <>
       <ArticleJsonLd
-        useAppDir={false}
         type="BlogPosting"
-        keywords={keywords.join(', ')}
+        //keywords={keywords.join(', ')}
         url={meta.url}
-        title={meta.title}
-        images={[typeof image === 'string' ? image : image?.uri].filter(
+        headline={meta.title}
+        image={[typeof image === 'string' ? image : image?.uri].filter(
           Boolean
         )}
         datePublished={date.toISOString()}
         dateModified={date.toISOString()}
-        authorName={authorName}
+        author={ authorName }
         description={meta.description}
       />
       <div className={'widget-post-container'}>

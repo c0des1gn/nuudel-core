@@ -1,4 +1,4 @@
-import React, { FunctionComponent } from 'react';
+import React, { FC } from 'react';
 import moment from 'moment';
 import { ControlMode, DisplayType } from 'nuudel-utils';
 import { IFieldSchema } from '../../services/datatypes/RenderListData';
@@ -22,7 +22,7 @@ import RNFieldObjectDisplay from './RNFieldObjectDisplay';
 import RNFieldObjectEdit from './RNFieldObjectEdit';
 
 const EditFieldTypeMappings: {
-  [fieldType: string]: FunctionComponent<IRNFormFieldProps>;
+  [fieldType: string]: FC<IRNFormFieldProps> & any;
 } = {
   Text: RNFieldTextEdit,
   Note: RNFieldTextEdit,
@@ -42,7 +42,7 @@ const EditFieldTypeMappings: {
 
 const DisplayFieldTypeMappings: {
   [fieldType: string]: {
-    component: FunctionComponent<IRNFormFieldProps>;
+    component: FC<IRNFormFieldProps>;
     valuePreProcess?: (value: any) => any;
   };
 } = {

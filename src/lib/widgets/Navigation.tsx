@@ -56,7 +56,9 @@ export default function Navigation({ category, tags = [], query }: Props) {
                         {cat['name']}
                       </span>
                     </Link>
-                    {console.log('cat.cid', cat['cid'])}
+                    {
+                    //console.log('cat.cid', cat['cid'])
+                    }
                     {category.filter((c) => c['parent_id'] === cat['cid'])
                       .length ? (
                       <ul
@@ -70,7 +72,9 @@ export default function Navigation({ category, tags = [], query }: Props) {
                           .filter((c) => c['parent_id'] === cat.cid)
                           .map((c, i) => (
                             <li key={i}>
-                              {console.log('c.cid', c['cid'])}
+                              {
+                              //console.log('c.cid', c['cid'])
+                              }
                               <Link href={`/posts/category/${c['cid']}`}>
                                 <span
                                   className={

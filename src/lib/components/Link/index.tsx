@@ -4,7 +4,7 @@ import { Link as MuiLink, LinkProps, SxProps, Theme } from '@mui/material';
 import { isServer } from 'nuudel-utils';
 import clsx from 'clsx';
 
-interface INextLinkProps extends LinkProps {
+interface INextLinkProps extends LinkProps<any> {
   href?: any;
   linkAs?: object | string;
   locale?: string;

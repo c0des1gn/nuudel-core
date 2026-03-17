@@ -11,7 +11,7 @@ interface ISwitchProps extends SwitchProps {
   labelValue?: any;
 }
 
-export const Switch: React.FC<ISwitchProps> = React.forwardRef<
+export const Switch: React.FC<ISwitchProps & any> = React.forwardRef<
   HTMLButtonElement,
   ISwitchProps
 >(({ label, labelPlacement, labelValue, value, ...props }, ref) => (

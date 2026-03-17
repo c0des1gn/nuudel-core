@@ -31,6 +31,7 @@ interface BaseItem {
 }
 
 interface IProps<T extends BaseItem> {
+  children?: React.ReactNode;
   id?: string;
   disabled?: boolean;
   items: T[];

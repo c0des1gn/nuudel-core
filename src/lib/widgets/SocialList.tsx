@@ -22,6 +22,7 @@ interface ISocial {
 interface IProps {
   items?: ISocial[];
   style?: CSSProperties;
+  children?: React.ReactNode;
 }
 
 const components = {
