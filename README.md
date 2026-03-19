@@ -38,3 +38,9 @@ cd node_modules/node-sass && npm rebuild node-sass && cd ../..
 # copy cli
 
 npm install --global cpy-cli
+
+// Instead of this:
+import { TriangleIcon } from '@phosphor-icons/react'
+
+// Do this:
+import { TriangleIcon } from '@phosphor-icons/react/dist/csr/Triangle'
