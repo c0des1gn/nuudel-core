@@ -298,7 +298,7 @@ const get_columns = async (
       case '#/definitions/DateTime':
       case '#/definitions/DateTimeISO':
         Type = 'date';
-        FieldType = 'DateTime';
+        FieldType = 'DateTimeISO';
         break;
       case '#/definitions/Link':
         Type = 'string';
@@ -852,7 +852,7 @@ const GetArrayValues = (
         typeof originalData[field.InternalName] !== 'undefined'
           ? originalData[field.InternalName]
           : data[field.InternalName];
-      if (field.FieldType === 'DateTime' && val) {
+      if ((field.FieldType === 'DateTime' || field.FieldType === 'DateTimeISO') && val) {
         val = dateToISOString(val);
       }
       if (IsUpdate) {

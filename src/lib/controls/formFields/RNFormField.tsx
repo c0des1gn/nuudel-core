@@ -33,6 +33,7 @@ const EditFieldTypeMappings: {
   Number: RNFieldNumberEdit,
   Currency: RNFieldNumberEdit, // түр дээ ашигалаагүй
   DateTime: RNFieldDateEdit,
+  DateTimeISO: RNFieldDateEdit,
   Boolean: RNFieldBooleanEdit,
   Link: RNFieldUrlEdit, // scaler
   File: RNFieldTextEdit, // түр дээ ашиглаагүй

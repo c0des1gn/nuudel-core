@@ -167,7 +167,7 @@ export default class DataProvider implements IDataProvider {
               : row[field.InternalName];
             return dat ? t('Yes') : dat === false ? t('No') : '--';
           };
-        } else if (field.FieldType === 'DateTime') {
+        } else if (field.FieldType === 'DateTime' || field.FieldType === 'DateTimeISO') {
           f['getCellValue'] = (row) => {
             const dat = field.InternalName.includes('.')
               ? field.InternalName.split('.').reduce(

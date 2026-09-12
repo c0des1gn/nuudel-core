@@ -151,7 +151,7 @@ const buildMutation = (
       $_id: ObjectId!,
       $slug: String!,
       $title: String,
-      $publishdate: DateTime,
+      $publishdate: DateTimeISO,
       $allowcomment: Boolean, 
       $visibility: Boolean,
       $image: ImageInput,
