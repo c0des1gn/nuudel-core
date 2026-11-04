@@ -1,12 +1,18 @@
+
 import React, { useState, useEffect, useRef } from 'react';
 import { Grid } from '@mui/material';
-import { useDropzone, DropzoneOptions, Accept } from 'react-dropzone';
-import { t } from '../../loc/i18n';
+import { useDropzone } from 'react-dropzone';
+import type {
+  DropzoneOptions,
+  Accept,
+  FileRejection,
+} from 'react-dropzone';
 import axios from 'axios';
+
+import { t } from '../../loc/i18n';
 import UI from '../../common/UI';
 import { resizeImage } from './resizeImage';
 import { Sortable } from '../Sortable';
-import { arraysEqual } from '../../common/helper';
 
 interface IUploadProps {
   id?: string;
@@ -20,11 +26,99 @@ interface IUploadProps {
   maxSize?: number;
   maxFiles?: number;
   removable?: boolean;
-  onChange?(val: any);
-  onRemove?(Id?: string | number);
+  onChange?(val: any): void;
+  onRemove?(Id?: string | number): void;
   toWidth?: number;
   width?: number;
 }
+
+interface ImageProperties {
+  uri: string;
+  height?: number;
+  width?: number;
+  [key: string]: any;
+}
+
+interface UploadSummary {
+  total: number;
+  success: number;
+}
+
+// Normalize uploaded images
+const normalizeImages = (value: any): ImageProperties[] => {
+  const items = Array.isArray(value)
+    ? value
+    : value
+      ? [value]
+      : [];
+
+  return items
+    .filter(
+      (item: any) =>
+        item &&
+        typeof item.uri === 'string' &&
+        item.uri.trim() !== ''
+    )
+    .map((item: any) => ({ ...item }));
+};
+
+// Compare image arrays
+const imagesEqual = (
+  a: ImageProperties[],
+  b: ImageProperties[]
+): boolean => {
+  if (a.length !== b.length) return false;
+
+  return a.every(
+    (item, index) =>
+      item.uri === b[index]?.uri &&
+      item.height === b[index]?.height &&
+      item.width === b[index]?.width
+  );
+};
+
+// Get axios error message
+const getErrorMessage = (error: unknown): string => {
+  if (axios.isAxiosError(error)) {
+    return (
+      error.response?.data?.message ||
+      error.message ||
+      'Upload failed'
+    );
+  }
+
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return 'Unknown error';
+};
+
+// Get rejected file message
+const getRejectionMessage = (
+  rejection: FileRejection
+): string => {
+  const messages = rejection.errors.map((error) => {
+    switch (error.code) {
+      case 'file-too-large':
+        return 'File size is too large';
+
+      case 'file-too-small':
+        return 'File size is too small';
+
+      case 'file-invalid-type':
+        return 'Invalid file type';
+
+      case 'too-many-files':
+        return 'Maximum file count exceeded';
+
+      default:
+        return error.message;
+    }
+  });
+
+  return `${rejection.file.name}: ${messages.join(', ')}`;
+};
 
 const Upload: React.FC<IUploadProps> = ({
   uploaded = [],
@@ -42,249 +136,544 @@ const Upload: React.FC<IUploadProps> = ({
   },
   ...props
 }) => {
-  interface ImageProperties {
-    uri: string;
-    height?: number;
-    width?: number;
-  }
-  const [totalFilesToUpload, setTotalFilesToUpload] = React.useState(0);
-  const [totalFilesUploaded, setTotalFilesUploaded] = useState<
-    ImageProperties[]
-  >([]);
-  const [alreadyUploadedImages, setAlreadyUploadedImages] = useState<
-    ImageProperties[]
-  >(uploaded instanceof Array ? uploaded : !uploaded ? [] : [uploaded]);
-  //////////////////////////////////////////////
-  const [files, setFiles] = useState([]);
-  const { getRootProps, getInputProps } = useDropzone({
-    multiple,
-    disabled,
-    minSize,
-    maxSize,
-    maxFiles,
-    accept: accept,
-    onDrop: (acceptedFiles) => {
-      setTotalFilesUploaded([]);
-      setTotalFilesToUpload(0);
+  // Initial images
+  const initialImages = normalizeImages(uploaded);
 
-      let arr: any = [];
-      acceptedFiles.forEach((file, j) => {
-        arr.push({
-          name: file.name,
-          preview: URL.createObjectURL(file),
-        });
-      });
-      setFiles(arr);
+  const [alreadyUploadedImages, setAlreadyUploadedImages] =
+    useState<ImageProperties[]>(initialImages);
 
-      let values: any[] = [];
+  // Keep latest image state for concurrent uploads
+  const imagesRef = useRef<ImageProperties[]>(initialImages);
 
-      const uploadPreset: string =
-        process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET;
-      let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL;
-      let isDirect: boolean = false;
-      if (uploadUrl?.indexOf('cloudinary.com') < 0) {
-        uploadUrl = '/upload';
-        isDirect = true;
-      }
+  // Upload tracking
+  const pendingUploadsRef = useRef(0);
 
-      acceptedFiles.map(async (file: File | any, index: number) => {
-        const data = new FormData();
-        const filename = file.name || (file.path && file.path.split('/').pop());
-        if (filename) {
-          data.append('name', filename);
-        }
-        try {
-          data.append('file', await resizeImage(file, props.toWidth), filename);
-        } catch {
-          data.append('file', file, filename);
-        }
-        data.append('upload_preset', uploadPreset);
+  const [uploadingCount, setUploadingCount] = useState(0);
 
-        const r = await axios({
-          url: uploadUrl, //'/c_crop,g_north,h_600,w_600'
-          method: 'post',
-          data: data,
-          headers: {
-            toWidth: props.toWidth,
-            ...(isDirect ? await UI.headers() : {}),
-          },
-        });
-        if (r?.data) {
-          let res: any = r.data;
-          const url = res.secure_url || res.url || res.uri || res.data?.uri;
-          let picture: any = { uri: url || '' };
-          if (res.height) {
-            picture['height'] = res.height;
-          }
-          if (res.width) {
-            picture['width'] = res.width;
-          }
+  const [uploadSummary, setUploadSummary] =
+    useState<UploadSummary>({
+      total: 0,
+      success: 0,
+    });
 
-          const length = values.push(picture);
-          setTotalFilesUploaded(values);
-          setTotalFilesToUpload(length);
+  const [uploadErrors, setUploadErrors] = useState<string[]>([]);
 
-          let newImages: any[];
-          if (multiple) {
-            newImages = [...alreadyUploadedImages, picture];
-            setAlreadyUploadedImages(newImages);
-          } else {
-            setAlreadyUploadedImages([picture]);
-          }
-          if (props.onChange) {
-            props.onChange(!multiple ? picture : newImages);
-          }
-        }
-      });
-    },
-  } as DropzoneOptions);
+  // Upload endpoint configuration
+  const getUploadConfig = () => {
+    const configuredUrl =
+      process.env.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
 
-  interface UploadFile {
-    name: string;
-    preview: string;
-  }
+    const isCloudinary = configuredUrl.includes(
+      'cloudinary.com'
+    );
 
-  const removeExistingImage = async (
-    index: number,
-    allImages: ImageProperties[]
+    return {
+      uploadUrl: isCloudinary ? configuredUrl : '/upload',
+      isDirect: !isCloudinary,
+      uploadPreset:
+        process.env.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET || '',
+    };
+  };
+
+  // Update image state and notify parent
+  const updateImages = (
+    images: ImageProperties[],
+    notify = true
   ) => {
-    if (!allImages[index] || !allImages[index].uri) {
-      return;
-    }
-    let allImagesData = allImages.map((it) => ({ ...it }));
-    let uploadUrl: string = process?.env?.NEXT_PUBLIC_IMAGE_UPLOAD_URL || '';
-    if (uploadUrl?.indexOf('cloudinary.com') < 0 && removable) {
-      const data = {
-        delete: allImagesData[index].uri,
-        upload_preset: process?.env?.NEXT_PUBLIC_OBJECT_STORAGE_BUCKET,
-      };
-      const r = await axios({
-        url: '/remove',
-        method: 'post',
-        data: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json',
-          ...(await UI.headers()),
-        },
-      });
-    }
-    allImagesData.splice(index, 1);
-    setAlreadyUploadedImages(allImagesData);
-    if (props.onChange) {
-      props.onChange(!multiple ? null : allImagesData);
+    imagesRef.current = images;
+
+    setAlreadyUploadedImages(images);
+
+    if (notify && props.onChange) {
+      props.onChange(
+        multiple ? images : images[0] ?? null
+      );
     }
   };
 
-  const didMountRef = useRef(false);
+  // Sync external uploaded prop
   useEffect(() => {
-    if (didMountRef.current) {
-      let upd =
-        uploaded instanceof Array ? uploaded : !uploaded ? [] : [uploaded];
-      if (!arraysEqual(alreadyUploadedImages, upd)) {
-        setAlreadyUploadedImages(upd);
-      }
-    }
-    if (!didMountRef.current) {
-      didMountRef.current = true;
+    const nextImages = normalizeImages(uploaded);
+
+    if (!imagesEqual(imagesRef.current, nextImages)) {
+      imagesRef.current = nextImages;
+      setAlreadyUploadedImages(nextImages);
     }
   }, [uploaded]);
 
-  useEffect(() => {
-    // Make sure to revoke the data uris to avoid memory leaks
-    files.forEach((file: UploadFile) => URL.revokeObjectURL(file.preview));
-  }, [files]);
+  // Upload one image
+  const uploadOne = async (
+    file: File
+  ): Promise<ImageProperties> => {
+    const {
+      uploadUrl,
+      isDirect,
+      uploadPreset,
+    } = getUploadConfig();
 
-  const FileUploading = () => {
-    if (totalFilesToUpload === 0) {
-      return <span></span>;
-    } else if (totalFilesToUpload > 0) {
-      if (totalFilesUploaded.length > 0) {
-        return <span>{totalFilesUploaded.length} file(s) uploaded. </span>;
-      } else {
-        return <span>Uploading... </span>;
+    const data = new FormData();
+
+    const filename = file.name || 'upload';
+
+    data.append('name', filename);
+
+    // Resize image if possible
+    let fileToUpload: Blob = file;
+
+    if (props.toWidth) {
+      try {
+        const resized = await resizeImage(
+          file,
+          props.toWidth
+        );
+
+        if (resized instanceof Blob) {
+          fileToUpload = resized;
+        }
+      } catch (error) {
+        // Use original image if resizing fails
+        console.warn(
+          'Image resize failed. Using original file.',
+          error
+        );
       }
-    } else {
-      return <span></span>;
     }
+
+    data.append('file', fileToUpload, filename);
+
+    if (uploadPreset) {
+      data.append('upload_preset', uploadPreset);
+    }
+
+    // Prepare headers
+    const baseHeaders = isDirect
+      ? await UI.headers()
+      : {};
+
+    const requestHeaders: Record<string, any> = {
+      ...baseHeaders,
+    };
+
+    // Let Axios/browser set multipart boundary automatically
+    Object.keys(requestHeaders).forEach((key) => {
+      if (key.toLowerCase() === 'content-type') {
+        delete requestHeaders[key];
+      }
+    });
+
+    if (isDirect && props.toWidth != null) {
+      requestHeaders.toWidth = String(props.toWidth);
+    }
+
+    // Send request
+    const response = await axios({
+      url: uploadUrl,
+      method: 'post',
+      data,
+      headers: requestHeaders,
+    });
+
+    const result = response?.data || {};
+
+    const imageUrl =
+      result.secure_url ||
+      result.url ||
+      result.uri ||
+      result.data?.uri;
+
+    if (
+      typeof imageUrl !== 'string' ||
+      !imageUrl.trim()
+    ) {
+      throw new Error(
+        'Upload response does not contain an image URL'
+      );
+    }
+
+    const picture: ImageProperties = {
+      uri: imageUrl,
+    };
+
+    if (result.height != null) {
+      picture.height = result.height;
+    }
+
+    if (result.width != null) {
+      picture.width = result.width;
+    }
+
+    return picture;
   };
 
-  const onRemove = (Id: string | number) => {
-    let index: number = alreadyUploadedImages.findIndex(
-      (item) => item?.uri === Id
+  // Upload selected files
+  const handleDrop = async (
+    acceptedFiles: File[],
+    fileRejections: FileRejection[]
+  ) => {
+    const rejectionMessages = fileRejections.map(
+      getRejectionMessage
     );
-    if (index >= 0) {
-      removeExistingImage(index, alreadyUploadedImages);
-      if (props.onRemove) {
-        props.onRemove(Id);
+
+    // Calculate remaining capacity including pending uploads
+    const currentCount =
+      imagesRef.current.length +
+      pendingUploadsRef.current;
+
+    let availableCount: number;
+
+    if (!multiple) {
+      availableCount = currentCount === 0 ? 1 : 0;
+    } else if (maxFiles > 0) {
+      availableCount = Math.max(
+        0,
+        maxFiles - currentCount
+      );
+    } else {
+      availableCount = acceptedFiles.length;
+    }
+
+    const filesToUpload = acceptedFiles.slice(
+      0,
+      availableCount
+    );
+
+    if (filesToUpload.length < acceptedFiles.length) {
+      rejectionMessages.push(
+        `Maximum ${maxFiles > 0 ? maxFiles : 1} files allowed`
+      );
+    }
+
+    // Nothing to upload
+    if (filesToUpload.length === 0) {
+      setUploadSummary({
+        total: 0,
+        success: 0,
+      });
+
+      setUploadErrors(rejectionMessages);
+
+      return;
+    }
+
+    // Register pending uploads immediately
+    pendingUploadsRef.current += filesToUpload.length;
+
+    setUploadingCount(pendingUploadsRef.current);
+
+    setUploadSummary({
+      total: filesToUpload.length,
+      success: 0,
+    });
+
+    setUploadErrors(rejectionMessages);
+
+    try {
+      // Upload concurrently, but collect results in selection order
+      const results = await Promise.all(
+        filesToUpload.map(async (file) => {
+          try {
+            const image = await uploadOne(file);
+
+            return {
+              success: true as const,
+              image,
+              filename: file.name,
+            };
+          } catch (error) {
+            return {
+              success: false as const,
+              filename: file.name,
+              error: getErrorMessage(error),
+            };
+          }
+        })
+      );
+
+      const successfulImages = results
+        .filter((result) => result.success)
+        .map((result) => result.image);
+
+      const failedMessages = results
+        .filter((result) => !result.success)
+        .map(
+          (result) =>
+            `${result.filename}: ${result.error}`
+        );
+
+      // Append successful images without losing previous uploads
+      if (successfulImages.length > 0) {
+        const nextImages = multiple
+          ? [
+              ...imagesRef.current,
+              ...successfulImages,
+            ]
+          : [successfulImages[0]];
+
+        updateImages(nextImages);
       }
+
+      // Update upload summary
+      setUploadSummary({
+        total: filesToUpload.length,
+        success: successfulImages.length,
+      });
+
+      setUploadErrors([
+        ...rejectionMessages,
+        ...failedMessages,
+      ]);
+    } finally {
+      // Always release pending upload count
+      pendingUploadsRef.current = Math.max(
+        0,
+        pendingUploadsRef.current - filesToUpload.length
+      );
+
+      setUploadingCount(
+        pendingUploadsRef.current
+      );
     }
   };
 
-  const onChangeSort = (items: ImageProperties[]) => {
+  // Remove existing image
+  const onRemove = async (
+    id: string | number
+  ) => {
+    const currentImages = imagesRef.current;
+
+    const index = currentImages.findIndex(
+      (item) => item.uri === String(id)
+    );
+
+    if (index < 0) {
+      return;
+    }
+
+    const image = currentImages[index];
+
+    const {
+      isDirect,
+      uploadPreset,
+    } = getUploadConfig();
+
+    // Delete from storage when direct upload is used
+    if (isDirect && removable) {
+      try {
+        const data: Record<string, any> = {
+          delete: image.uri,
+        };
+
+        if (uploadPreset) {
+          data.upload_preset = uploadPreset;
+        }
+
+        await axios({
+          url: '/remove',
+          method: 'post',
+          data,
+          headers: {
+            'Content-Type': 'application/json',
+            ...(await UI.headers()),
+          },
+        });
+      } catch (error) {
+        console.error(
+          'Image deletion failed:',
+          error
+        );
+
+        setUploadErrors([
+          `Delete failed: ${getErrorMessage(error)}`,
+        ]);
+
+        return;
+      }
+    }
+
+    // Remove from local state
+    const nextImages = currentImages.filter(
+      (_, imageIndex) => imageIndex !== index
+    );
+
+    updateImages(nextImages);
+
+    if (props.onRemove) {
+      props.onRemove(id);
+    }
+  };
+
+  // Sorting images
+  const onChangeSort = (
+    items: ImageProperties[]
+  ) => {
+    imagesRef.current = items;
+
     setAlreadyUploadedImages(items);
+
     if (props.onChange && multiple) {
       props.onChange(items);
     }
   };
+
+  // Calculate remaining capacity
+  const remainingFiles =
+    maxFiles > 0
+      ? Math.max(
+          0,
+          maxFiles -
+            alreadyUploadedImages.length -
+            uploadingCount
+        )
+      : 0;
+
+  // Hide uploader when limit is reached
+  const isLimitReached =
+    maxFiles > 0 &&
+    alreadyUploadedImages.length + uploadingCount >=
+      maxFiles;
+
+  const hideUploader =
+    isLimitReached ||
+    (!multiple &&
+      (alreadyUploadedImages.length > 0 ||
+        uploadingCount > 0));
+
+  // Dropzone configuration
+  const dropzoneOptions: DropzoneOptions = {
+    multiple,
+
+    disabled:
+      disabled ||
+      (maxFiles > 0 && remainingFiles <= 0) ||
+      (!multiple && uploadingCount > 0),
+
+    minSize,
+    maxSize,
+
+    // react-dropzone maxFiles applies to multiple selection
+    maxFiles:
+      multiple && maxFiles > 0
+        ? remainingFiles
+        : 0,
+
+    accept,
+
+    onDrop: handleDrop,
+  };
+
+  const {
+    getRootProps,
+    getInputProps,
+  } = useDropzone(dropzoneOptions);
 
   return (
     <Grid container>
       <Sortable
         id={props.id}
         gridGap={!mini ? 10 : 0}
-        items={alreadyUploadedImages.map((im) => ({ ...im }))}
+        items={alreadyUploadedImages.map((im) => ({
+          ...im,
+        }))}
         onChange={onChangeSort}
         onRemove={onRemove}
         disabled={disabled}
         width={width}
         height={width}
       >
-        {
-          // hide image uploader
-          alreadyUploadedImages?.filter((it) => it?.uri).length >= maxFiles ||
-          (!multiple &&
-            alreadyUploadedImages?.length > 0 &&
-            !!alreadyUploadedImages[0].uri) ? (
-            <></>
-          ) : (
-            <section
+        {!hideUploader && (
+          <section
+            style={{
+              display: 'flex',
+              flex: '1',
+              flexDirection: 'column',
+              fontFamily: 'sans-serif',
+              position: 'relative',
+              maxHeight: width,
+            }}
+          >
+            {/* DROPZONE */}
+            <div
+              {...getRootProps({
+                className: 'dropzone',
+              })}
               style={{
-                display: 'flex',
-                flex: '1',
-                flexDirection: 'column',
-                fontFamily: 'sans-serif',
-                position: 'relative',
-                maxHeight: width,
+                width:
+                  alreadyUploadedImages.length > 0
+                    ? width
+                    : undefined,
+                padding: !mini ? undefined : 12,
               }}
             >
-              {/* DROPZONE */}
+              <input {...getInputProps()} />
+
+              {mini || alreadyUploadedImages.length > 0 ? (
+                <span
+                  style={{
+                    fontSize: width / 2 + 10,
+                    lineHeight: `${width / 2}px`,
+                    cursor: disabled
+                      ? 'not-allowed'
+                      : 'pointer',
+                  }}
+                >
+                  +
+                </span>
+              ) : (
+                <p>
+                  {t('Image drag and drop', {
+                    label: label,
+                  })}
+                </p>
+              )}
+            </div>
+
+            {/* Upload status */}
+            {uploadingCount > 0 && (
+              <span>
+                Uploading {uploadingCount} file(s)...
+              </span>
+            )}
+
+            {uploadingCount === 0 &&
+              uploadSummary.total > 0 && (
+                <span>
+                  {uploadSummary.success} of{' '}
+                  {uploadSummary.total} file(s) uploaded.
+                </span>
+              )}
+
+            {/* Upload errors */}
+            {uploadErrors.length > 0 && (
               <div
-                {...getRootProps({ className: 'dropzone' })}
                 style={{
-                  width: alreadyUploadedImages?.length > 0 ? width : undefined,
-                  padding: !mini ? undefined : 12,
+                  color: 'red',
+                  fontSize: 12,
+                  marginTop: 5,
                 }}
               >
-                <input {...getInputProps()} />
-                {mini || alreadyUploadedImages?.length > 0 ? (
-                  <span
-                    style={{
-                      fontSize: width / 2 + 10,
-                      lineHeight: `${width / 2}px`,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    +
-                  </span>
-                ) : (
-                  <p>{t(`Image drag and drop`, { label: label })}</p>
-                )}
+                {uploadErrors.map((error, index) => (
+                  <div key={index}>{error}</div>
+                ))}
               </div>
-              <FileUploading />
-              {/* DROPZONE */}
-            </section>
-          )
-        }
+            )}
+
+            {/* DROPZONE */}
+          </section>
+        )}
+
+        {/* Errors remain visible even when uploader is hidden */}
+        {hideUploader && uploadErrors.length > 0 && (
+          <div
+            style={{
+              color: 'red',
+              fontSize: 12,
+            }}
+          >
+            {uploadErrors.map((error, index) => (
+              <div key={index}>{error}</div>
+            ))}
+          </div>
+        )}
       </Sortable>
     </Grid>
   );
